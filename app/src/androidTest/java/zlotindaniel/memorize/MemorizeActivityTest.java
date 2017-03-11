@@ -15,12 +15,13 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 public class MemorizeActivityTest {
 
 	@Test
-	public void launchApp_() throws Exception {
+	public void launchApp() throws Exception {
 		device().pressHome();
 		device().findObject(By.desc("Apps")).click();
 		new UiScrollable(new UiSelector()).scrollTextIntoView("Memorize");
 		device().findObject(By.text("Memorize")).click();
 		device().waitForIdle();
+		Thread.sleep(3000);
 	}
 
 	private UiDevice device() {
