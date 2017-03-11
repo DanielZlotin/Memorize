@@ -45,6 +45,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
+    compile 'com.google.firebase:firebase-core:10.2.0'
+    compile 'com.google.firebase:firebase-database:10.2.0'
+
     // unit tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.3'
@@ -53,10 +56,16 @@ dependencies {
 
     // e2e
     androidTestCompile 'org.assertj:assertj-core:2.5.0'
-    androidTestCompile 'com.android.support:support-annotations:25.2.0'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+//    androidTestCompile 'com.android.support:support-annotations:23.0.0'
+    androidTestCompile ('com.android.support.test:runner:0.5') {
+        exclude module: 'support-annotations'
+    }
+    androidTestCompile ('com.android.support.test:rules:0.5') {
+        exclude module: 'support-annotations'
+    }
+    androidTestCompile ('com.android.support.test.uiautomator:uiautomator-v18:2.1.2') {
+        exclude module: 'support-annotations'
+    }
 }
 
 task unit(dependsOn: 'testDebugUnitTest') {}
@@ -64,3 +73,6 @@ task e2e(dependsOn: 'connectedDebugAndroidTest') {
     mustRunAfter 'unit'
 }
 task testAll(dependsOn: ['unit', 'e2e']) {}
+
+
+apply plugin: 'com.google.gms.google-services'
