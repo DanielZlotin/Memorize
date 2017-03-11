@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply from: '../prepare-robolectric.gradle'
+
 
 android {
     compileSdkVersion 25
@@ -18,14 +20,41 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    testOptions {
+        unitTests.all { t ->
+            reports {
+                html.enabled true
+            }
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+            }
+            afterSuite { desc, result ->
+                if (!desc.parent) { // will match the outermost suite
+                    def output = "      ${result.resultType} (${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)     "
+                    def repeatLength = output.length()
+                    println '\n\n' + ('-' * repeatLength) + '\n' + output + '\n' + ('-' * repeatLength) + '\n'
+
+                    println "see report at file://${t.reports.html.destination}/index.html"
+                }
+            }
+        }
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    // androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-    //     exclude group: 'com.android.support', module: 'support-annotations'
-    // })
+    // unit tests
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.3'
+    testCompile 'org.assertj:assertj-core:2.5.0'
+    testCompile 'org.mockito:mockito-core:2.7.5'
 
-    // testCompile 'junit:junit:4.12'
+    // e2e
+    androidTestCompile 'org.assertj:assertj-core:2.5.0'
+    androidTestCompile 'com.android.support:support-annotations:25.2.0'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
