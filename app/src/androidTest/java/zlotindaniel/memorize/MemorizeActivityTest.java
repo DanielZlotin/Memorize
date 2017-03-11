@@ -10,18 +10,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class MemorizeActivityTest {
 
 	@Test
-	public void launchApp() throws Exception {
+	public void launchApp_ShowPhrase1() throws Exception {
 		device().pressHome();
 		device().findObject(By.desc("Apps")).click();
 		new UiScrollable(new UiSelector()).scrollTextIntoView("Memorize");
 		device().findObject(By.text("Memorize")).click();
 		device().waitForIdle();
-		Thread.sleep(3000);
+		fail();
 	}
 
 	private UiDevice device() {
