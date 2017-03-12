@@ -7,21 +7,23 @@ import android.view.View;
 public class MemorizeActivity extends Activity {
 
 	private MemorizeView view;
-	private MemorizeInteractor controller;
+	private MemorizeInteractor interactor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		view = new MemorizeView(this);
-		controller = new MemorizeInteractor(view);
+		interactor = new MemorizeInteractor(view);
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				controller.onClick();
+				interactor.onClick();
 			}
 		});
 
 		setContentView(view);
+
+		interactor.start();
 	}
 }
