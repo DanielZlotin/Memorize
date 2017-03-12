@@ -12,20 +12,11 @@ import java.util.Map;
 public class FirebaseDataLoader implements CardsDataLoader {
 	@Override
 	public void load(final OnSuccess<List<Card>> onSuccess, final OnFailure onFailure) {
-		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-		FirebaseDatabase.getInstance().getReference().getRoot().child("RT").addListenerForSingleValueEvent(new ValueEventListener() {
+		FirebaseDatabase.getInstance().getReference().getRoot().child("Production").child("RT").addListenerForSingleValueEvent(new ValueEventListener() {
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
-				Map<String, String> allValues = (Map<String, String>) dataSnapshot.getValue(true);
-
-				List<Card> result = new ArrayList<>();
-				for (String key : allValues.keySet()) {
-					result.add(new Card(key, allValues.get(key)));
-				}
-
-				onSuccess.success(result);
+				parseResult(dataSnapshot, onSuccess, onFailure);
 			}
 
 			@Override
@@ -33,5 +24,26 @@ public class FirebaseDataLoader implements CardsDataLoader {
 				onFailure.failure(databaseError.toException());
 			}
 		});
+	}
+
+	@SuppressWarnings("unchecked")
+	private void parseResult(DataSnapshot dataSnapshot, OnSuccess<List<Card>> onSuccess, OnFailure onFailure) {
+		try {
+			Map<String, String> allValues = (Map<String, String>) dataSnapshot.getValue();
+			if (allValues == null) {
+				onFailure.failure(new RuntimeException("dataSnapshot.getValue is null!"));
+				return;
+			}
+
+			List<Card> result = new ArrayList<>();
+			for (String key : allValues.keySet()) {
+				result.add(new Card(key, allValues.get(key)));
+			}
+
+			onSuccess.success(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			onFailure.failure(e);
+		}
 	}
 }

@@ -7,8 +7,7 @@ public class MemorizeUnitApplication extends MemorizeApplication {
 	private TestDataLoader testDataLoader;
 
 	@Override
-	public void onCreate() {
-		super.onCreate();
+	public void init() {
 		testDataLoader = new TestDataLoader();
 	}
 

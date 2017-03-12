@@ -8,8 +8,7 @@ public class MemorizeE2EApplication extends MemorizeApplication {
 	private E2EFirebaseDataLoader testDataLoader;
 
 	@Override
-	public void onCreate() {
-		super.onCreate();
+	public void init() {
 		testDataLoader = new E2EFirebaseDataLoader();
 	}
 

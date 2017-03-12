@@ -6,14 +6,20 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.MemorizeInteractor;
+import zlotindaniel.memorize.data.Card;
+import zlotindaniel.memorize.data.OnFailure;
+import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.mocks.TestDataLoader;
 import zlotindaniel.memorize.mocks.TestDisplay;
-import zlotindaniel.memorize.data.Card;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 
 public class MemorizeInteractorTest extends BaseTest {
 	private MemorizeInteractor uut;
@@ -120,5 +126,15 @@ public class MemorizeInteractorTest extends BaseTest {
 		testDataLoader.setNextSuccess(Arrays.asList(card1, card2));
 		uut.start();
 		assertThat(testDisplay.text).isEqualTo("P2");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void errorOnLoad_ShowsAsError() throws Exception {
+		TestDataLoader mock = mock(TestDataLoader.class);
+		uut = new MemorizeInteractor(testDisplay, mock);
+		doThrow(new RuntimeException("Error during load")).when(mock).load((OnSuccess<List<Card>>) any(), (OnFailure) any());
+		uut.start();
+		assertThat(testDisplay.text).isEqualTo("Error during load");
 	}
 }

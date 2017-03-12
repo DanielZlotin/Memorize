@@ -34,7 +34,11 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 
 	public void start() {
 		display.startLoading();
-		dataLoader.load(this, this);
+		try {
+			dataLoader.load(this, this);
+		} catch (Exception e) {
+			failure(e);
+		}
 	}
 
 	public void onClick() {
