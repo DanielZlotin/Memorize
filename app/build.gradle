@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply from: '../prepare-robolectric.gradle'
 
+project.ext.KEYSTORE_PASSWORD = project.hasProperty("pass") ? "$pass" : '';
 
 android {
     compileSdkVersion 25
@@ -14,10 +15,19 @@ android {
 
         testInstrumentationRunner "zlotindaniel.memorize.MemorizeE2ETestRunner"
     }
+    signingConfigs {
+        release {
+            storeFile file('../../zlotindaniel.keystore')
+            keyAlias 'daniel zlotin'
+            storePassword KEYSTORE_PASSWORD
+            keyPassword KEYSTORE_PASSWORD
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release;
         }
     }
 
@@ -57,13 +67,13 @@ dependencies {
     // e2e
     androidTestCompile 'org.assertj:assertj-core:2.5.0'
 //    androidTestCompile 'com.android.support:support-annotations:23.0.0'
-    androidTestCompile ('com.android.support.test:runner:0.5') {
+    androidTestCompile('com.android.support.test:runner:0.5') {
         exclude module: 'support-annotations'
     }
-    androidTestCompile ('com.android.support.test:rules:0.5') {
+    androidTestCompile('com.android.support.test:rules:0.5') {
         exclude module: 'support-annotations'
     }
-    androidTestCompile ('com.android.support.test.uiautomator:uiautomator-v18:2.1.2') {
+    androidTestCompile('com.android.support.test.uiautomator:uiautomator-v18:2.1.2') {
         exclude module: 'support-annotations'
     }
 }
@@ -73,6 +83,5 @@ task e2e(dependsOn: 'connectedDebugAndroidTest') {
     mustRunAfter 'unit'
 }
 task testAll(dependsOn: ['unit', 'e2e']) {}
-
 
 apply plugin: 'com.google.gms.google-services'
