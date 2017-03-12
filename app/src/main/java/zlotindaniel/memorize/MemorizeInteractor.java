@@ -3,6 +3,8 @@ package zlotindaniel.memorize;
 import java.util.List;
 
 public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
+	private List<Card> cards;
+
 	public interface Display {
 		void showCard(String text);
 
@@ -21,22 +23,25 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 		this.dataLoader = dataLoader;
 	}
 
-	@Override
-	public void success(List<Card> cards) {
-	}
-
-	@Override
-	public void failure(Exception e) {
-		display.showError(e.getMessage());
-
-	}
-
 	public void start() {
 		display.startLoading();
 		dataLoader.load(this, this);
 	}
 
 	public void onClick() {
-		display.showCard("Definition 1");
+		display.showCard(cards.get(0).getDefinition());
+	}
+
+	@Override
+	public void success(List<Card> cards) {
+		display.endLoading();
+		this.cards = cards;
+		display.showCard(cards.get(0).getPhrase());
+	}
+
+	@Override
+	public void failure(Exception e) {
+		display.endLoading();
+		display.showError(e.getMessage());
 	}
 }
