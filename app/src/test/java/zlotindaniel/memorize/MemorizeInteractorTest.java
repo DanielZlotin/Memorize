@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class MemorizeInteractorTest extends BaseTest {
@@ -48,5 +50,17 @@ public class MemorizeInteractorTest extends BaseTest {
 		uut.start();
 		uut.onClick();
 		assertThat(testDisplay.text).isEqualTo("the definition");
+	}
+
+	@Test
+	public void onClickNotLoaded_DoesNothing() throws Exception {
+		uut.onClick();
+	}
+
+	@Test
+	public void successWithEmptyListHandled() throws Exception {
+		testDataLoader.setNextSuccess(Collections.emptyList());
+		uut.start();
+		assertThat(testDisplay.loading).isFalse();
 	}
 }

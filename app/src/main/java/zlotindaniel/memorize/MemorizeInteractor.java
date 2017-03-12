@@ -17,6 +17,7 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 
 	private final Display display;
 	private final CardsDataLoader dataLoader;
+	private Card currentCard;
 
 	public MemorizeInteractor(Display display, CardsDataLoader dataLoader) {
 		this.display = display;
@@ -29,19 +30,32 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 	}
 
 	public void onClick() {
-		display.showCard(cards.get(0).getDefinition());
+		showNext();
 	}
 
 	@Override
 	public void success(List<Card> cards) {
-		display.endLoading();
 		this.cards = cards;
-		display.showCard(cards.get(0).getPhrase());
+		display.endLoading();
+		showNext();
 	}
 
 	@Override
 	public void failure(Exception e) {
 		display.endLoading();
 		display.showError(e.getMessage());
+	}
+
+	private void showNext() {
+		if (cards == null || cards.isEmpty()) {
+			return;
+		}
+		if (currentCard == null) {
+			currentCard = cards.get(0);
+			display.showCard(currentCard.getPhrase());
+		} else {
+			display.showCard(currentCard.getDefinition());
+			currentCard = null;
+		}
 	}
 }
