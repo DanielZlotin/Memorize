@@ -3,6 +3,11 @@ package zlotindaniel.memorize;
 import java.util.List;
 import java.util.Stack;
 
+import zlotindaniel.memorize.data.Card;
+import zlotindaniel.memorize.data.CardsDataLoader;
+import zlotindaniel.memorize.data.OnFailure;
+import zlotindaniel.memorize.data.OnSuccess;
+
 public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 
 	private List<Card> cards;

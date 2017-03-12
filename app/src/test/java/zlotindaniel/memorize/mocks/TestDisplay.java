@@ -1,4 +1,4 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.mocks;
 
 import zlotindaniel.memorize.MemorizeInteractor.Display;
 

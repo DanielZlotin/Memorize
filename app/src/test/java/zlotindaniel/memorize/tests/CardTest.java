@@ -1,6 +1,9 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.tests;
 
 import org.junit.Test;
+
+import zlotindaniel.memorize.BaseTest;
+import zlotindaniel.memorize.data.Card;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

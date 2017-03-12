@@ -1,4 +1,4 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.data;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

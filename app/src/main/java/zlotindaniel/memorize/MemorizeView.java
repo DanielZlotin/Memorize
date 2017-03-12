@@ -24,6 +24,7 @@ public class MemorizeView extends FrameLayout implements Display {
 		textView = new TextView(context);
 		textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
 		textView.setVisibility(GONE);
+		textView.setMaxLines(10);
 		addView(textView, new LayoutParams(WRAP_CONTENT, WRAP_CONTENT, CENTER));
 
 		progressBar = new ProgressBar(context);

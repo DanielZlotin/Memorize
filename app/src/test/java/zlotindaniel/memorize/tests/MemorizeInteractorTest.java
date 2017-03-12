@@ -1,4 +1,4 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.tests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,6 +6,12 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
+import zlotindaniel.memorize.BaseTest;
+import zlotindaniel.memorize.MemorizeInteractor;
+import zlotindaniel.memorize.mocks.TestDataLoader;
+import zlotindaniel.memorize.mocks.TestDisplay;
+import zlotindaniel.memorize.data.Card;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

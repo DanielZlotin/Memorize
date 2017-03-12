@@ -1,4 +1,4 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.data;
 
 public class Card {
 	private String phrase;

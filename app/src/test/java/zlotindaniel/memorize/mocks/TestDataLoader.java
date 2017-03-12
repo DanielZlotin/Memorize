@@ -1,6 +1,11 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.mocks;
 
 import java.util.List;
+
+import zlotindaniel.memorize.data.Card;
+import zlotindaniel.memorize.data.CardsDataLoader;
+import zlotindaniel.memorize.data.OnFailure;
+import zlotindaniel.memorize.data.OnSuccess;
 
 public class TestDataLoader implements CardsDataLoader {
 	private List<Card> nextSuccess;

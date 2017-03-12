@@ -1,5 +1,8 @@
 package zlotindaniel.memorize;
 
+import zlotindaniel.memorize.data.CardsDataLoader;
+import zlotindaniel.memorize.mocks.TestDataLoader;
+
 public class MemorizeUnitApplication extends MemorizeApplication {
 	private TestDataLoader testDataLoader;
 

@@ -1,4 +1,4 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.tests;
 
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.BySelector;
@@ -11,6 +11,8 @@ import android.support.test.uiautomator.Until;
 
 import org.junit.Test;
 
+import zlotindaniel.memorize.BaseE2ETest;
+
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -20,30 +22,30 @@ public class MemorizeE2ETest extends BaseE2ETest {
 	@Test
 	public void showPhrase1() throws Exception {
 		launchApp();
-		assertExists(By.text("Phrase 1"));
+		assertExists(By.text("Phrase1"));
 	}
 
 	@Test
 	public void showPhrase1_Click_ShowDefinition1() throws Exception {
 		launchApp();
 
-		assertExists(By.text("Phrase 1"));
+		assertExists(By.text("Phrase1"));
 
-		device().findObject(By.text("Phrase 1")).click();
-		assertExists(By.text("Definition 1"));
+		device().findObject(By.text("Phrase1")).click();
+		assertExists(By.text("Definition1"));
 	}
 
 	@Test
 	public void showPhrase1_ClickTwice_ShowPhrase2() throws Exception {
 		launchApp();
 
-		assertExists(By.text("Phrase 1"));
+		assertExists(By.text("Phrase1"));
 
-		UiObject2 parent = device().findObject(By.text("Phrase 1")).getParent();
+		UiObject2 parent = device().findObject(By.text("Phrase1")).getParent();
 		parent.click();
 		parent.click();
 
-		assertExists(By.text("Phrase 2"));
+		assertExists(By.text("Phrase2"));
 	}
 
 	private void launchApp() throws UiObjectNotFoundException {

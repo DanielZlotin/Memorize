@@ -1,7 +1,10 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.tests;
 
 import org.junit.Test;
 import org.robolectric.RuntimeEnvironment;
+
+import zlotindaniel.memorize.BaseTest;
+import zlotindaniel.memorize.MemorizeActivity;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.robolectric.Robolectric.setupActivity;
