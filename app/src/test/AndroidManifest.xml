@@ -2,6 +2,7 @@
           package="zlotindaniel.memorize">
 
     <application
+        android:name=".MemorizeUnitApplication"
         android:theme="@style/AppTheme">
     </application>
 
