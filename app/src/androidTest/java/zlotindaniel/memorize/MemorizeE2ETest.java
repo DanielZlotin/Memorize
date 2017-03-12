@@ -9,22 +9,13 @@ import android.support.test.uiautomator.UiScrollable;
 import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class MemorizeE2ETest extends BaseE2ETest {
 	private static final long TIMEOUT = 3000;
-
-	@Before
-	public void beforeEach() {
-		MemorizeE2EApplication app = (MemorizeE2EApplication) getInstrumentation().getTargetContext().getApplicationContext();
-		((TestDataLoader) app.getDataLoader()).setNextSuccess(Arrays.asList(new Card("Phrase 1", "Definition 1"), new Card("Phrase 2", "Definition 2")));
-	}
 
 	@Test
 	public void showPhrase1() throws Exception {

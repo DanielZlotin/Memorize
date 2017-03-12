@@ -1,20 +1,29 @@
 package zlotindaniel.memorize;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class MemorizeInteractorTest extends BaseTest {
 	@Test
 	public void start_LoadsData() throws Exception {
-		MemorizeInteractor.Display mockDisplay = Mockito.mock(MemorizeInteractor.Display.class);
 		TestDataLoader testDataLoader = new TestDataLoader();
-		MemorizeInteractor uut = new MemorizeInteractor(mockDisplay, testDataLoader);
+		TestDisplay testDisplay = new TestDisplay();
+		MemorizeInteractor uut = new MemorizeInteractor(testDisplay, testDataLoader);
 
+		assertThat(testDisplay.loading).isFalse();
 		uut.start();
+		assertThat(testDisplay.loading).isTrue();
+	}
 
-		verify(mockDisplay, times(1)).startLoading();
+	@Test
+	public void loadDataError_ShowError() throws Exception {
+		TestDataLoader testDataLoader = new TestDataLoader();
+		TestDisplay testDisplay = new TestDisplay();
+		MemorizeInteractor uut = new MemorizeInteractor(testDisplay, testDataLoader);
+
+		testDataLoader.setNextError(new RuntimeException("some error"));
+		uut.start();
+		assertThat(testDisplay.text).isEqualTo("some error");
 	}
 }
