@@ -17,7 +17,7 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class MemorizeE2ETest extends BaseE2ETest {
-	private static final long TIMEOUT = 3000;
+	private static final long TIMEOUT = 10000;
 
 	@Test
 	public void showPhrase1() throws Exception {
