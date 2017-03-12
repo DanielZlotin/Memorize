@@ -14,7 +14,7 @@ public class MemorizeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		view = new MemorizeView(this);
-		interactor = new MemorizeInteractor(view);
+		interactor = new MemorizeInteractor(view, ((MemorizeApplication) getApplication()).getDataLoader());
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

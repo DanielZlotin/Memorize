@@ -11,7 +11,7 @@ public class MemorizeE2EApplication extends MemorizeApplication {
 	}
 
 	@Override
-	public DataLoader getDataLoader() {
+	public CardsDataLoader getDataLoader() {
 		return testDataLoader;
 	}
 }
