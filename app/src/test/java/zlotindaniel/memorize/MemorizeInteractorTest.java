@@ -84,4 +84,35 @@ public class MemorizeInteractorTest extends BaseTest {
 		uut.onClick();
 		assertThat(testDisplay.text).isEqualTo("D1");
 	}
+
+	@Test
+	public void listIsDisplayedCircularilyEndlessly() throws Exception {
+		Card card1 = new Card("P1", "D1");
+		Card card2 = new Card("P2", "D2");
+		testDataLoader.setNextSuccess(Arrays.asList(card1, card2));
+		uut.start();
+		assertThat(testDisplay.text).isEqualTo("P2");
+		uut.onClick();
+		assertThat(testDisplay.text).isEqualTo("D2");
+		uut.onClick();
+		assertThat(testDisplay.text).isEqualTo("P1");
+		uut.onClick();
+		assertThat(testDisplay.text).isEqualTo("D1");
+		uut.onClick();
+		assertThat(testDisplay.text).isEqualTo("P2");
+		uut.onClick();
+		assertThat(testDisplay.text).isEqualTo("D2");
+	}
+
+	@Test
+	public void cleanStateWhenLoadAgain() throws Exception {
+		Card card1 = new Card("P1", "D1");
+		Card card2 = new Card("P2", "D2");
+		testDataLoader.setNextSuccess(Arrays.asList(card1, card2));
+		uut.start();
+		assertThat(testDisplay.text).isEqualTo("P2");
+		testDataLoader.setNextSuccess(Arrays.asList(card1, card2));
+		uut.start();
+		assertThat(testDisplay.text).isEqualTo("P2");
+	}
 }

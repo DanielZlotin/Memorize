@@ -2,9 +2,10 @@ package zlotindaniel.memorize;
 
 import java.util.List;
 import java.util.Stack;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
+
+	private List<Card> cards;
 
 	public interface Display {
 		void showCard(String text);
@@ -19,7 +20,7 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 	private final Display display;
 	private final CardsDataLoader dataLoader;
 	private final Stack<Card> cardStack = new Stack<>();
-	private AtomicReference<Card> currentCard = new AtomicReference<>();
+	private Card currentCard;
 
 	public MemorizeInteractor(Display display, CardsDataLoader dataLoader) {
 		this.display = display;
@@ -37,8 +38,9 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 
 	@Override
 	public void success(List<Card> cards) {
+		this.cards = cards;
+		currentCard = null;
 		cardStack.clear();
-		cardStack.addAll(cards);
 		display.endLoading();
 		showNext();
 	}
@@ -50,15 +52,18 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 	}
 
 	private void showNext() {
-		if (currentCard.get() == null) {
-			if (cardStack.isEmpty()) {
-				return;
-			}
-			currentCard.set(cardStack.pop());
-			display.showCard(currentCard.get().getPhrase());
+		if (cards == null || cards.isEmpty()) {
+			return;
+		}
+		if (cardStack.isEmpty()) {
+			cardStack.addAll(cards);
+		}
+		if (currentCard == null) {
+			currentCard = cardStack.pop();
+			display.showCard(currentCard.getPhrase());
 		} else {
-			display.showCard(currentCard.get().getDefinition());
-			currentCard.set(null);
+			display.showCard(currentCard.getDefinition());
+			currentCard = null;
 		}
 	}
 }
