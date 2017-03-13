@@ -3,17 +3,25 @@ package zlotindaniel.memorize.mocks;
 import zlotindaniel.memorize.MemorizeInteractor.Display;
 
 public class TestDisplay implements Display {
-	public String text;
+	public String phrase;
+	public String definition;
+	public String error;
 	public boolean loading;
 
+
 	@Override
-	public void showCard(String text) {
-		this.text = text;
+	public void showPhrase(String phrase) {
+		this.phrase = phrase;
+	}
+
+	@Override
+	public void showDefinition(String definition) {
+		this.definition = definition;
 	}
 
 	@Override
 	public void showError(String text) {
-		this.text = text;
+		this.error = text;
 	}
 
 	@Override

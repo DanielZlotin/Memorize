@@ -2,8 +2,6 @@ package zlotindaniel.memorize;
 
 import android.app.Application;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import zlotindaniel.memorize.data.CardsDataLoader;
 import zlotindaniel.memorize.data.FirebaseDataLoader;
 
@@ -17,7 +15,6 @@ public class MemorizeApplication extends Application {
 	}
 
 	public void init() {
-		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 		dataLoader = new FirebaseDataLoader();
 	}
 

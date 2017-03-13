@@ -29,10 +29,12 @@ public class MemorizeE2ETest extends BaseE2ETest {
 	public void showPhrase1_Click_ShowDefinition1() throws Exception {
 		launchApp();
 
+		assertExists(By.text("What is:"));
 		assertExists(By.text("Phrase1"));
 
 		device().findObject(By.text("Phrase1")).click();
 		assertExists(By.text("Definition1"));
+		assertThat(device().findObject(new UiSelector().text("What is:")).exists()).isFalse();
 	}
 
 	@Test

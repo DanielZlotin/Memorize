@@ -13,7 +13,9 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 	private List<Card> cards;
 
 	public interface Display {
-		void showCard(String text);
+		void showPhrase(String phrase);
+
+		void showDefinition(String definition);
 
 		void showError(String text);
 
@@ -69,9 +71,9 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 		}
 		if (currentCard == null) {
 			currentCard = cardStack.pop();
-			display.showCard(currentCard.getPhrase());
+			display.showPhrase(currentCard.getPhrase());
 		} else {
-			display.showCard(currentCard.getDefinition());
+			display.showDefinition(currentCard.getDefinition());
 			currentCard = null;
 		}
 	}

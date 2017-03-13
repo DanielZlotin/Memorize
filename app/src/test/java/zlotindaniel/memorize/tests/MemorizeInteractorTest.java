@@ -44,7 +44,7 @@ public class MemorizeInteractorTest extends BaseTest {
 	public void loadDataError_ShowError() throws Exception {
 		testDataLoader.setNextError(new RuntimeException("some error"));
 		uut.start();
-		assertThat(testDisplay.text).isEqualTo("some error");
+		assertThat(testDisplay.error).isEqualTo("some error");
 		assertThat(testDisplay.loading).isEqualTo(false);
 	}
 
@@ -53,16 +53,16 @@ public class MemorizeInteractorTest extends BaseTest {
 		testDataLoader.setNextSuccess(Collections.singletonList(new Card("the phrase", "the definition")));
 		uut.start();
 		assertThat(testDisplay.loading).isFalse();
-		assertThat(testDisplay.text).isEqualTo("the phrase");
+		assertThat(testDisplay.phrase).isEqualTo("the phrase");
 	}
 
 	@Test
 	public void loadDataSuccess_ShowPhrase_Click_ShowDefinition() throws Exception {
 		testDataLoader.setNextSuccess(Collections.singletonList(new Card("the phrase", "the definition")));
 		uut.start();
-		assertThat(testDisplay.text).isEqualTo("the phrase");
+		assertThat(testDisplay.phrase).isEqualTo("the phrase");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("the definition");
+		assertThat(testDisplay.definition).isEqualTo("the definition");
 	}
 
 	@Test
@@ -84,17 +84,17 @@ public class MemorizeInteractorTest extends BaseTest {
 		Card card3 = new Card("P3", "D3");
 		testDataLoader.setNextSuccess(Arrays.asList(card1, card2, card3));
 		uut.start();
-		assertThat(testDisplay.text).isEqualTo("P3");
+		assertThat(testDisplay.phrase).isEqualTo("P3");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("D3");
+		assertThat(testDisplay.definition).isEqualTo("D3");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("P2");
+		assertThat(testDisplay.phrase).isEqualTo("P2");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("D2");
+		assertThat(testDisplay.definition).isEqualTo("D2");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("P1");
+		assertThat(testDisplay.phrase).isEqualTo("P1");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("D1");
+		assertThat(testDisplay.definition).isEqualTo("D1");
 	}
 
 	@Test
@@ -103,17 +103,17 @@ public class MemorizeInteractorTest extends BaseTest {
 		Card card2 = new Card("P2", "D2");
 		testDataLoader.setNextSuccess(Arrays.asList(card1, card2));
 		uut.start();
-		assertThat(testDisplay.text).isEqualTo("P2");
+		assertThat(testDisplay.phrase).isEqualTo("P2");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("D2");
+		assertThat(testDisplay.definition).isEqualTo("D2");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("P1");
+		assertThat(testDisplay.phrase).isEqualTo("P1");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("D1");
+		assertThat(testDisplay.definition).isEqualTo("D1");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("P2");
+		assertThat(testDisplay.phrase).isEqualTo("P2");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("D2");
+		assertThat(testDisplay.definition).isEqualTo("D2");
 	}
 
 	@Test
@@ -122,10 +122,10 @@ public class MemorizeInteractorTest extends BaseTest {
 		Card card2 = new Card("P2", "D2");
 		testDataLoader.setNextSuccess(Arrays.asList(card1, card2));
 		uut.start();
-		assertThat(testDisplay.text).isEqualTo("P2");
+		assertThat(testDisplay.phrase).isEqualTo("P2");
 		testDataLoader.setNextSuccess(Arrays.asList(card1, card2));
 		uut.start();
-		assertThat(testDisplay.text).isEqualTo("P2");
+		assertThat(testDisplay.phrase).isEqualTo("P2");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -135,6 +135,6 @@ public class MemorizeInteractorTest extends BaseTest {
 		uut = new MemorizeInteractor(testDisplay, mock);
 		doThrow(new RuntimeException("Error during load")).when(mock).load((OnSuccess<List<Card>>) any(), (OnFailure) any());
 		uut.start();
-		assertThat(testDisplay.text).isEqualTo("Error during load");
+		assertThat(testDisplay.error).isEqualTo("Error during load");
 	}
 }
