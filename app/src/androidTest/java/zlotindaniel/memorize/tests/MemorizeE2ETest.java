@@ -9,36 +9,31 @@ import android.support.test.uiautomator.UiScrollable;
 import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import zlotindaniel.memorize.BaseE2ETest;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MemorizeE2ETest extends BaseE2ETest {
 	private static final long TIMEOUT = 10000;
 
 	@Test
-	public void showPhrase1() throws Exception {
-		launchApp();
-		assertExists(By.text("Phrase1"));
-	}
-
-	@Test
-	public void showPhrase1_Click_ShowDefinition1() throws Exception {
+	public void _1_showPhrase1_Click_ShowDefinition1() throws Exception {
 		launchApp();
 
-		assertExists(By.text("What is:"));
 		assertExists(By.text("Phrase1"));
 
 		device().findObject(By.text("Phrase1")).click();
 		assertExists(By.text("Definition1"));
-		assertThat(device().findObject(new UiSelector().text("What is:")).exists()).isFalse();
 	}
 
 	@Test
-	public void showPhrase1_ClickTwice_ShowPhrase2() throws Exception {
+	public void _2_showPhrase1_ClickTwice_ShowPhrase2() throws Exception {
 		launchApp();
 
 		assertExists(By.text("Phrase1"));
