@@ -3,12 +3,16 @@ package zlotindaniel.memorize.tests;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.MemorizeInteractor;
 import zlotindaniel.memorize.data.CardsStackNonShuffler;
 import zlotindaniel.memorize.data.CardsStackShuffler;
+import zlotindaniel.memorize.data.CardsStackShufflerImpl;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.mocks.TestDataLoader;
@@ -136,19 +140,21 @@ public class MemorizeInteractorTest extends BaseTest {
 		assertThat(testDisplay.error).isEqualTo("Error during load");
 	}
 
-//	@Test
-//	@Ignore
-//	public void shufflesList() throws Exception {
-//		testDataLoader.setNextSuccess("Phrase1", "Definition1",
-//				"Phrase2", "Definition2",
-//				"Phrase3", "Definition3");
-//		uut.start();
-//		assertThat(testDisplay.phrase).isEqualTo("Phrase3");
-//		uut.onClick();
-//		uut.onClick();
-//		assertThat(testDisplay.phrase).isEqualTo("Phrase2");
-//		uut.onClick();
-//		uut.onClick();
-//		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
-//	}
+	@Test
+	public void shufflesTheCardsRandomly() throws Exception {
+		List<String> phrasesDisplayed = new ArrayList<>();
+		List<String> allPhrases = Arrays.asList("Phrase1", "Phrase2", "Phrase3");
+		for (int i = 0; i < 1e4; i++) {
+			uut = new MemorizeInteractor(testDisplay, testDataLoader, new CardsStackShufflerImpl());
+			testDataLoader.setNextSuccess("Phrase1", "Definition1",
+					"Phrase2", "Definition2",
+					"Phrase3", "Definition3");
+			uut.start();
+			phrasesDisplayed.add(testDisplay.phrase);
+			if (phrasesDisplayed.containsAll(allPhrases)) {
+				return;
+			}
+		}
+		assertThat(false).withFailMessage("cant find all phrases in 10,000 retries").isTrue();
+	}
 }
