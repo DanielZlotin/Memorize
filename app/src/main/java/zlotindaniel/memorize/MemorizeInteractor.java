@@ -6,13 +6,14 @@ import java.util.Stack;
 
 import zlotindaniel.memorize.data.Card;
 import zlotindaniel.memorize.data.CardsParser;
+import zlotindaniel.memorize.data.CardsStackShuffler;
 import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 
 public class MemorizeInteractor {
 
-	private List<Card> cards;
+	private List<Card> loadedCards;
 
 	public interface Display {
 		void showPhrase(String phrase);
@@ -28,13 +29,15 @@ public class MemorizeInteractor {
 
 	private final Display display;
 	private final DataLoader dataLoader;
+	private final CardsStackShuffler shuffler;
 	private final Stack<Card> cardStack = new Stack<>();
 	private final CardsParser cardsParser = new CardsParser();
 	private Card currentCard;
 
-	public MemorizeInteractor(Display display, DataLoader dataLoader) {
+	public MemorizeInteractor(Display display, DataLoader dataLoader, CardsStackShuffler shuffler) {
 		this.display = display;
 		this.dataLoader = dataLoader;
+		this.shuffler = shuffler;
 	}
 
 	public void start() {
@@ -61,7 +64,7 @@ public class MemorizeInteractor {
 	}
 
 	private void loadingSuccess(Map<String, Object> payload) {
-		this.cards = cardsParser.parse(payload);
+		this.loadedCards = cardsParser.parse(payload);
 		currentCard = null;
 		cardStack.clear();
 		display.endLoading();
@@ -74,11 +77,12 @@ public class MemorizeInteractor {
 	}
 
 	private void showNext() {
-		if (cards == null || cards.isEmpty()) {
+		if (loadedCards == null || loadedCards.isEmpty()) {
 			return;
 		}
 		if (cardStack.isEmpty()) {
-			cardStack.addAll(cards);
+			cardStack.addAll(loadedCards);
+			shuffler.shuffle(cardStack);
 		}
 		if (currentCard == null) {
 			currentCard = cardStack.pop();

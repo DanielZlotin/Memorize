@@ -14,7 +14,7 @@ public class MemorizeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		view = new MemorizeView(this);
-		interactor = new MemorizeInteractor(view, ((MemorizeApplication) getApplication()).getDataLoader());
+		interactor = new MemorizeInteractor(view, MemorizeApplication.instance.getDataLoader(), MemorizeApplication.instance.getCardsStackShuffler());
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -15,4 +15,9 @@ public class CardTest extends BaseTest {
 		assertThat(card.getPhrase()).isEqualTo("hi");
 		assertThat(card.getDefinition()).isEqualTo("ho");
 	}
+
+	@Test
+	public void stringRepresentation() throws Exception {
+		assertThat(new Card("hi", "ho").toString()).isEqualTo("Card{phrase='hi', definition='ho'}");
+	}
 }

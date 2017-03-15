@@ -16,4 +16,12 @@ public class Card {
 	public String getDefinition() {
 		return definition;
 	}
+
+	@Override
+	public String toString() {
+		return "Card{" +
+				"phrase='" + phrase + '\'' +
+				", definition='" + definition + '\'' +
+				'}';
+	}
 }

@@ -7,8 +7,10 @@ import java.util.Map;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.MemorizeInteractor;
+import zlotindaniel.memorize.data.CardsStackShuffler;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
+import zlotindaniel.memorize.mocks.CardsStackNonShuffler;
 import zlotindaniel.memorize.mocks.TestDataLoader;
 import zlotindaniel.memorize.mocks.TestDisplay;
 
@@ -21,12 +23,14 @@ public class MemorizeInteractorTest extends BaseTest {
 	private MemorizeInteractor uut;
 	private TestDataLoader testDataLoader;
 	private TestDisplay testDisplay;
+	private CardsStackShuffler testShuffler;
 
 	@Before
 	public void beforeEach() {
 		testDataLoader = new TestDataLoader();
 		testDisplay = new TestDisplay();
-		uut = new MemorizeInteractor(testDisplay, testDataLoader);
+		testShuffler = new CardsStackNonShuffler();
+		uut = new MemorizeInteractor(testDisplay, testDataLoader, testShuffler);
 	}
 
 	@Test
@@ -126,7 +130,7 @@ public class MemorizeInteractorTest extends BaseTest {
 	@Test
 	public void errorOnLoad_ShowsAsError() throws Exception {
 		TestDataLoader mock = mock(TestDataLoader.class);
-		uut = new MemorizeInteractor(testDisplay, mock);
+		uut = new MemorizeInteractor(testDisplay, mock, testShuffler);
 		doThrow(new RuntimeException("Error during load")).when(mock).load((OnSuccess<Map<String, Object>>) any(), (OnFailure) any());
 		uut.start();
 		assertThat(testDisplay.error).isEqualTo("Error during load");
