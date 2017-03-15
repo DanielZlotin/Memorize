@@ -1,5 +1,6 @@
 package zlotindaniel.memorize;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -49,7 +50,7 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 
 	@Override
 	public void success(List<Card> cards) {
-		this.cards = cards;
+		this.cards = new ArrayList<>(cards);
 		currentCard = null;
 		cardStack.clear();
 		display.endLoading();

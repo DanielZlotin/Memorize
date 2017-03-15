@@ -12,7 +12,7 @@ import java.util.Map;
 public class FirebaseDataLoader implements CardsDataLoader {
 	@Override
 	public void load(final OnSuccess<List<Card>> onSuccess, final OnFailure onFailure) {
-		FirebaseDatabase.getInstance().getReference().getRoot().child("Production").child("RT").addListenerForSingleValueEvent(new ValueEventListener() {
+		FirebaseDatabase.getInstance().getReference().getRoot().child("Production").child("RT").orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
 
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {

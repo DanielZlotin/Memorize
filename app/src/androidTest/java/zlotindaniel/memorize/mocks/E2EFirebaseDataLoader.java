@@ -22,7 +22,7 @@ public class E2EFirebaseDataLoader implements CardsDataLoader {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
-				Map<String, String> allValues = (Map<String, String>) dataSnapshot.getValue(true);
+				Map<String, String> allValues = (Map<String, String>) dataSnapshot.getValue();
 
 				List<Card> result = new ArrayList<>();
 				for (String key : allValues.keySet()) {
