@@ -2,11 +2,11 @@ package zlotindaniel.memorize;
 
 import android.app.Application;
 
-import zlotindaniel.memorize.data.CardsDataLoader;
+import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.data.FirebaseDataLoader;
 
 public class MemorizeApplication extends Application {
-	private CardsDataLoader dataLoader;
+	private DataLoader dataLoader;
 
 	@Override
 	public void onCreate() {
@@ -18,7 +18,7 @@ public class MemorizeApplication extends Application {
 		dataLoader = new FirebaseDataLoader();
 	}
 
-	public CardsDataLoader getDataLoader() {
+	public DataLoader getDataLoader() {
 		return dataLoader;
 	}
 }

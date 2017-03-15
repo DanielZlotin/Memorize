@@ -2,14 +2,15 @@ package zlotindaniel.memorize;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import zlotindaniel.memorize.data.Card;
-import zlotindaniel.memorize.data.CardsDataLoader;
+import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 
-public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
+public class MemorizeInteractor {
 
 	private List<Card> cards;
 
@@ -26,11 +27,11 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 	}
 
 	private final Display display;
-	private final CardsDataLoader dataLoader;
+	private final DataLoader dataLoader;
 	private final Stack<Card> cardStack = new Stack<>();
 	private Card currentCard;
 
-	public MemorizeInteractor(Display display, CardsDataLoader dataLoader) {
+	public MemorizeInteractor(Display display, DataLoader dataLoader) {
 		this.display = display;
 		this.dataLoader = dataLoader;
 	}
@@ -38,9 +39,19 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 	public void start() {
 		display.startLoading();
 		try {
-			dataLoader.load(this, this);
+			dataLoader.load(new OnSuccess<Map<String, Object>>() {
+				@Override
+				public void success(Map<String, Object> stringObjectMap) {
+					loadingSuccess(stringObjectMap);
+				}
+			}, new OnFailure() {
+				@Override
+				public void failure(Exception e) {
+					loadingFailure(e);
+				}
+			});
 		} catch (Exception e) {
-			failure(e);
+			loadingFailure(e);
 		}
 	}
 
@@ -48,17 +59,15 @@ public class MemorizeInteractor implements OnSuccess<List<Card>>, OnFailure {
 		showNext();
 	}
 
-	@Override
-	public void success(List<Card> cards) {
-		this.cards = new ArrayList<>(cards);
+	private void loadingSuccess(Map<String, Object> payload) {
+		this.cards = new ArrayList<>();
 		currentCard = null;
 		cardStack.clear();
 		display.endLoading();
 		showNext();
 	}
 
-	@Override
-	public void failure(Exception e) {
+	private void loadingFailure(Exception e) {
 		display.endLoading();
 		display.showError(e.getMessage());
 	}

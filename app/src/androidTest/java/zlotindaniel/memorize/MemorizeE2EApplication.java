@@ -1,6 +1,6 @@
 package zlotindaniel.memorize;
 
-import zlotindaniel.memorize.data.CardsDataLoader;
+import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.mocks.E2EFirebaseDataLoader;
 
 public class MemorizeE2EApplication extends MemorizeApplication {
@@ -13,7 +13,7 @@ public class MemorizeE2EApplication extends MemorizeApplication {
 	}
 
 	@Override
-	public CardsDataLoader getDataLoader() {
+	public DataLoader getDataLoader() {
 		return testDataLoader;
 	}
 }

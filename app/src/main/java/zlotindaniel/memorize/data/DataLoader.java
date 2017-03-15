@@ -1,5 +1,7 @@
 package zlotindaniel.memorize.data;
 
-public interface DataLoader<T> {
-	void load(OnSuccess<T> onSuccess, OnFailure onFailure);
+import java.util.Map;
+
+public interface DataLoader {
+	void load(OnSuccess<Map<String, Object>> onSuccess, OnFailure onFailure);
 }
