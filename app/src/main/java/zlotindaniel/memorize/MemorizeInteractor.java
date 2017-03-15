@@ -1,11 +1,11 @@
 package zlotindaniel.memorize;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
 import zlotindaniel.memorize.data.Card;
+import zlotindaniel.memorize.data.CardsParser;
 import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
@@ -29,6 +29,7 @@ public class MemorizeInteractor {
 	private final Display display;
 	private final DataLoader dataLoader;
 	private final Stack<Card> cardStack = new Stack<>();
+	private final CardsParser cardsParser = new CardsParser();
 	private Card currentCard;
 
 	public MemorizeInteractor(Display display, DataLoader dataLoader) {
@@ -60,7 +61,7 @@ public class MemorizeInteractor {
 	}
 
 	private void loadingSuccess(Map<String, Object> payload) {
-		this.cards = new ArrayList<>();
+		this.cards = cardsParser.parse(payload);
 		currentCard = null;
 		cardStack.clear();
 		display.endLoading();

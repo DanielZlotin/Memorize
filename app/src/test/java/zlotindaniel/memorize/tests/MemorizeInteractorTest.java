@@ -1,7 +1,6 @@
 package zlotindaniel.memorize.tests;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Map;
@@ -18,7 +17,6 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
-@Ignore
 public class MemorizeInteractorTest extends BaseTest {
 	private MemorizeInteractor uut;
 	private TestDataLoader testDataLoader;
@@ -134,19 +132,19 @@ public class MemorizeInteractorTest extends BaseTest {
 		assertThat(testDisplay.error).isEqualTo("Error during load");
 	}
 
-	@Test
-	@Ignore
-	public void shufflesList() throws Exception {
-		testDataLoader.setNextSuccess("Phrase1", "Definition1",
-				"Phrase2", "Definition2",
-				"Phrase3", "Definition3");
-		uut.start();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase3");
-		uut.onClick();
-		uut.onClick();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase2");
-		uut.onClick();
-		uut.onClick();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
-	}
+//	@Test
+//	@Ignore
+//	public void shufflesList() throws Exception {
+//		testDataLoader.setNextSuccess("Phrase1", "Definition1",
+//				"Phrase2", "Definition2",
+//				"Phrase3", "Definition3");
+//		uut.start();
+//		assertThat(testDisplay.phrase).isEqualTo("Phrase3");
+//		uut.onClick();
+//		uut.onClick();
+//		assertThat(testDisplay.phrase).isEqualTo("Phrase2");
+//		uut.onClick();
+//		uut.onClick();
+//		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
+//	}
 }
