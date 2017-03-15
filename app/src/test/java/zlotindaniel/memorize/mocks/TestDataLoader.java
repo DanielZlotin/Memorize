@@ -1,18 +1,25 @@
 package zlotindaniel.memorize.mocks;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import zlotindaniel.memorize.data.Card;
-import zlotindaniel.memorize.data.CardsDataLoader;
+import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 
-public class TestDataLoader implements CardsDataLoader {
-	private List<Card> nextSuccess;
+public class TestDataLoader implements DataLoader {
+	private Map<String, Object> nextSuccess;
 	private Exception nextError;
 
-	public void setNextSuccess(List<Card> nextSuccess) {
+	public void setNextSuccess(Map<String, Object> nextSuccess) {
 		this.nextSuccess = nextSuccess;
+	}
+
+	public void setNextSuccess(String... keysAndValues) {
+		nextSuccess = new HashMap<>();
+		for (int i = 0; i < keysAndValues.length; i += 2) {
+			nextSuccess.put(keysAndValues[i], keysAndValues[i + 1]);
+		}
 	}
 
 	public void setNextError(Exception nextError) {
@@ -20,7 +27,7 @@ public class TestDataLoader implements CardsDataLoader {
 	}
 
 	@Override
-	public void load(OnSuccess<List<Card>> onSuccess, OnFailure onFailure) {
+	public void load(OnSuccess<Map<String, Object>> onSuccess, OnFailure onFailure) {
 		if (nextSuccess != null) {
 			onSuccess.success(nextSuccess);
 			nextSuccess = null;

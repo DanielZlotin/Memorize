@@ -1,6 +1,6 @@
 package zlotindaniel.memorize;
 
-import zlotindaniel.memorize.data.CardsDataLoader;
+import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.mocks.TestDataLoader;
 
 public class MemorizeUnitApplication extends MemorizeApplication {
@@ -12,7 +12,7 @@ public class MemorizeUnitApplication extends MemorizeApplication {
 	}
 
 	@Override
-	public CardsDataLoader getDataLoader() {
+	public DataLoader getDataLoader() {
 		return testDataLoader;
 	}
 }

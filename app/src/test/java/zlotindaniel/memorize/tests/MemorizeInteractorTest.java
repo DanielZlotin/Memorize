@@ -4,14 +4,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.Map;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.MemorizeInteractor;
-import zlotindaniel.memorize.data.Card;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.mocks.TestDataLoader;
@@ -52,7 +48,7 @@ public class MemorizeInteractorTest extends BaseTest {
 
 	@Test
 	public void loadDataSucess_ShowCardPhrase() throws Exception {
-		testDataLoader.setNextSuccess(Collections.singletonList(new Card("the phrase", "the definition")));
+		testDataLoader.setNextSuccess("the phrase", "the definition");
 		uut.start();
 		assertThat(testDisplay.loading).isFalse();
 		assertThat(testDisplay.phrase).isEqualTo("the phrase");
@@ -60,7 +56,7 @@ public class MemorizeInteractorTest extends BaseTest {
 
 	@Test
 	public void loadDataSuccess_ShowPhrase_Click_ShowDefinition() throws Exception {
-		testDataLoader.setNextSuccess(Collections.singletonList(new Card("the phrase", "the definition")));
+		testDataLoader.setNextSuccess("the phrase", "the definition");
 		uut.start();
 		assertThat(testDisplay.phrase).isEqualTo("the phrase");
 		uut.onClick();
@@ -74,17 +70,16 @@ public class MemorizeInteractorTest extends BaseTest {
 
 	@Test
 	public void successWithEmptyListHandled() throws Exception {
-		testDataLoader.setNextSuccess(new ArrayList<Card>());
+		testDataLoader.setNextSuccess();
 		uut.start();
 		assertThat(testDisplay.loading).isFalse();
 	}
 
 	@Test
 	public void displaysTheNextCardInTheList() throws Exception {
-		Card card1 = new Card("Phrase1", "Definition1");
-		Card card2 = new Card("Phrase2", "Definition2");
-		Card card3 = new Card("Phrase3", "Definition3");
-		testDataLoader.setNextSuccess(Arrays.asList(card1, card2, card3));
+		testDataLoader.setNextSuccess("Phrase1", "Definition1",
+				"Phrase2", "Definition2",
+				"Phrase3", "Definition3");
 		uut.start();
 		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
 		uut.onClick();
@@ -101,9 +96,8 @@ public class MemorizeInteractorTest extends BaseTest {
 
 	@Test
 	public void listIsDisplayedCircularilyEndlessly() throws Exception {
-		Card card1 = new Card("Phrase1", "Definition1");
-		Card card2 = new Card("Phrase2", "Definition2");
-		testDataLoader.setNextSuccess(Arrays.asList(card1, card2));
+		testDataLoader.setNextSuccess("Phrase1", "Definition1",
+				"Phrase2", "Definition2");
 		uut.start();
 		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
 		uut.onClick();
@@ -120,12 +114,12 @@ public class MemorizeInteractorTest extends BaseTest {
 
 	@Test
 	public void cleanStateWhenLoadAgain() throws Exception {
-		Card card1 = new Card("Phrase1", "Definition1");
-		Card card2 = new Card("Phrase2", "Definition2");
-		testDataLoader.setNextSuccess(Arrays.asList(card1, card2));
+		testDataLoader.setNextSuccess("Phrase1", "Definition1",
+				"Phrase2", "Definition2");
 		uut.start();
 		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
-		testDataLoader.setNextSuccess(Arrays.asList(card1, card2));
+		testDataLoader.setNextSuccess("Phrase1", "Definition1",
+				"Phrase2", "Definition2");
 		uut.start();
 		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
 	}
@@ -135,7 +129,7 @@ public class MemorizeInteractorTest extends BaseTest {
 	public void errorOnLoad_ShowsAsError() throws Exception {
 		TestDataLoader mock = mock(TestDataLoader.class);
 		uut = new MemorizeInteractor(testDisplay, mock);
-		doThrow(new RuntimeException("Error during load")).when(mock).load((OnSuccess<List<Card>>) any(), (OnFailure) any());
+		doThrow(new RuntimeException("Error during load")).when(mock).load((OnSuccess<Map<String, Object>>) any(), (OnFailure) any());
 		uut.start();
 		assertThat(testDisplay.error).isEqualTo("Error during load");
 	}
@@ -143,10 +137,9 @@ public class MemorizeInteractorTest extends BaseTest {
 	@Test
 	@Ignore
 	public void shufflesList() throws Exception {
-		Card card1 = new Card("Phrase1", "Definition1");
-		Card card2 = new Card("Phrase2", "Definition2");
-		Card card3 = new Card("Phrase3", "Definition3");
-		testDataLoader.setNextSuccess(Arrays.asList(card1, card2, card3));
+		testDataLoader.setNextSuccess("Phrase1", "Definition1",
+				"Phrase2", "Definition2",
+				"Phrase3", "Definition3");
 		uut.start();
 		assertThat(testDisplay.phrase).isEqualTo("Phrase3");
 		uut.onClick();
