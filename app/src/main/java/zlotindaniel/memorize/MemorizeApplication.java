@@ -16,10 +16,6 @@ public class MemorizeApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		instance = this;
-		init();
-	}
-
-	public void init() {
 		dataLoader = new FirebaseDataLoader();
 		cardsStackShuffler = new CardsStackShufflerImpl();
 	}

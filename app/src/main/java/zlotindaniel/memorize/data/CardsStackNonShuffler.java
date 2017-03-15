@@ -1,11 +1,8 @@
-package zlotindaniel.memorize.mocks;
+package zlotindaniel.memorize.data;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Stack;
-
-import zlotindaniel.memorize.data.Card;
-import zlotindaniel.memorize.data.CardsStackShuffler;
 
 public class CardsStackNonShuffler implements CardsStackShuffler {
 	@Override

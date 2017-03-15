@@ -7,10 +7,10 @@ import java.util.Map;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.MemorizeInteractor;
+import zlotindaniel.memorize.data.CardsStackNonShuffler;
 import zlotindaniel.memorize.data.CardsStackShuffler;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
-import zlotindaniel.memorize.mocks.CardsStackNonShuffler;
 import zlotindaniel.memorize.mocks.TestDataLoader;
 import zlotindaniel.memorize.mocks.TestDisplay;
 
