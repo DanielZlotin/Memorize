@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
-apply from: '../prepare-robolectric.gradle'
+//apply from: '../prepare-robolectric.gradle'
 
 project.ext.KEYSTORE_PASSWORD = project.hasProperty("pass") ? "$pass" : '';
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "zlotindaniel.memorize"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 3
         versionName "1.0.2"
 
@@ -60,7 +60,7 @@ dependencies {
 
     // unit tests
     testCompile 'junit:junit:4.12'
-    testCompile 'org.robolectric:robolectric:3.3'
+//    testCompile 'org.robolectric:robolectric:3.3'
     testCompile 'org.assertj:assertj-core:2.5.0'
     testCompile 'org.mockito:mockito-core:2.7.5'
 

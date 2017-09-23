@@ -1,9 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="zlotindaniel.memorize">
-
-    <application
-        android:name=".MemorizeUnitApplication"
-        android:theme="@style/AppTheme">
-    </application>
-
-</manifest>

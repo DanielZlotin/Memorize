@@ -19,6 +19,7 @@ import zlotindaniel.memorize.mocks.TestDataLoader;
 import zlotindaniel.memorize.mocks.TestDisplay;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -155,6 +156,6 @@ public class MemorizeInteractorTest extends BaseTest {
 				return;
 			}
 		}
-		assertThat(false).withFailMessage("cant find all phrases in 10,000 retries").isTrue();
+		fail("cant find all phrases in 10,000 retries");
 	}
 }
