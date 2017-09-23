@@ -1,7 +1,7 @@
 package zlotindaniel.memorize;
 
 import zlotindaniel.memorize.data.FirebaseDataLoader;
-import zlotindaniel.memorize.data.NonCardsStackShuffler;
+import zlotindaniel.memorize.cards.NonCardsStackShuffler;
 
 public class MemorizeE2EApplication extends MemorizeApplication {
 

@@ -3,7 +3,7 @@ package zlotindaniel.memorize.tests;
 import org.junit.Test;
 
 import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.data.Card;
+import zlotindaniel.memorize.cards.Card;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -12,8 +12,8 @@ public class CardTest extends BaseTest {
 	public void holdsPhraseAndDefinition() throws Exception {
 		Card card = new Card("hi", "ho");
 		assertThat(card).isNotNull();
-		assertThat(card.getPhrase()).isEqualTo("hi");
-		assertThat(card.getDefinition()).isEqualTo("ho");
+		assertThat(card.phrase).isEqualTo("hi");
+		assertThat(card.definition).isEqualTo("ho");
 	}
 
 	@Test

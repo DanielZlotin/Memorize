@@ -13,7 +13,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public abstract class BaseE2ETest {
-	public static final long TIMEOUT = 10000;
+	public static final long TIMEOUT = 3000;
 	public static final String PACKAGE_NAME = getInstrumentation().getTargetContext().getPackageName();
 
 	@Before
@@ -24,7 +24,7 @@ public abstract class BaseE2ETest {
 
 	public void launchApp() throws Exception {
 		device().pressHome();
-		device().executeShellCommand("am start -n " + PACKAGE_NAME + "/.MemorizeActivity");
+		device().executeShellCommand("am start -n " + PACKAGE_NAME + "/.LaunchActivity");
 		device().waitForIdle();
 	}
 

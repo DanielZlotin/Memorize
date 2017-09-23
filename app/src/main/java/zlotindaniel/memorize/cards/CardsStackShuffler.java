@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.data;
+package zlotindaniel.memorize.cards;
 
 import java.util.Stack;
 

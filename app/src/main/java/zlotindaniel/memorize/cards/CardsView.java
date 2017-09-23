@@ -1,4 +1,4 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.cards;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -6,26 +6,24 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import zlotindaniel.memorize.MemorizeInteractor.Display;
-
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-public class MemorizeView extends RelativeLayout implements Display {
+public class CardsView extends RelativeLayout implements CardsInteractor.Display {
 	private TextView title;
 	private TextView textView;
 	private ProgressBar progressBar;
 
-	public MemorizeView(Context context) {
+	public CardsView(Context context) {
 		super(context);
 		int pad = (int) (getResources().getDisplayMetrics().density * 30);
 		setPadding(pad, pad, pad, pad);
-		initProgress(context);
-		initText(context);
-		initTitle(context);
+		initProgress();
+		initText();
+		initTitle();
 	}
 
-	private void initProgress(Context context) {
-		progressBar = new ProgressBar(context);
+	private void initProgress() {
+		progressBar = new ProgressBar(getContext());
 		progressBar.setIndeterminate(true);
 		progressBar.setVisibility(GONE);
 		progressBar.setId(generateViewId());
@@ -34,8 +32,8 @@ public class MemorizeView extends RelativeLayout implements Display {
 		addView(progressBar, params);
 	}
 
-	private void initText(Context context) {
-		textView = new TextView(context);
+	private void initText() {
+		textView = new TextView(getContext());
 		textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
 		textView.setVisibility(GONE);
 		textView.setMaxLines(10);
@@ -45,8 +43,8 @@ public class MemorizeView extends RelativeLayout implements Display {
 		addView(textView, params);
 	}
 
-	private void initTitle(Context context) {
-		title = new TextView(context);
+	private void initTitle() {
+		title = new TextView(getContext());
 		title.setVisibility(GONE);
 		title.setText("What is:");
 		title.setSingleLine();

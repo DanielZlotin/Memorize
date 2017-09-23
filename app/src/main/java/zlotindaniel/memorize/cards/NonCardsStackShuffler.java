@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.data;
+package zlotindaniel.memorize.cards;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,7 +10,7 @@ public class NonCardsStackShuffler implements CardsStackShuffler {
 		Collections.sort(cards, new Comparator<Card>() {
 			@Override
 			public int compare(Card o1, Card o2) {
-				return o2.getPhrase().compareToIgnoreCase(o1.getPhrase());
+				return o2.phrase.compareToIgnoreCase(o1.phrase);
 			}
 		});
 	}

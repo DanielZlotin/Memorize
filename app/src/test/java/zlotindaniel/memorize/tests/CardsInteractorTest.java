@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.MemorizeInteractor;
-import zlotindaniel.memorize.data.NonCardsStackShuffler;
-import zlotindaniel.memorize.data.CardsStackShuffler;
-import zlotindaniel.memorize.data.DefaultCardsStackShuffler;
+import zlotindaniel.memorize.cards.CardsInteractor;
+import zlotindaniel.memorize.cards.NonCardsStackShuffler;
+import zlotindaniel.memorize.cards.CardsStackShuffler;
+import zlotindaniel.memorize.cards.DefaultCardsStackShuffler;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.mocks.TestDataLoader;
@@ -24,8 +24,8 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
-public class MemorizeInteractorTest extends BaseTest {
-	private MemorizeInteractor uut;
+public class CardsInteractorTest extends BaseTest {
+	private CardsInteractor uut;
 	private TestDataLoader testDataLoader;
 	private TestDisplay testDisplay;
 	private CardsStackShuffler testShuffler;
@@ -35,7 +35,7 @@ public class MemorizeInteractorTest extends BaseTest {
 		testDataLoader = new TestDataLoader();
 		testDisplay = new TestDisplay();
 		testShuffler = new NonCardsStackShuffler();
-		uut = new MemorizeInteractor(testDisplay, testDataLoader, testShuffler);
+		uut = new CardsInteractor(testDisplay, testDataLoader, testShuffler);
 	}
 
 	@Test
@@ -135,7 +135,7 @@ public class MemorizeInteractorTest extends BaseTest {
 	@Test
 	public void errorOnLoad_ShowsAsError() throws Exception {
 		TestDataLoader mock = mock(TestDataLoader.class);
-		uut = new MemorizeInteractor(testDisplay, mock, testShuffler);
+		uut = new CardsInteractor(testDisplay, mock, testShuffler);
 		doThrow(new RuntimeException("Error during load")).when(mock).load((OnSuccess<Map<String, Object>>) any(), (OnFailure) any());
 		uut.start();
 		assertThat(testDisplay.error).isEqualTo("Error during load");
@@ -146,7 +146,7 @@ public class MemorizeInteractorTest extends BaseTest {
 		List<String> phrasesDisplayed = new ArrayList<>();
 		List<String> allPhrases = Arrays.asList("Phrase1", "Phrase2", "Phrase3");
 		for (int i = 0; i < 1e4; i++) {
-			uut = new MemorizeInteractor(testDisplay, testDataLoader, new DefaultCardsStackShuffler());
+			uut = new CardsInteractor(testDisplay, testDataLoader, new DefaultCardsStackShuffler());
 			testDataLoader.setNextSuccess("Phrase1", "Definition1",
 					"Phrase2", "Definition2",
 					"Phrase3", "Definition3");

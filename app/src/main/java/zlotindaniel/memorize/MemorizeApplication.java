@@ -2,11 +2,10 @@ package zlotindaniel.memorize;
 
 import android.app.Application;
 
-import zlotindaniel.memorize.data.DefaultCardsStackShuffler;
+import zlotindaniel.memorize.cards.DefaultCardsStackShuffler;
 import zlotindaniel.memorize.data.FirebaseDataLoader;
 
 public class MemorizeApplication extends Application {
-
 	private Config config;
 
 	@Override

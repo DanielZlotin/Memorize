@@ -1,13 +1,16 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.cards;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
-public class MemorizeActivity extends Activity {
+import zlotindaniel.memorize.Config;
+import zlotindaniel.memorize.MemorizeApplication;
 
-	private MemorizeView view;
-	private MemorizeInteractor interactor;
+public class CardsActivity extends Activity {
+
+	private CardsView view;
+	private CardsInteractor interactor;
 	private Config config;
 
 	@Override
@@ -15,8 +18,8 @@ public class MemorizeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		config = ((MemorizeApplication) getApplication()).getConfig();
 
-		view = new MemorizeView(this);
-		interactor = new MemorizeInteractor(view, config.dataLoader, config.cardsStackShuffler);
+		view = new CardsView(this);
+		interactor = new CardsInteractor(view, config.dataLoader, config.cardsStackShuffler);
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

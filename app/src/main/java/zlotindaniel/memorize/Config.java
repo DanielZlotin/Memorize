@@ -1,6 +1,6 @@
 package zlotindaniel.memorize;
 
-import zlotindaniel.memorize.data.CardsStackShuffler;
+import zlotindaniel.memorize.cards.CardsStackShuffler;
 import zlotindaniel.memorize.data.DataLoader;
 
 public final class Config {

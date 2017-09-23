@@ -4,13 +4,15 @@ import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiObject2;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import zlotindaniel.memorize.BaseE2ETest;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MemorizeE2ETest extends BaseE2ETest {
+@Ignore
+public class CardsActivityE2ETest extends BaseE2ETest {
 
 	@Test
 	public void _1_showPhrase1_Click_ShowDefinition1() throws Exception {
