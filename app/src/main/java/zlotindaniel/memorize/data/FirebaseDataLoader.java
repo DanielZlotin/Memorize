@@ -8,9 +8,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Map;
 
 public class FirebaseDataLoader implements DataLoader {
+	private final String root;
+	private final String topic;
+
+	public FirebaseDataLoader(final String root, final String topic) {
+		this.root = root;
+		this.topic = topic;
+	}
+
 	@Override
 	public void load(final OnSuccess<Map<String, Object>> onSuccess, final OnFailure onFailure) {
-		FirebaseDatabase.getInstance().getReference().getRoot().child("Production").child("RT").addListenerForSingleValueEvent(new ValueEventListener() {
+		FirebaseDatabase.getInstance().getReference().getRoot().child(root).child(topic).addListenerForSingleValueEvent(new ValueEventListener() {
 
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
