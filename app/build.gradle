@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply from: '../prepare-robolectric.gradle'
 
 project.ext.KEYSTORE_PASSWORD = project.hasProperty("pass") ? "$pass" : '';
 
@@ -60,13 +59,11 @@ dependencies {
 
     // unit tests
     testCompile 'junit:junit:4.12'
-//    testCompile 'org.robolectric:robolectric:3.3'
     testCompile 'org.assertj:assertj-core:2.5.0'
     testCompile 'org.mockito:mockito-core:2.7.5'
 
     // e2e
     androidTestCompile 'org.assertj:assertj-core:2.5.0'
-//    androidTestCompile 'com.android.support:support-annotations:23.0.0'
     androidTestCompile('com.android.support.test:runner:0.5') {
         exclude module: 'support-annotations'
     }
