@@ -24,6 +24,7 @@ public class CardsInteractor {
 		void endLoading();
 	}
 
+	private final String topic;
 	private final Display display;
 	private final DataLoader dataLoader;
 	private final CardsStackShuffler shuffler;
@@ -31,7 +32,8 @@ public class CardsInteractor {
 	private final CardsParser cardsParser = new CardsParser();
 	private Card currentCard;
 
-	public CardsInteractor(Display display, DataLoader dataLoader, CardsStackShuffler shuffler) {
+	public CardsInteractor(String topic, Display display, DataLoader dataLoader, CardsStackShuffler shuffler) {
+		this.topic = topic;
 		this.display = display;
 		this.dataLoader = dataLoader;
 		this.shuffler = shuffler;

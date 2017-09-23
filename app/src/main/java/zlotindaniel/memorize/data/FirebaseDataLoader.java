@@ -1,15 +1,11 @@
 package zlotindaniel.memorize.data;
 
-import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
-
-import zlotindaniel.memorize.MemorizeApplication;
 
 public class FirebaseDataLoader implements DataLoader {
 	private final String root;
@@ -22,18 +18,22 @@ public class FirebaseDataLoader implements DataLoader {
 
 	@Override
 	public void load(final OnSuccess<Map<String, Object>> onSuccess, final OnFailure onFailure) {
-		FirebaseDatabase.getInstance().getReference().getRoot().child(root).child(topic).addListenerForSingleValueEvent(new ValueEventListener() {
+		FirebaseDatabase.getInstance()
+				.getReference()
+				.getRoot()
+				.child(root)
+				.child(topic)
+				.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(DataSnapshot dataSnapshot) {
+						parseResult(dataSnapshot, onSuccess, onFailure);
+					}
 
-			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
-				parseResult(dataSnapshot, onSuccess, onFailure);
-			}
-
-			@Override
-			public void onCancelled(DatabaseError databaseError) {
-				onFailure.failure(databaseError.toException());
-			}
-		});
+					@Override
+					public void onCancelled(DatabaseError databaseError) {
+						onFailure.failure(databaseError.toException());
+					}
+				});
 	}
 
 	@SuppressWarnings("unchecked")

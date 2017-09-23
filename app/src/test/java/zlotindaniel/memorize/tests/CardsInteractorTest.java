@@ -10,9 +10,9 @@ import java.util.Map;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.cards.CardsInteractor;
-import zlotindaniel.memorize.cards.NonCardsStackShuffler;
 import zlotindaniel.memorize.cards.CardsStackShuffler;
 import zlotindaniel.memorize.cards.DefaultCardsStackShuffler;
+import zlotindaniel.memorize.cards.NonCardsStackShuffler;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.mocks.TestDataLoader;
@@ -35,7 +35,7 @@ public class CardsInteractorTest extends BaseTest {
 		testDataLoader = new TestDataLoader();
 		testDisplay = new TestDisplay();
 		testShuffler = new NonCardsStackShuffler();
-		uut = new CardsInteractor(testDisplay, testDataLoader, testShuffler);
+		uut = new CardsInteractor("Topic123", testDisplay, testDataLoader, testShuffler);
 	}
 
 	@Test
@@ -135,7 +135,7 @@ public class CardsInteractorTest extends BaseTest {
 	@Test
 	public void errorOnLoad_ShowsAsError() throws Exception {
 		TestDataLoader mock = mock(TestDataLoader.class);
-		uut = new CardsInteractor(testDisplay, mock, testShuffler);
+		uut = new CardsInteractor("Topic123", testDisplay, mock, testShuffler);
 		doThrow(new RuntimeException("Error during load")).when(mock).load((OnSuccess<Map<String, Object>>) any(), (OnFailure) any());
 		uut.start();
 		assertThat(testDisplay.error).isEqualTo("Error during load");
@@ -146,7 +146,7 @@ public class CardsInteractorTest extends BaseTest {
 		List<String> phrasesDisplayed = new ArrayList<>();
 		List<String> allPhrases = Arrays.asList("Phrase1", "Phrase2", "Phrase3");
 		for (int i = 0; i < 1e4; i++) {
-			uut = new CardsInteractor(testDisplay, testDataLoader, new DefaultCardsStackShuffler());
+			uut = new CardsInteractor("Topic123", testDisplay, testDataLoader, new DefaultCardsStackShuffler());
 			testDataLoader.setNextSuccess("Phrase1", "Definition1",
 					"Phrase2", "Definition2",
 					"Phrase3", "Definition3");

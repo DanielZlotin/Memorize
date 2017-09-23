@@ -23,7 +23,6 @@ public abstract class BaseE2ETest {
 	}
 
 	public void launchApp() throws Exception {
-		device().pressHome();
 		device().executeShellCommand("am start -n " + PACKAGE_NAME + "/.LaunchActivity");
 		device().waitForIdle();
 	}

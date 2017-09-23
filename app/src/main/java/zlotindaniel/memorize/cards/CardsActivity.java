@@ -8,6 +8,9 @@ import zlotindaniel.memorize.Config;
 import zlotindaniel.memorize.MemorizeApplication;
 
 public class CardsActivity extends Activity {
+	public static final String PARAM_TOPIC = "PARAM_TOPIC";
+
+	private String topic;
 
 	private CardsView view;
 	private CardsInteractor interactor;
@@ -18,8 +21,10 @@ public class CardsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		config = ((MemorizeApplication) getApplication()).getConfig();
 
+		topic = getIntent().getStringExtra(PARAM_TOPIC);
+
 		view = new CardsView(this);
-		interactor = new CardsInteractor(view, config.dataLoader, config.cardsStackShuffler);
+		interactor = new CardsInteractor(topic, view, config.dataLoader, config.cardsStackShuffler);
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
