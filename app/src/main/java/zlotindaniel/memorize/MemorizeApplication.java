@@ -11,7 +11,7 @@ public class MemorizeApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		config = new Config(new FirebaseDataLoader("Production", "RT"), new DefaultCardsStackShuffler());
+		config = new Config(new FirebaseDataLoader("Production"), new DefaultCardsStackShuffler());
 	}
 
 	public Config getConfig() {

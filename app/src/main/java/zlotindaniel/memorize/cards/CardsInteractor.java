@@ -7,6 +7,7 @@ import java.util.Stack;
 import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
+import zlotindaniel.memorize.data.TopicParser;
 
 public class CardsInteractor {
 
@@ -29,7 +30,7 @@ public class CardsInteractor {
 	private final DataLoader dataLoader;
 	private final CardsStackShuffler shuffler;
 	private final Stack<Card> cardStack = new Stack<>();
-	private final CardsParser cardsParser = new CardsParser();
+	private final TopicParser cardsParser = new TopicParser();
 	private Card currentCard;
 
 	public CardsInteractor(String topic, Display display, DataLoader dataLoader, CardsStackShuffler shuffler) {

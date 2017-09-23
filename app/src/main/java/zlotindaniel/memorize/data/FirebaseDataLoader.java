@@ -9,11 +9,9 @@ import java.util.Map;
 
 public class FirebaseDataLoader implements DataLoader {
 	private final String root;
-	private final String topic;
 
-	public FirebaseDataLoader(final String root, final String topic) {
+	public FirebaseDataLoader(final String root) {
 		this.root = root;
-		this.topic = topic;
 	}
 
 	@Override
@@ -22,11 +20,16 @@ public class FirebaseDataLoader implements DataLoader {
 				.getReference()
 				.getRoot()
 				.child(root)
-				.child(topic)
 				.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(DataSnapshot dataSnapshot) {
-						parseResult(dataSnapshot, onSuccess, onFailure);
+						try {
+							Map<String, Object> value = value(dataSnapshot);
+							onSuccess.success(value);
+						} catch (Exception e) {
+							e.printStackTrace();
+							onFailure.failure(e);
+						}
 					}
 
 					@Override
@@ -37,17 +40,10 @@ public class FirebaseDataLoader implements DataLoader {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void parseResult(DataSnapshot dataSnapshot, OnSuccess<Map<String, Object>> onSuccess, OnFailure onFailure) {
-		try {
-			Map<String, Object> result = (Map<String, Object>) dataSnapshot.getValue();
-			if (result == null) {
-				onFailure.failure(new RuntimeException("dataSnapshot.getValue is null!"));
-				return;
-			}
-			onSuccess.success(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			onFailure.failure(e);
-		}
+	private Map<String, Object> value(DataSnapshot dataSnapshot) {
+		Map<String, Object> result = (Map<String, Object>) dataSnapshot.getValue();
+		if (result == null)
+			throw new RuntimeException("dataSnapshot.getValue is null!");
+		return result;
 	}
 }

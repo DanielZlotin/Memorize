@@ -14,38 +14,40 @@ import java.util.List;
 
 import zlotindaniel.memorize.cards.CardsActivity;
 
-public class TopicsView extends LinearLayout {
+public class TopicsView extends LinearLayout implements AdapterView.OnItemClickListener, TopicsInteractor.Display {
 
+	private final List<Topic> topics = new ArrayList<>();
 	private ListView listView;
 	private TopicsAdapter adapter;
-	private List<Topic> topics;
 
 	public TopicsView(final Activity activity) {
 		super(activity);
-
-		topics = new ArrayList<>();
-		topics.add(new Topic("Topic1"));
-		topics.add(new Topic("Topic2"));
-
+		activity.setTitle("Select A Topic");
 		setOrientation(VERTICAL);
 		int pad = (int) (getResources().getDisplayMetrics().density * 8);
 		setPadding(pad, pad, pad, pad);
 		initList();
 	}
 
+	public void bind(List<Topic> data) {
+		topics.clear();
+		topics.addAll(data);
+		adapter.notifyDataSetChanged();
+	}
+
 	private void initList() {
 		listView = new ListView(getContext());
 		adapter = new TopicsAdapter();
 		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l) {
-				Intent intent = new Intent(getContext(), CardsActivity.class);
-				intent.putExtra(CardsActivity.PARAM_TOPIC, adapter.getItem(i).title);
-				getContext().startActivity(intent);
-			}
-		});
+		listView.setOnItemClickListener(this);
 		addView(listView);
+	}
+
+	@Override
+	public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l) {
+		Intent intent = new Intent(getContext(), CardsActivity.class);
+		intent.putExtra(CardsActivity.PARAM_TOPIC, adapter.getItem(i).title);
+		getContext().startActivity(intent);
 	}
 
 	private class TopicsAdapter extends BaseAdapter {

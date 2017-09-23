@@ -34,4 +34,8 @@ public abstract class BaseE2ETest {
 	public void assertExists(BySelector by) {
 		assertThat(device().wait(Until.hasObject(by), TIMEOUT)).isTrue();
 	}
+
+	public void assertDoesNotExists(BySelector by) {
+		assertThat(device().wait(Until.hasObject(by), 100)).isFalse();
+	}
 }
