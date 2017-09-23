@@ -10,9 +10,9 @@ import java.util.Map;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.MemorizeInteractor;
-import zlotindaniel.memorize.data.CardsStackNonShuffler;
+import zlotindaniel.memorize.data.NonCardsStackShuffler;
 import zlotindaniel.memorize.data.CardsStackShuffler;
-import zlotindaniel.memorize.data.CardsStackShufflerImpl;
+import zlotindaniel.memorize.data.DefaultCardsStackShuffler;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.mocks.TestDataLoader;
@@ -34,7 +34,7 @@ public class MemorizeInteractorTest extends BaseTest {
 	public void beforeEach() {
 		testDataLoader = new TestDataLoader();
 		testDisplay = new TestDisplay();
-		testShuffler = new CardsStackNonShuffler();
+		testShuffler = new NonCardsStackShuffler();
 		uut = new MemorizeInteractor(testDisplay, testDataLoader, testShuffler);
 	}
 
@@ -146,7 +146,7 @@ public class MemorizeInteractorTest extends BaseTest {
 		List<String> phrasesDisplayed = new ArrayList<>();
 		List<String> allPhrases = Arrays.asList("Phrase1", "Phrase2", "Phrase3");
 		for (int i = 0; i < 1e4; i++) {
-			uut = new MemorizeInteractor(testDisplay, testDataLoader, new CardsStackShufflerImpl());
+			uut = new MemorizeInteractor(testDisplay, testDataLoader, new DefaultCardsStackShuffler());
 			testDataLoader.setNextSuccess("Phrase1", "Definition1",
 					"Phrase2", "Definition2",
 					"Phrase3", "Definition3");

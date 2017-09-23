@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Stack;
 
-public class CardsStackNonShuffler implements CardsStackShuffler {
+public class NonCardsStackShuffler implements CardsStackShuffler {
 	@Override
 	public void shuffle(Stack<Card> cards) {
 		Collections.sort(cards, new Comparator<Card>() {
