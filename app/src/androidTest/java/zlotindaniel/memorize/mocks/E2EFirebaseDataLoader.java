@@ -14,7 +14,7 @@ import zlotindaniel.memorize.data.OnSuccess;
 public class E2EFirebaseDataLoader implements DataLoader {
 	@Override
 	public void load(final OnSuccess<Map<String, Object>> onSuccess, final OnFailure onFailure) {
-		FirebaseDatabase.getInstance().getReference().getRoot().child("Test").addListenerForSingleValueEvent(new ValueEventListener() {
+		FirebaseDatabase.getInstance().getReference().getRoot().child("Test").child("Topic1").addListenerForSingleValueEvent(new ValueEventListener() {
 
 			@SuppressWarnings("unchecked")
 			@Override
