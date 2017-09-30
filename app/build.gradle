@@ -75,10 +75,12 @@ dependencies {
     }
 }
 
-task unit(dependsOn: 'testDebugUnitTest') {}
+task unit(dependsOn: 'testDebugUnitTest') {
+    mustRunAfter 'clean'
+}
 task e2e(dependsOn: 'connectedDebugAndroidTest') {
     mustRunAfter 'unit'
 }
-task testAll(dependsOn: ['unit', 'e2e']) {}
+task all(dependsOn: ['clean', 'unit', 'e2e']) {}
 
 apply plugin: 'com.google.gms.google-services'
