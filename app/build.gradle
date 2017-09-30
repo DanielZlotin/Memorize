@@ -61,6 +61,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:2.5.0'
     testCompile 'org.mockito:mockito-core:2.7.5'
+    testCompile 'org.json:json:20140107'
 
     // e2e
     androidTestCompile 'org.assertj:assertj-core:2.5.0'
