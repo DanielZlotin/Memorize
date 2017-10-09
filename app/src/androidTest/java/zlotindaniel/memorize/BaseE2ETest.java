@@ -1,10 +1,9 @@
 package zlotindaniel.memorize;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.Until;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +11,10 @@ import org.junit.Rule;
 import org.junit.runner.RunWith;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public abstract class BaseE2ETest {
@@ -42,7 +44,11 @@ public abstract class BaseE2ETest {
 		return UiDevice.getInstance(getInstrumentation());
 	}
 
-	public void assertExists(BySelector by) {
-		assertThat(device().wait(Until.hasObject(by), TIMEOUT)).isTrue();
+	public void assertDisplayed(String txt) {
+		Espresso.onView(withText(txt)).check(matches(isDisplayed()));
+	}
+
+	public void clickOn(String txt) {
+		Espresso.onView(withText(txt)).perform(click());
 	}
 }
