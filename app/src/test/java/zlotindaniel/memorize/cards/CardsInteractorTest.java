@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.tests;
+package zlotindaniel.memorize.cards;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,11 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.cards.CardsInteractor;
+import zlotindaniel.memorize.data.Card;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.mocks.TestDataLoader;
-import zlotindaniel.memorize.mocks.TestDisplay;
 import zlotindaniel.memorize.shuffle.DefaultCardShuffler;
 import zlotindaniel.memorize.shuffle.ReverseSortingCardShuffler;
 import zlotindaniel.memorize.shuffle.Shuffler;
@@ -26,59 +25,63 @@ import static org.mockito.Mockito.mock;
 public class CardsInteractorTest extends BaseTest {
 	private CardsInteractor uut;
 	private TestDataLoader testDataLoader;
-	private TestDisplay testDisplay;
-	private Shuffler testShuffler;
+	private TestCardDisplay testDisplay;
+	private Shuffler<Card> testShuffler;
 
 	@Before
 	public void beforeEach() {
 		testDataLoader = new TestDataLoader();
-		testDisplay = new TestDisplay();
+		testDisplay = new TestCardDisplay();
 		testShuffler = new ReverseSortingCardShuffler();
 		uut = new CardsInteractor(testDisplay, testDataLoader, testShuffler);
 	}
 
 	@Test
 	public void start_LoadsData() throws Exception {
-		assertThat(testDisplay.loading).isFalse();
 		uut.start();
-		assertThat(testDisplay.loading).isTrue();
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Loading);
 	}
 
 	@Test
 	public void loadDataError_ShowError() throws Exception {
 		testDataLoader.setNextError(new RuntimeException("some error"));
 		uut.start();
-		assertThat(testDisplay.error).isEqualTo("some error");
-		assertThat(testDisplay.loading).isEqualTo(false);
+		assertThat(testDisplay.text).isEqualTo("some error");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Error);
 	}
 
 	@Test
 	public void loadDataSucess_ShowCardPhrase() throws Exception {
 		testDataLoader.setNextSuccess("the phrase", "the definition");
 		uut.start();
-		assertThat(testDisplay.loading).isFalse();
-		assertThat(testDisplay.phrase).isEqualTo("the phrase");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
+		assertThat(testDisplay.text).isEqualTo("the phrase");
 	}
 
 	@Test
 	public void loadDataSuccess_ShowPhrase_Click_ShowDefinition() throws Exception {
 		testDataLoader.setNextSuccess("the phrase", "the definition");
 		uut.start();
-		assertThat(testDisplay.phrase).isEqualTo("the phrase");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
+		assertThat(testDisplay.text).isEqualTo("the phrase");
 		uut.onClick();
-		assertThat(testDisplay.definition).isEqualTo("the definition");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Definition);
+		assertThat(testDisplay.text).isEqualTo("the definition");
 	}
 
 	@Test
 	public void onClickNotLoaded_DoesNothing() throws Exception {
 		uut.onClick();
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Error);
+		assertThat(testDisplay.text).isEqualTo("empty cards");
 	}
 
 	@Test
 	public void successWithEmptyListHandled() throws Exception {
 		testDataLoader.setNextSuccess();
 		uut.start();
-		assertThat(testDisplay.loading).isFalse();
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Error);
+		assertThat(testDisplay.text).isEqualTo("empty cards");
 	}
 
 	@Test
@@ -87,17 +90,23 @@ public class CardsInteractorTest extends BaseTest {
 				"Phrase2", "Definition2",
 				"Phrase3", "Definition3");
 		uut.start();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
+		assertThat(testDisplay.text).isEqualTo("Phrase1");
 		uut.onClick();
-		assertThat(testDisplay.definition).isEqualTo("Definition1");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Definition);
+		assertThat(testDisplay.text).isEqualTo("Definition1");
 		uut.onClick();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase2");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
+		assertThat(testDisplay.text).isEqualTo("Phrase2");
 		uut.onClick();
-		assertThat(testDisplay.definition).isEqualTo("Definition2");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Definition);
+		assertThat(testDisplay.text).isEqualTo("Definition2");
 		uut.onClick();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase3");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
+		assertThat(testDisplay.text).isEqualTo("Phrase3");
 		uut.onClick();
-		assertThat(testDisplay.definition).isEqualTo("Definition3");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Definition);
+		assertThat(testDisplay.text).isEqualTo("Definition3");
 	}
 
 	@Test
@@ -105,17 +114,17 @@ public class CardsInteractorTest extends BaseTest {
 		testDataLoader.setNextSuccess("Phrase1", "Definition1",
 				"Phrase2", "Definition2");
 		uut.start();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
+		assertThat(testDisplay.text).isEqualTo("Phrase1");
 		uut.onClick();
-		assertThat(testDisplay.definition).isEqualTo("Definition1");
+		assertThat(testDisplay.text).isEqualTo("Definition1");
 		uut.onClick();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase2");
+		assertThat(testDisplay.text).isEqualTo("Phrase2");
 		uut.onClick();
-		assertThat(testDisplay.definition).isEqualTo("Definition2");
+		assertThat(testDisplay.text).isEqualTo("Definition2");
 		uut.onClick();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
+		assertThat(testDisplay.text).isEqualTo("Phrase1");
 		uut.onClick();
-		assertThat(testDisplay.definition).isEqualTo("Definition1");
+		assertThat(testDisplay.text).isEqualTo("Definition1");
 	}
 
 	@Test
@@ -123,11 +132,15 @@ public class CardsInteractorTest extends BaseTest {
 		testDataLoader.setNextSuccess("Phrase1", "Definition1",
 				"Phrase2", "Definition2");
 		uut.start();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
+		assertThat(testDisplay.text).isEqualTo("Phrase1");
+
 		testDataLoader.setNextSuccess("Phrase1", "Definition1",
 				"Phrase2", "Definition2");
+
 		uut.start();
-		assertThat(testDisplay.phrase).isEqualTo("Phrase1");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
+		assertThat(testDisplay.text).isEqualTo("Phrase1");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -137,7 +150,8 @@ public class CardsInteractorTest extends BaseTest {
 		uut = new CardsInteractor(testDisplay, mock, testShuffler);
 		doThrow(new RuntimeException("Error during load")).when(mock).load(any(OnSuccess.class), (OnFailure) any());
 		uut.start();
-		assertThat(testDisplay.error).isEqualTo("Error during load");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Error);
+		assertThat(testDisplay.text).isEqualTo("Error during load");
 	}
 
 	@Test
@@ -150,7 +164,7 @@ public class CardsInteractorTest extends BaseTest {
 					"Phrase2", "Definition2",
 					"Phrase3", "Definition3");
 			uut.start();
-			phrasesDisplayed.add(testDisplay.phrase);
+			phrasesDisplayed.add(testDisplay.text);
 			if (phrasesDisplayed.containsAll(allPhrases)) {
 				return;
 			}

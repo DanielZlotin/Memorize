@@ -6,19 +6,18 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import zlotindaniel.memorize.cards.CardsInteractor.Display;
-
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static zlotindaniel.memorize.MemorizeApplication.dp;
 
-public class CardsView extends RelativeLayout implements Display {
+public class CardsView extends RelativeLayout implements CardsDisplay {
 	private TextView title;
 	private TextView textView;
 	private ProgressBar progressBar;
 
 	public CardsView(Context context) {
 		super(context);
-		int pad = (int) (getResources().getDisplayMetrics().density * 30);
-		setPadding(pad, pad, pad, pad);
+		int p = dp(context, 30);
+		setPadding(p, p, p, p);
 		initProgress(context);
 		initText(context);
 		initTitle(context);
@@ -58,34 +57,10 @@ public class CardsView extends RelativeLayout implements Display {
 	}
 
 	@Override
-	public void showPhrase(String phrase) {
-		title.setVisibility(VISIBLE);
-		textView.setText(phrase);
-	}
-
-	@Override
-	public void showDefinition(String definition) {
-		title.setVisibility(GONE);
-		textView.setText(definition);
-	}
-
-	@Override
-	public void showError(String text) {
-		title.setVisibility(GONE);
+	public void bind(final CardsPresentation presentation, final String text) {
+		progressBar.setVisibility(presentation.isProgressVisible() ? VISIBLE : GONE);
+		title.setVisibility(presentation.isTitleVisbile() ? VISIBLE : GONE);
+		textView.setVisibility(presentation.isTextVisible() ? VISIBLE : GONE);
 		textView.setText(text);
-	}
-
-	@Override
-	public void startLoading() {
-		title.setVisibility(GONE);
-		textView.setVisibility(GONE);
-		progressBar.setVisibility(VISIBLE);
-	}
-
-	@Override
-	public void endLoading() {
-		title.setVisibility(GONE);
-		textView.setVisibility(VISIBLE);
-		progressBar.setVisibility(GONE);
 	}
 }

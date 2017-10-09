@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.tests;
+package zlotindaniel.memorize;
 
 import org.junit.Test;
 

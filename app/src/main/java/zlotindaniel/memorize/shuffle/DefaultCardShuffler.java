@@ -7,7 +7,7 @@ import zlotindaniel.memorize.data.Card;
 
 public class DefaultCardShuffler implements Shuffler<Card> {
 	@Override
-	public <C extends List<Card>> void shuffle(final C objs) {
+	public void shuffle(final List<Card> objs) {
 		Collections.shuffle(objs);
 	}
 }

@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.tests;
+package zlotindaniel.memorize.data;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -12,9 +12,6 @@ import org.mockito.ArgumentCaptor;
 import java.util.Map;
 
 import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.data.FirebaseDataHandler;
-import zlotindaniel.memorize.data.OnFailure;
-import zlotindaniel.memorize.data.OnSuccess;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,6 +30,7 @@ public class FirebaseDataHandlerTest extends BaseTest {
 	private OnFailure onFailure;
 	private DataSnapshot dataSnapshot;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void beforeEach() {
 		super.beforeEach();

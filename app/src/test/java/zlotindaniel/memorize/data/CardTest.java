@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.tests;
+package zlotindaniel.memorize.data;
 
 import org.json.JSONObject;
 import org.junit.Test;

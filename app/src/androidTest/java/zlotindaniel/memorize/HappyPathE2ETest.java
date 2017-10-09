@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.tests;
+package zlotindaniel.memorize;
 
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.Until;

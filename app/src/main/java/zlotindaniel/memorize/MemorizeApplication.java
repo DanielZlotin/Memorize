@@ -1,6 +1,7 @@
 package zlotindaniel.memorize;
 
 import android.app.Application;
+import android.content.Context;
 
 import zlotindaniel.memorize.data.FirebaseDataLoader;
 import zlotindaniel.memorize.shuffle.DefaultCardShuffler;
@@ -23,5 +24,9 @@ public class MemorizeApplication extends Application {
 
 	public final Config getConfig() {
 		return config;
+	}
+
+	public static int dp(Context context, float px) {
+		return (int) (context.getResources().getDisplayMetrics().density * px);
 	}
 }
