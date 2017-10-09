@@ -9,7 +9,7 @@ import zlotindaniel.memorize.data.Card;
 public class ReverseSortingCardShuffler implements Shuffler<Card> {
 
 	@Override
-	public void shuffle(final List<Card> objs) {
+	public <C extends List<Card>> void shuffle(final C objs) {
 		Collections.sort(objs, new Comparator<Card>() {
 			@Override
 			public int compare(Card o1, Card o2) {

@@ -6,17 +6,16 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.cards.CardsInteractor;
-import zlotindaniel.memorize.shuffle.ReverseSortingCardShuffler;
-import zlotindaniel.memorize.shuffle.Shuffler;
-import zlotindaniel.memorize.shuffle.DefaultCardShuffler;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.mocks.TestDataLoader;
 import zlotindaniel.memorize.mocks.TestDisplay;
+import zlotindaniel.memorize.shuffle.DefaultCardShuffler;
+import zlotindaniel.memorize.shuffle.ReverseSortingCardShuffler;
+import zlotindaniel.memorize.shuffle.Shuffler;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.fail;
@@ -136,7 +135,7 @@ public class CardsInteractorTest extends BaseTest {
 	public void errorOnLoad_ShowsAsError() throws Exception {
 		TestDataLoader mock = mock(TestDataLoader.class);
 		uut = new CardsInteractor(testDisplay, mock, testShuffler);
-		doThrow(new RuntimeException("Error during load")).when(mock).load((OnSuccess<Map<String, Object>>) any(), (OnFailure) any());
+		doThrow(new RuntimeException("Error during load")).when(mock).load(any(OnSuccess.class), (OnFailure) any());
 		uut.start();
 		assertThat(testDisplay.error).isEqualTo("Error during load");
 	}

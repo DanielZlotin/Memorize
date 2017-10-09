@@ -1,24 +1,28 @@
 package zlotindaniel.memorize.mocks;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 
 public class TestDataLoader implements DataLoader {
-	private Map<String, Object> nextSuccess;
+	private JSONObject nextSuccess;
 	private Exception nextError;
 
-	public void setNextSuccess(Map<String, Object> nextSuccess) {
+	public void setNextSuccess(JSONObject nextSuccess) {
 		this.nextSuccess = nextSuccess;
 	}
 
 	public void setNextSuccess(String... keysAndValues) {
-		nextSuccess = new HashMap<>();
+		nextSuccess = new JSONObject();
 		for (int i = 0; i < keysAndValues.length; i += 2) {
-			nextSuccess.put(keysAndValues[i], keysAndValues[i + 1]);
+			try {
+				nextSuccess.put(keysAndValues[i], keysAndValues[i + 1]);
+			} catch (JSONException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
@@ -27,7 +31,7 @@ public class TestDataLoader implements DataLoader {
 	}
 
 	@Override
-	public void load(OnSuccess<Map<String, Object>> onSuccess, OnFailure onFailure) {
+	public void load(OnSuccess<JSONObject> onSuccess, OnFailure onFailure) {
 		if (nextSuccess != null) {
 			onSuccess.success(nextSuccess);
 			nextSuccess = null;

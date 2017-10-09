@@ -1,14 +1,17 @@
 package zlotindaniel.memorize.data;
 
+import com.google.common.collect.Lists;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CardsParser {
-	public List<Card> parse(Map<String, Object> source) {
+	public List<Card> parse(JSONObject source) {
 		List<Card> result = new ArrayList<>();
-		for (String key : source.keySet()) {
-			Card card = Card.create(key, (String) source.get(key));
+		for (String key : Lists.newArrayList(source.keys())) {
+			Card card = Card.create(key, source.optString(key));
 			result.add(card);
 		}
 		return result;

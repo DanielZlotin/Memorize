@@ -1,7 +1,7 @@
 package zlotindaniel.memorize.data;
 
-import java.util.Map;
+import org.json.JSONObject;
 
 public interface DataLoader {
-	void load(OnSuccess<Map<String, Object>> onSuccess, OnFailure onFailure);
+	void load(OnSuccess<JSONObject> onSuccess, OnFailure onFailure);
 }

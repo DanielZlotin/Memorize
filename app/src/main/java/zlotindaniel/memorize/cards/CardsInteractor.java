@@ -1,15 +1,16 @@
 package zlotindaniel.memorize.cards;
 
+import org.json.JSONObject;
+
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import zlotindaniel.memorize.data.Card;
 import zlotindaniel.memorize.data.CardsParser;
-import zlotindaniel.memorize.shuffle.Shuffler;
 import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
+import zlotindaniel.memorize.shuffle.Shuffler;
 
 public class CardsInteractor {
 
@@ -43,10 +44,10 @@ public class CardsInteractor {
 	public void start() {
 		display.startLoading();
 		try {
-			dataLoader.load(new OnSuccess<Map<String, Object>>() {
+			dataLoader.load(new OnSuccess<JSONObject>() {
 				@Override
-				public void success(Map<String, Object> stringObjectMap) {
-					loadingSuccess(stringObjectMap);
+				public void success(JSONObject json) {
+					loadingSuccess(json);
 				}
 			}, new OnFailure() {
 				@Override
@@ -63,7 +64,7 @@ public class CardsInteractor {
 		showNext();
 	}
 
-	private void loadingSuccess(Map<String, Object> payload) {
+	private void loadingSuccess(JSONObject payload) {
 		this.loadedCards = cardsParser.parse(payload);
 		currentCard = null;
 		cardStack.clear();
