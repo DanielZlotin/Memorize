@@ -3,8 +3,9 @@ package zlotindaniel.memorize;
 import android.app.Application;
 import android.content.Context;
 
+import zlotindaniel.memorize.data.Card;
 import zlotindaniel.memorize.data.FirebaseDataLoader;
-import zlotindaniel.memorize.shuffle.DefaultCardShuffler;
+import zlotindaniel.memorize.shuffle.DefaultShuffler;
 
 public class MemorizeApplication extends Application {
 
@@ -18,7 +19,7 @@ public class MemorizeApplication extends Application {
 	public Config createConfig() {
 		return new Config(
 				new FirebaseDataLoader("Production", "RT"),
-				new DefaultCardShuffler()
+				new DefaultShuffler<Card>()
 		);
 	}
 

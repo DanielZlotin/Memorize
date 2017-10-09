@@ -12,9 +12,9 @@ import zlotindaniel.memorize.data.Card;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.mocks.TestDataLoader;
-import zlotindaniel.memorize.shuffle.DefaultCardShuffler;
-import zlotindaniel.memorize.shuffle.ReverseSortingCardShuffler;
+import zlotindaniel.memorize.shuffle.DefaultShuffler;
 import zlotindaniel.memorize.shuffle.Shuffler;
+import zlotindaniel.memorize.shuffle.TestShuffler;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.fail;
@@ -32,7 +32,7 @@ public class CardsInteractorTest extends BaseTest {
 	public void beforeEach() {
 		testDataLoader = new TestDataLoader();
 		testDisplay = new TestCardDisplay();
-		testShuffler = new ReverseSortingCardShuffler();
+		testShuffler = new TestShuffler<>();
 		uut = new CardsInteractor(testDisplay, testDataLoader, testShuffler);
 	}
 
@@ -159,7 +159,7 @@ public class CardsInteractorTest extends BaseTest {
 		List<String> phrasesDisplayed = new ArrayList<>();
 		List<String> allPhrases = Arrays.asList("Phrase1", "Phrase2", "Phrase3");
 		for (int i = 0; i < 1e4; i++) {
-			uut = new CardsInteractor(testDisplay, testDataLoader, new DefaultCardShuffler());
+			uut = new CardsInteractor(testDisplay, testDataLoader, new DefaultShuffler<Card>());
 			testDataLoader.setNextSuccess("Phrase1", "Definition1",
 					"Phrase2", "Definition2",
 					"Phrase3", "Definition3");
