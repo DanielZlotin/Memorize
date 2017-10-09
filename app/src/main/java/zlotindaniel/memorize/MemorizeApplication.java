@@ -3,7 +3,7 @@ package zlotindaniel.memorize;
 import android.app.Application;
 import android.content.Context;
 
-import zlotindaniel.memorize.data.FirebaseDataLoader;
+import zlotindaniel.memorize.extern.FirebaseDataLoader;
 import zlotindaniel.memorize.shuffle.DefaultShuffler;
 
 public class MemorizeApplication extends Application {

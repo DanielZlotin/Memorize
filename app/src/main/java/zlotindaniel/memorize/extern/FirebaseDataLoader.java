@@ -1,8 +1,13 @@
-package zlotindaniel.memorize.data;
+package zlotindaniel.memorize.extern;
 
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONObject;
+
+import zlotindaniel.memorize.data.DataLoader;
+import zlotindaniel.memorize.data.FirebaseDataHandler;
+import zlotindaniel.memorize.data.OnFailure;
+import zlotindaniel.memorize.data.OnSuccess;
 
 public class FirebaseDataLoader implements DataLoader {
 	private final String root;

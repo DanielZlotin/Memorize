@@ -16,7 +16,7 @@
         </activity>
 
         <activity
-            android:name=".cards.CardsActivity"
+            android:name=".extern.cards.CardsActivity"
             android:exported="false"/>
     </application>
 

@@ -1,10 +1,13 @@
-package zlotindaniel.memorize.cards;
+package zlotindaniel.memorize.extern.cards;
 
 import android.content.Context;
 import android.util.TypedValue;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import zlotindaniel.memorize.cards.CardsDisplay;
+import zlotindaniel.memorize.cards.CardsPresentation;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static zlotindaniel.memorize.MemorizeApplication.dp;

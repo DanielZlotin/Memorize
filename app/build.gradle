@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: '../jacoco.gradle'
 
 project.ext.KEYSTORE_PASSWORD = project.hasProperty("pass") ? "$pass" : '';
 
@@ -24,6 +25,9 @@ android {
         }
     }
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -77,7 +81,7 @@ dependencies {
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
 
-task unit(dependsOn: 'testDebugUnitTest') {
+task unit(dependsOn: 'testDebugUnitTestCoverage') {
     mustRunAfter 'clean'
 }
 task e2e(dependsOn: 'connectedDebugAndroidTest') {

@@ -1,9 +1,10 @@
-package zlotindaniel.memorize.cards;
+package zlotindaniel.memorize.extern.cards;
 
 import android.os.Bundle;
 import android.view.View;
 
 import zlotindaniel.memorize.BaseActivity;
+import zlotindaniel.memorize.cards.CardsInteractor;
 
 public class CardsActivity extends BaseActivity {
 

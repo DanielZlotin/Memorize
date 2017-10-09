@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import zlotindaniel.memorize.cards.CardsActivity;
+import zlotindaniel.memorize.extern.cards.CardsActivity;
 
 public class LaunchActivity extends BaseActivity {
 	@Override
