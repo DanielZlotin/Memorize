@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.data.Card;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.mocks.TestDataLoader;
@@ -26,13 +25,13 @@ public class CardsInteractorTest extends BaseTest {
 	private CardsInteractor uut;
 	private TestDataLoader testDataLoader;
 	private TestCardDisplay testDisplay;
-	private Shuffler<Card> testShuffler;
+	private Shuffler testShuffler;
 
 	@Before
 	public void beforeEach() {
 		testDataLoader = new TestDataLoader();
 		testDisplay = new TestCardDisplay();
-		testShuffler = new TestShuffler<>();
+		testShuffler = new TestShuffler();
 		uut = new CardsInteractor(testDisplay, testDataLoader, testShuffler);
 	}
 
@@ -159,7 +158,7 @@ public class CardsInteractorTest extends BaseTest {
 		List<String> phrasesDisplayed = new ArrayList<>();
 		List<String> allPhrases = Arrays.asList("Phrase1", "Phrase2", "Phrase3");
 		for (int i = 0; i < 1e4; i++) {
-			uut = new CardsInteractor(testDisplay, testDataLoader, new DefaultShuffler<Card>());
+			uut = new CardsInteractor(testDisplay, testDataLoader, new DefaultShuffler());
 			testDataLoader.setNextSuccess("Phrase1", "Definition1",
 					"Phrase2", "Definition2",
 					"Phrase3", "Definition3");

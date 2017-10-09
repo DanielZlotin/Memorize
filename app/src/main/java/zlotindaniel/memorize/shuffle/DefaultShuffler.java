@@ -3,9 +3,9 @@ package zlotindaniel.memorize.shuffle;
 import java.util.Collections;
 import java.util.List;
 
-public class DefaultShuffler<T> implements Shuffler<T> {
+public class DefaultShuffler implements Shuffler {
 	@Override
-	public void shuffle(final List<T> objs) {
+	public <T> void shuffle(final List<T> objs) {
 		Collections.shuffle(objs);
 	}
 }

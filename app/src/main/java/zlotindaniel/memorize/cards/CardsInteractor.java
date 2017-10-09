@@ -21,12 +21,12 @@ public class CardsInteractor {
 
 	private final CardsDisplay display;
 	private final DataLoader dataLoader;
-	private final Shuffler<Card> shuffler;
+	private final Shuffler shuffler;
 	private final Stack<Card> cardStack = new Stack<>();
 	private final CardsParser cardsParser = new CardsParser();
 	private Card currentCard;
 
-	public CardsInteractor(CardsDisplay display, DataLoader dataLoader, Shuffler<Card> shuffler) {
+	public CardsInteractor(CardsDisplay display, DataLoader dataLoader, Shuffler shuffler) {
 		this.display = display;
 		this.dataLoader = dataLoader;
 		this.shuffler = shuffler;

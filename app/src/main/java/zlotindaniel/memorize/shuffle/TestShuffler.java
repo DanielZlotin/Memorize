@@ -5,9 +5,9 @@ import com.google.common.collect.Ordering;
 import java.util.Collections;
 import java.util.List;
 
-public class TestShuffler<T> implements Shuffler<T> {
+public class TestShuffler implements Shuffler {
 	@Override
-	public void shuffle(final List<T> objs) {
+	public <T> void shuffle(final List<T> objs) {
 		Collections.sort(objs, Ordering.usingToString().reverse());
 	}
 }

@@ -7,8 +7,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import zlotindaniel.memorize.BaseE2ETest;
-
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class HappyPathE2ETest extends BaseE2ETest {
 
