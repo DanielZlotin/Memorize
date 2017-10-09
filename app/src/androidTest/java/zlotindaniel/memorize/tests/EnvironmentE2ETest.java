@@ -1,7 +1,5 @@
 package zlotindaniel.memorize.tests;
 
-import android.content.Context;
-
 import org.junit.Test;
 
 import zlotindaniel.memorize.BaseE2ETest;
@@ -15,8 +13,7 @@ public class EnvironmentE2ETest extends BaseE2ETest {
 
 	@Test
 	public void useAppContext() throws Exception {
-		Context appContext = getInstrumentation().getTargetContext();
-		assertThat(appContext.getPackageName()).isEqualTo("zlotindaniel.memorize");
+		assertThat(getInstrumentation().getTargetContext().getPackageName()).isEqualTo(PACKAGE_NAME).isEqualTo("zlotindaniel.memorize");
 	}
 
 	@Test
