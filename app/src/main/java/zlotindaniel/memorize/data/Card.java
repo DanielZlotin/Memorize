@@ -1,19 +1,32 @@
 package zlotindaniel.memorize.data;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+
 import org.json.JSONObject;
 
-public class Card {
-	private String phrase;
-	private String definition;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-	public Card(String phrase, String definition) {
-		this.phrase = phrase;
-		this.definition = definition;
+public class Card {
+	private static final String PHRASE = "phrase";
+	private static final String DEFINITION = "definition";
+
+	public static Card fromJson(final JSONObject o) {
+		return Card.create(o.optString(PHRASE), o.optString(DEFINITION));
 	}
 
-	public Card(final JSONObject o) {
-		this(o.optString("phrase"),
-				o.optString("definition"));
+	public static Card create(String phrase, String definition) {
+		return new Card(
+				checkNotNull(Strings.emptyToNull(phrase)),
+				checkNotNull(Strings.emptyToNull(definition)));
+	}
+
+	private final String phrase;
+	private final String definition;
+
+	private Card(String phrase, String definition) {
+		this.phrase = phrase;
+		this.definition = definition;
 	}
 
 	public String getPhrase() {
@@ -26,36 +39,30 @@ public class Card {
 
 	@Override
 	public String toString() {
-		return "Card{" +
-				"phrase='" + phrase + '\'' +
-				", definition='" + definition + '\'' +
-				'}';
+		return toJson().toString();
 	}
 
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-
 		Card card = (Card) o;
 
-		if (!phrase.equals(card.phrase)) return false;
-		return definition.equals(card.definition);
+		return Objects.equal(phrase, card.phrase) &&
+				Objects.equal(definition, card.definition);
 
 	}
 
 	@Override
 	public int hashCode() {
-		int result = phrase.hashCode();
-		result = 31 * result + definition.hashCode();
-		return result;
+		return Objects.hashCode(phrase, definition);
 	}
 
 	public JSONObject toJson() {
 		JSONObject result = new JSONObject();
 		try {
-			result.putOpt("phrase", phrase);
-			result.putOpt("defintion", definition);
+			result.put("phrase", phrase);
+			result.put("definition", definition);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

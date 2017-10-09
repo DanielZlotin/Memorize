@@ -8,7 +8,8 @@ public class CardsParser {
 	public List<Card> parse(Map<String, Object> source) {
 		List<Card> result = new ArrayList<>();
 		for (String key : source.keySet()) {
-			result.add(new Card(key, (String) source.get(key)));
+			Card card = Card.create(key, (String) source.get(key));
+			result.add(card);
 		}
 		return result;
 	}

@@ -2,20 +2,26 @@ package zlotindaniel.memorize;
 
 import android.app.Application;
 
-import zlotindaniel.memorize.data.DefaultCardsStackShuffler;
 import zlotindaniel.memorize.data.FirebaseDataLoader;
+import zlotindaniel.memorize.shuffle.DefaultCardShuffler;
 
 public class MemorizeApplication extends Application {
 
-	private Config config;
+	private final Config config = createConfig();
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		config = new Config(new FirebaseDataLoader("Production", "RT"), new DefaultCardsStackShuffler());
 	}
 
-	public Config getConfig() {
+	public Config createConfig() {
+		return new Config(
+				new FirebaseDataLoader("Production", "RT"),
+				new DefaultCardShuffler()
+		);
+	}
+
+	public final Config getConfig() {
 		return config;
 	}
 }

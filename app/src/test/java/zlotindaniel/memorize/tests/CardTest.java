@@ -11,7 +11,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 public class CardTest extends BaseTest {
 	@Test
 	public void holdsPhraseAndDefinition() throws Exception {
-		Card card = new Card("hi", "ho");
+		Card card = Card.create("hi", "ho");
 		assertThat(card).isNotNull();
 		assertThat(card.getPhrase()).isEqualTo("hi");
 		assertThat(card.getDefinition()).isEqualTo("ho");
@@ -19,12 +19,16 @@ public class CardTest extends BaseTest {
 
 	@Test
 	public void stringRepresentation() throws Exception {
-		assertThat(new Card("hi", "ho").toString()).isEqualTo("Card{phrase='hi', definition='ho'}");
+		assertThat(Card.create("hi", "ho").toString()).isEqualTo("{\"phrase\":\"hi\",\"definition\":\"ho\"}");
 	}
 
 	@Test
-	public void dataStructure() throws Exception {
-		assertThat(new Card("a", "b")).isEqualTo(new Card("a", "b"));
+	public void valueType() throws Exception {
+		Card first = Card.create("a", "b");
+		Card second = Card.create("a", "b");
+		assertThat(first).isEqualTo(second);
+		assertThat(first.hashCode()).isEqualTo(second.hashCode());
+		assertThat(first.toString()).isEqualTo(second.toString());
 	}
 
 	@Test
@@ -32,7 +36,7 @@ public class CardTest extends BaseTest {
 		JSONObject o = new JSONObject();
 		o.put("phrase", "The phrase");
 		o.put("definition", "The definition");
-		assertThat(new Card(o)).isEqualTo(new Card("The phrase", "The definition"));
+		assertThat(Card.fromJson(o)).isEqualTo(Card.create("The phrase", "The definition"));
 	}
 
 	@Test
@@ -40,6 +44,17 @@ public class CardTest extends BaseTest {
 		JSONObject o = new JSONObject();
 		o.put("phrase", "The phrase");
 		o.put("definition", "The definition");
-		assertThat(new Card("The phrase", "The definition").toJson()).isEqualTo(o);
+		Card result = Card.create("The phrase", "The definition");
+		assertThat(result.toJson().toString()).isEqualTo(o.toString());
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void neverNullValues() throws Exception {
+		Card.create(null, null);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void neverEmptyValues() throws Exception {
+		Card.create("", "");
 	}
 }

@@ -10,28 +10,32 @@ import org.junit.runners.MethodSorters;
 import zlotindaniel.memorize.BaseE2ETest;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MemorizeE2ETest extends BaseE2ETest {
+public class HappyPathE2ETest extends BaseE2ETest {
 
 	@Test
-	public void _1_showPhrase1_Click_ShowDefinition1() throws Exception {
-		launchApp();
-
-		assertExists(By.text("Phrase1"));
-
-		device().findObject(By.text("Phrase1")).click();
-		assertExists(By.text("Definition1"));
-	}
-
-	@Test
-	public void _2_showPhrase1_ClickTwice_ShowPhrase2() throws Exception {
+	public void _1_HappyPath() throws Exception {
 		launchApp();
 
 		assertExists(By.text("Phrase1"));
 
 		UiObject2 parent = device().findObject(By.text("Phrase1")).getParent();
-		parent.click();
-		parent.click();
 
+		parent.click();
+		assertExists(By.text("Definition1"));
+
+		parent.click();
 		assertExists(By.text("Phrase2"));
+
+		parent.click();
+		assertExists(By.text("Definition2"));
+
+		parent.click();
+		assertExists(By.text("Phrase3"));
+
+		parent.click();
+		assertExists(By.text("Definition3"));
+
+		parent.click();
+		assertExists(By.text("Phrase1"));
 	}
 }

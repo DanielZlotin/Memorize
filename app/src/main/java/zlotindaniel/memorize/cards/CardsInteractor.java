@@ -1,4 +1,4 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.cards;
 
 import java.util.List;
 import java.util.Map;
@@ -6,12 +6,12 @@ import java.util.Stack;
 
 import zlotindaniel.memorize.data.Card;
 import zlotindaniel.memorize.data.CardsParser;
-import zlotindaniel.memorize.data.CardsStackShuffler;
+import zlotindaniel.memorize.shuffle.Shuffler;
 import zlotindaniel.memorize.data.DataLoader;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 
-public class MemorizeInteractor {
+public class CardsInteractor {
 
 	private List<Card> loadedCards;
 
@@ -29,12 +29,12 @@ public class MemorizeInteractor {
 
 	private final Display display;
 	private final DataLoader dataLoader;
-	private final CardsStackShuffler shuffler;
+	private final Shuffler shuffler;
 	private final Stack<Card> cardStack = new Stack<>();
 	private final CardsParser cardsParser = new CardsParser();
 	private Card currentCard;
 
-	public MemorizeInteractor(Display display, DataLoader dataLoader, CardsStackShuffler shuffler) {
+	public CardsInteractor(Display display, DataLoader dataLoader, Shuffler shuffler) {
 		this.display = display;
 		this.dataLoader = dataLoader;
 		this.shuffler = shuffler;

@@ -1,4 +1,4 @@
-package zlotindaniel.memorize;
+package zlotindaniel.memorize.cards;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -6,16 +6,16 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import zlotindaniel.memorize.MemorizeInteractor.Display;
+import zlotindaniel.memorize.cards.CardsInteractor.Display;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-public class MemorizeView extends RelativeLayout implements Display {
+public class CardsView extends RelativeLayout implements Display {
 	private TextView title;
 	private TextView textView;
 	private ProgressBar progressBar;
 
-	public MemorizeView(Context context) {
+	public CardsView(Context context) {
 		super(context);
 		int pad = (int) (getResources().getDisplayMetrics().density * 30);
 		setPadding(pad, pad, pad, pad);

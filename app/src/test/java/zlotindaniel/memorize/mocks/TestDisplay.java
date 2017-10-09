@@ -1,6 +1,6 @@
 package zlotindaniel.memorize.mocks;
 
-import zlotindaniel.memorize.MemorizeInteractor.Display;
+import zlotindaniel.memorize.cards.CardsInteractor.Display;
 
 public class TestDisplay implements Display {
 	public String phrase;
