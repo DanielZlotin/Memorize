@@ -8,11 +8,11 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-public class FirebaseDataHandler implements ValueEventListener {
+public class FirebaseToJson implements ValueEventListener {
 	private final OnSuccess<JSONObject> onSuccess;
 	private final OnFailure onFailure;
 
-	public FirebaseDataHandler(final OnSuccess<JSONObject> onSuccess, final OnFailure onFailure) {
+	public FirebaseToJson(final OnSuccess<JSONObject> onSuccess, final OnFailure onFailure) {
 		this.onSuccess = onSuccess;
 		this.onFailure = onFailure;
 	}

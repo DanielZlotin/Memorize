@@ -5,8 +5,6 @@ import com.google.common.base.Strings;
 
 import org.json.JSONObject;
 
-import zlotindaniel.memorize.extern.JsonUtils;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Card {
@@ -62,8 +60,8 @@ public class Card {
 
 	public JSONObject toJson() {
 		JSONObject result = new JSONObject();
-		JsonUtils.put(result, PHRASE, phrase);
-		JsonUtils.put(result, DEFINITION, definition);
+		Utils.jsonPut(result, PHRASE, phrase);
+		Utils.jsonPut(result, DEFINITION, definition);
 		return result;
 	}
 }

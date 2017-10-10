@@ -10,7 +10,7 @@ import java.util.List;
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
-import zlotindaniel.memorize.mocks.TestDataLoader;
+import zlotindaniel.memorize.data.TestDataLoader;
 import zlotindaniel.memorize.shuffle.DefaultShuffler;
 import zlotindaniel.memorize.shuffle.Shuffler;
 import zlotindaniel.memorize.shuffle.TestShuffler;
@@ -24,13 +24,13 @@ import static org.mockito.Mockito.mock;
 public class CardsInteractorTest extends BaseTest {
 	private CardsInteractor uut;
 	private TestDataLoader testDataLoader;
-	private TestCardDisplay testDisplay;
+	private TestCardsDisplay testDisplay;
 	private Shuffler testShuffler;
 
 	@Before
 	public void beforeEach() {
 		testDataLoader = new TestDataLoader();
-		testDisplay = new TestCardDisplay();
+		testDisplay = new TestCardsDisplay();
 		testShuffler = new TestShuffler();
 		uut = new CardsInteractor(testDisplay, testDataLoader, testShuffler);
 	}

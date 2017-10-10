@@ -1,6 +1,6 @@
 package zlotindaniel.memorize.cards;
 
-public class TestCardDisplay implements CardsDisplay {
+public class TestCardsDisplay implements CardsDisplay {
 	public CardsPresentation presentation;
 	public String text;
 

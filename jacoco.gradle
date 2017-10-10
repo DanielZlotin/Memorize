@@ -67,7 +67,7 @@ project.afterEvaluate {
                             throw new RuntimeException("\ncoverage is not 100%\n${msg}");
                         }
                     }
-                    println msg
+                    println "\n-= 100% =- Coverage!\n${msg}"
                 }
             }
         }

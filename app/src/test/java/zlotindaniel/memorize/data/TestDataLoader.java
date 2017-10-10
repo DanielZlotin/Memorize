@@ -1,11 +1,7 @@
-package zlotindaniel.memorize.mocks;
+package zlotindaniel.memorize.data;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import zlotindaniel.memorize.data.DataLoader;
-import zlotindaniel.memorize.data.OnFailure;
-import zlotindaniel.memorize.data.OnSuccess;
 
 public class TestDataLoader implements DataLoader {
 	private JSONObject nextSuccess;

@@ -5,7 +5,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.json.JSONObject;
 
 import zlotindaniel.memorize.data.DataLoader;
-import zlotindaniel.memorize.data.FirebaseDataHandler;
+import zlotindaniel.memorize.data.FirebaseToJson;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 
@@ -25,6 +25,6 @@ public class FirebaseDataLoader implements DataLoader {
 				.getRoot()
 				.child(root)
 				.child(topic)
-				.addListenerForSingleValueEvent(new FirebaseDataHandler(onSuccess, onFailure));
+				.addListenerForSingleValueEvent(new FirebaseToJson(onSuccess, onFailure));
 	}
 }
