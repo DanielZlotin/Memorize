@@ -7,6 +7,13 @@ import zlotindaniel.memorize.BaseTest;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class CardsPresentationTest extends BaseTest {
+
+	@Test
+	public void isEnum() throws Exception {
+		assertThat(CardsPresentation.valueOf("Loading")).isEqualTo(CardsPresentation.Loading);
+		assertThat(CardsPresentation.values()).hasSize(4);
+	}
+
 	@Test
 	public void progressVisibility() throws Exception {
 		assertThat(CardsPresentation.Loading.isProgressVisible()).isTrue();

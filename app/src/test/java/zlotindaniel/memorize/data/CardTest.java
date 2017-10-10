@@ -4,7 +4,6 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.data.Card;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -26,9 +25,14 @@ public class CardTest extends BaseTest {
 	public void valueType() throws Exception {
 		Card first = Card.create("a", "b");
 		Card second = Card.create("a", "b");
+		assertThat(first).isEqualTo(first);
 		assertThat(first).isEqualTo(second);
+		assertThat(first).isNotEqualTo(null);
+		assertThat(first).isNotEqualTo(new Object());
 		assertThat(first.hashCode()).isEqualTo(second.hashCode());
 		assertThat(first.toString()).isEqualTo(second.toString());
+		assertThat(first).isNotEqualTo(Card.create("a", "y"));
+		assertThat(first).isNotEqualTo(Card.create("x", "b"));
 	}
 
 	@Test
