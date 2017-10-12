@@ -1,32 +1,37 @@
 package zlotindaniel.memorize.data;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-
-import org.json.JSONObject;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Card {
-	private static final String PHRASE = "phrase";
-	private static final String DEFINITION = "definition";
+	private static final String NO_ID = "NO_ID";
 
-	public static Card fromJson(final JSONObject o) {
-		return Card.create(o.optString(PHRASE), o.optString(DEFINITION));
-	}
-
-	public static Card create(String phrase, String definition) {
+	public static Card create(String id, String phrase, String definition) {
 		return new Card(
+				MoreObjects.firstNonNull(Strings.emptyToNull(id), NO_ID),
 				checkNotNull(Strings.emptyToNull(phrase)),
 				checkNotNull(Strings.emptyToNull(definition)));
 	}
 
+	private final String id;
 	private final String phrase;
 	private final String definition;
 
-	private Card(String phrase, String definition) {
+	private Card(String id, String phrase, String definition) {
+		this.id = id;
 		this.phrase = phrase;
 		this.definition = definition;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public boolean hasId() {
+		return !Objects.equal(id, NO_ID);
 	}
 
 	public String getPhrase() {
@@ -38,30 +43,24 @@ public class Card {
 	}
 
 	@Override
-	public String toString() {
-		return toJson().toString();
-	}
-
-	@Override
 	public boolean equals(final Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Card card = (Card) o;
 
-		return Objects.equal(phrase, card.phrase) &&
+		return Objects.equal(id, card.id) &&
+				Objects.equal(phrase, card.phrase) &&
 				Objects.equal(definition, card.definition);
 
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(phrase, definition);
+		return Objects.hashCode(id, phrase, definition);
 	}
 
-	public JSONObject toJson() {
-		JSONObject result = new JSONObject();
-		Utils.jsonPut(result, PHRASE, phrase);
-		Utils.jsonPut(result, DEFINITION, definition);
-		return result;
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this).addValue(phrase).addValue(definition).toString();
 	}
 }

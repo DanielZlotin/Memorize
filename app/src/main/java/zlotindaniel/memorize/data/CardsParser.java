@@ -11,9 +11,12 @@ public class CardsParser {
 	public List<Card> parse(JSONObject source) {
 		List<Card> result = new ArrayList<>();
 
-		for (String key : Lists.newArrayList(source.keys())) {
-			JSONObject cardObj = source.optJSONObject(key);
-			Card card = Card.fromJson(cardObj);
+		for (String id : Lists.newArrayList(source.keys())) {
+			JSONObject cardObj = source.optJSONObject(id);
+			String phrase = cardObj.optString("phrase");
+			String definition = cardObj.optString("definition");
+
+			Card card = Card.create(id, phrase, definition);
 			result.add(card);
 		}
 
