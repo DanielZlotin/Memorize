@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
-import zlotindaniel.memorize.data.Topic;
+import zlotindaniel.memorize.topics.Topic;
 
 public class TopicsListAdapter extends BaseAdapter {
 	private List<Topic> data = Lists.newArrayList();

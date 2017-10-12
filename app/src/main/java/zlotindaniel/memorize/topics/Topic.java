@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.data;
+package zlotindaniel.memorize.topics;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -51,6 +51,6 @@ public class Topic {
 
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this).addValue(id).addValue(name).toString();
+		return MoreObjects.toStringHelper(this).addValue(name).toString();
 	}
 }

@@ -4,17 +4,16 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.data.Topic;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-public class TopicsParserTest extends BaseTest {
-	private TopicsParser uut;
+public class TopicsListParserTest extends BaseTest {
+	private TopicsListParser uut;
 
 	@Override
 	public void beforeEach() {
 		super.beforeEach();
-		uut = new TopicsParser();
+		uut = new TopicsListParser();
 	}
 
 	@Test
@@ -23,7 +22,7 @@ public class TopicsParserTest extends BaseTest {
 	}
 
 	@Test
-	public void parsesTopics() throws Exception {
+	public void parsesTopicsList() throws Exception {
 		JSONObject o = new JSONObject();
 		JSONObject topicObj1 = new JSONObject();
 		topicObj1.put("name", "the topic name 1");

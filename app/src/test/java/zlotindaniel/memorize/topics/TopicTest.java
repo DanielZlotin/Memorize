@@ -1,10 +1,11 @@
-package zlotindaniel.memorize.data;
+package zlotindaniel.memorize.topics;
 
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.EqualsHashCodeTheory;
+import zlotindaniel.memorize.topics.Topic;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

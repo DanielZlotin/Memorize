@@ -1,6 +1,8 @@
 package zlotindaniel.memorize.android.topics;
 
 import android.app.Activity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -8,7 +10,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import zlotindaniel.memorize.data.Topic;
+import zlotindaniel.memorize.data.OnSuccess;
+import zlotindaniel.memorize.topics.Topic;
 import zlotindaniel.memorize.topics.TopicsDisplay;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -51,13 +54,23 @@ public class TopicsView extends RelativeLayout implements TopicsDisplay {
 
 	@Override
 	public void bind(final List<Topic> topics) {
-		if (topics.isEmpty()) {
-			Toast.makeText(getContext(), "AGH! empty topics!", Toast.LENGTH_SHORT).show();
-			return;
-		}
-
 		progressBar.setVisibility(GONE);
 		listview.setVisibility(VISIBLE);
 		listAdapter.bind(topics);
+	}
+
+	@Override
+	public void bind(final String error) {
+		Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+		progressBar.setVisibility(GONE);
+	}
+
+	public void setOnTopicClick(final OnSuccess<Topic> onSuccess) {
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l) {
+				onSuccess.success(listAdapter.getItem(i));
+			}
+		});
 	}
 }

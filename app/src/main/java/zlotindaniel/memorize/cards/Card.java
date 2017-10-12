@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.data;
+package zlotindaniel.memorize.cards;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;

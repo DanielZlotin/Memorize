@@ -1,12 +1,10 @@
 package zlotindaniel.memorize.topics;
 
-import java.util.Collections;
 import java.util.List;
 
 import zlotindaniel.memorize.data.Loader;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
-import zlotindaniel.memorize.data.Topic;
 
 public class TopicsInteractor {
 
@@ -37,6 +35,6 @@ public class TopicsInteractor {
 	}
 
 	private void handleFailure(final Exception e) {
-		display.bind(Collections.<Topic>emptyList());
+		display.bind(e.getMessage());
 	}
 }

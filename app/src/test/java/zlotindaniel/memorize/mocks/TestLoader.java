@@ -16,7 +16,7 @@ public class TestLoader implements Loader {
 			T t = (T) nextSuccess;
 			request.onSuccess.success(t);
 			nextSuccess = null;
-		} else {
+		} else if (nextError != null) {
 			request.onFailure.failure(nextError);
 			nextError = null;
 		}

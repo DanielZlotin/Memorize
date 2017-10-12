@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import org.junit.Test;
 
 import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.data.Topic;
 import zlotindaniel.memorize.mocks.TestLoader;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -38,11 +37,11 @@ public class TopicsInteractorTest extends BaseTest {
 	}
 
 	@Test
-	public void start_failureDisplaysEmptyList() throws Exception {
-		loader.nextError(new RuntimeException());
+	public void start_failureDisplaysErrorMessage() throws Exception {
+		loader.nextError(new RuntimeException("The message"));
 
 		uut.start();
 
-		assertThat(testDisplay.topics).isEmpty();
+		assertThat(testDisplay.error).isEqualTo("The message");
 	}
 }

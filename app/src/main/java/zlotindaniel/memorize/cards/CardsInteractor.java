@@ -3,72 +3,62 @@ package zlotindaniel.memorize.cards;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-import org.json.JSONObject;
-
 import java.util.List;
 import java.util.Stack;
 
-import zlotindaniel.memorize.data.Card;
-import zlotindaniel.memorize.data.CardsParser;
-import zlotindaniel.memorize.data.DataLoader;
+import zlotindaniel.memorize.data.Loader;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.shuffle.Shuffler;
 
 public class CardsInteractor {
 
-	private List<Card> loadedCards = Lists.newArrayList();
-
 	private final CardsDisplay display;
-	private final DataLoader dataLoader;
+	private final Loader loader;
 	private final Shuffler shuffler;
 	private final Stack<Card> cardStack = new Stack<>();
-	private final CardsParser cardsParser = new CardsParser();
+	private List<Card> loadedCards = Lists.newArrayList();
 	private Card currentCard;
 
-	public CardsInteractor(CardsDisplay display, DataLoader dataLoader, Shuffler shuffler) {
+	public CardsInteractor(CardsDisplay display, Loader loader, Shuffler shuffler) {
 		this.display = display;
-		this.dataLoader = dataLoader;
+		this.loader = loader;
 		this.shuffler = shuffler;
 	}
 
 	public void start() {
 		display.bind(CardsPresentation.Loading, "");
-		try {
-			dataLoader.load(new OnSuccess<JSONObject>() {
-				@Override
-				public void success(JSONObject json) {
-					loadingSuccess(json);
-				}
-			}, new OnFailure() {
-				@Override
-				public void failure(Exception e) {
-					loadingFailure(e);
-				}
-			});
-		} catch (Exception e) {
-			loadingFailure(e);
-		}
+		loader.load(new CardsRequest(new OnSuccess<List<Card>>() {
+			@Override
+			public void success(final List<Card> cards) {
+				handleSuccess(cards);
+			}
+		}, new OnFailure() {
+			@Override
+			public void failure(final Exception e) {
+				handleFailure(e);
+			}
+		}));
 	}
 
 	public void onClick() {
 		showNext();
 	}
 
-	private void loadingSuccess(JSONObject payload) {
-		this.loadedCards = cardsParser.parse(payload);
+	private void handleSuccess(List<Card> result) {
+		this.loadedCards = result;
 		currentCard = null;
 		cardStack.clear();
 		showNext();
 	}
 
-	private void loadingFailure(Exception e) {
+	private void handleFailure(Exception e) {
 		display.bind(CardsPresentation.Error, e.getMessage());
 	}
 
 	private void showNext() {
 		if (Iterables.isEmpty(loadedCards)) {
-			loadingFailure(new RuntimeException("empty cards"));
+			handleFailure(new RuntimeException("empty cards"));
 			return;
 		}
 		if (cardStack.isEmpty()) {

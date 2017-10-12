@@ -7,6 +7,8 @@ import zlotindaniel.memorize.cards.CardsInteractor;
 
 public class CardsActivity extends BaseActivity {
 
+	public static final String INTENT_TOPIC_ID = "topicId";
+
 	private CardsView view;
 	private CardsInteractor interactor;
 

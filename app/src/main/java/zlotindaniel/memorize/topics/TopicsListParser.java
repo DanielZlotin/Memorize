@@ -8,15 +8,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import zlotindaniel.memorize.data.JsonParser;
-import zlotindaniel.memorize.data.Topic;
 
-public class TopicsParser implements JsonParser<List<Topic>> {
+public class TopicsListParser implements JsonParser<List<Topic>> {
 	@Override
 	public List<Topic> parse(final JSONObject o) {
 		List<Topic> result = Lists.newArrayList();
 		Iterator<String> keys = o.keys();
 		while (keys.hasNext()) {
 			String topicId = keys.next();
+
 			JSONObject topicObj = o.optJSONObject(topicId);
 			String name = topicObj.optString("name");
 
