@@ -3,7 +3,9 @@ package zlotindaniel.memorize;
 import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.Until;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,6 +17,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public abstract class BaseE2ETest {
@@ -50,5 +53,9 @@ public abstract class BaseE2ETest {
 
 	public void clickOn(String txt) {
 		Espresso.onView(withText(txt)).perform(click());
+	}
+
+	public void waitForText(String text) {
+		assertThat(device().wait(Until.hasObject(By.text(text)), TIMEOUT)).withFailMessage("%s is not visible", text).isTrue();
 	}
 }

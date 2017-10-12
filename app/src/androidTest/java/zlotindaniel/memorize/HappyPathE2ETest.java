@@ -1,8 +1,5 @@
 package zlotindaniel.memorize;
 
-import android.support.test.uiautomator.By;
-import android.support.test.uiautomator.Until;
-
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -14,18 +11,20 @@ import zlotindaniel.memorize.extern.cards.CardsView;
 public class HappyPathE2ETest extends BaseE2ETest {
 
 	@Test
-	@Ignore
 	public void showTopicsList() throws Exception {
 		launchApp();
+		waitForText("Select A Topic");
 
-		device().wait(Until.hasObject(By.text(CardsView.TITLE)), TIMEOUT);
+		assertDisplayed("Topic Name 1");
+		assertDisplayed("Topic Name 2");
+		assertDisplayed("Topic Name 3");
 	}
 
+	@Ignore
 	@Test
 	public void goThroughCardsInTopic1() throws Exception {
 		launchApp();
-
-		device().wait(Until.hasObject(By.text(CardsView.TITLE)), TIMEOUT);
+		waitForText(CardsView.TITLE);
 
 		assertDisplayed("Card Phrase 1");
 		clickOn("Card Phrase 1");
