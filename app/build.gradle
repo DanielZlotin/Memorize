@@ -11,8 +11,8 @@ android {
         applicationId "zlotindaniel.memorize"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.1.0"
 
         testInstrumentationRunner "zlotindaniel.memorize.MemorizeE2ETestRunner"
     }
@@ -63,6 +63,7 @@ dependencies {
 
     compile 'com.google.firebase:firebase-core:11.4.2'
     compile 'com.google.firebase:firebase-database:11.4.2'
+    compile 'com.google.firebase:firebase-auth:11.4.2'
 
     compile 'com.google.guava:guava:23.1-android'
 
