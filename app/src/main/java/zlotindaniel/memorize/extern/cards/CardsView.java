@@ -23,13 +23,13 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 		super(context);
 		int p = dp(context, 30);
 		setPadding(p, p, p, p);
-		initProgress(context);
-		initText(context);
-		initTitle(context);
+		initProgress();
+		initText();
+		initTitle();
 	}
 
-	private void initProgress(Context context) {
-		progressBar = new ProgressBar(context);
+	private void initProgress() {
+		progressBar = new ProgressBar(getContext());
 		progressBar.setIndeterminate(true);
 		progressBar.setVisibility(GONE);
 		progressBar.setId(generateViewId());
@@ -38,8 +38,8 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 		addView(progressBar, params);
 	}
 
-	private void initText(Context context) {
-		textView = new TextView(context);
+	private void initText() {
+		textView = new TextView(getContext());
 		textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
 		textView.setVisibility(GONE);
 		textView.setMaxLines(10);
@@ -49,8 +49,8 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 		addView(textView, params);
 	}
 
-	private void initTitle(Context context) {
-		title = new TextView(context);
+	private void initTitle() {
+		title = new TextView(getContext());
 		title.setVisibility(GONE);
 		title.setText(TITLE);
 		title.setSingleLine();

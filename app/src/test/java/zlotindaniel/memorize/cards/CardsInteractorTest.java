@@ -1,6 +1,5 @@
 package zlotindaniel.memorize.cards;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -27,8 +26,9 @@ public class CardsInteractorTest extends BaseTest {
 	private TestCardsDisplay testDisplay;
 	private Shuffler testShuffler;
 
-	@Before
+	@Override
 	public void beforeEach() {
+		super.beforeEach();
 		testDataLoader = new TestDataLoader();
 		testDisplay = new TestCardsDisplay();
 		testShuffler = new TestShuffler();

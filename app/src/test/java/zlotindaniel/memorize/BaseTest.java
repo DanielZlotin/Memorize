@@ -3,6 +3,8 @@ package zlotindaniel.memorize;
 import org.junit.After;
 import org.junit.Before;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
+
 public abstract class BaseTest {
 
 	@Before
@@ -13,6 +15,16 @@ public abstract class BaseTest {
 	@After
 	public void afterEach() {
 
+	}
+
+	public void assertThrows(Runnable r) {
+		Exception err = null;
+		try {
+			r.run();
+		} catch (Exception e) {
+			err = e;
+		}
+		assertThat(err).isNotNull();
 	}
 }
 

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import zlotindaniel.memorize.extern.cards.CardsView;
+import zlotindaniel.memorize.extern.topics.TopicsView;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class HappyPathE2ETest extends BaseE2ETest {
@@ -13,7 +14,7 @@ public class HappyPathE2ETest extends BaseE2ETest {
 	@Test
 	public void showTopicsList() throws Exception {
 		launchApp();
-		waitForText("Select A Topic");
+		waitForText(TopicsView.TITLE);
 
 		assertDisplayed("Topic Name 1");
 		assertDisplayed("Topic Name 2");

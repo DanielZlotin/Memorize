@@ -16,6 +16,9 @@
         </activity>
 
         <activity
+            android:name=".extern.topics.TopicsActivity"
+            android:exported="false"/>
+        <activity
             android:name=".extern.cards.CardsActivity"
             android:exported="false"/>
     </application>

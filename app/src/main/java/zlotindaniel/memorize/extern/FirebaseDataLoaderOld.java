@@ -9,7 +9,7 @@ import zlotindaniel.memorize.data.FirebaseJsonResponseListener;
 import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 
-public class FirebaseDataLoader implements DataLoader {
+public class FirebaseDataLoaderOld implements DataLoader {
 	private static final String VERSION = "v1";
 	private static final String CATEGORY = "topics";
 	private static final String DIV = "cards";
@@ -17,7 +17,7 @@ public class FirebaseDataLoader implements DataLoader {
 	private final String env;
 	private final String topicId;
 
-	public FirebaseDataLoader(final String env, String topicId) {
+	public FirebaseDataLoaderOld(final String env, String topicId) {
 		this.env = env;
 		this.topicId = topicId;
 	}
