@@ -14,20 +14,20 @@ public class HappyPathE2ETest extends BaseE2ETest {
 	public void _1_HappyPath() throws Exception {
 		launchApp();
 
-		device().wait(Until.hasObject(By.text("Phrase1")), TIMEOUT);
+		device().wait(Until.hasObject(By.text("Card Phrase 1")), TIMEOUT);
 
-		assertDisplayed("Phrase1");
-		clickOn("Phrase1");
-		assertDisplayed("Definition1");
-		clickOn("Definition1");
-		assertDisplayed("Phrase2");
-		clickOn("Phrase2");
-		assertDisplayed("Definition2");
-		clickOn("Definition2");
-		assertDisplayed("Phrase3");
-		clickOn("Phrase3");
-		assertDisplayed("Definition3");
-		clickOn("Definition3");
-		assertDisplayed("Phrase1");
+		assertDisplayed("Card Phrase 1");
+		clickOn("Card Phrase 1");
+		assertDisplayed("Card Definition 1");
+		clickOn("Card Definition 1");
+		assertDisplayed("Card Phrase 2");
+		clickOn("Card Phrase 2");
+		assertDisplayed("Card Definition 2");
+		clickOn("Card Definition 2");
+		assertDisplayed("Card Phrase 3");
+		clickOn("Card Phrase 3");
+		assertDisplayed("Card Definition 3");
+		clickOn("Card Definition 3");
+		assertDisplayed("Card Phrase 1");
 	}
 }
