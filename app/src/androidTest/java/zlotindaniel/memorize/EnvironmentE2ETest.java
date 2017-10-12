@@ -2,10 +2,6 @@ package zlotindaniel.memorize;
 
 import org.junit.Test;
 
-import zlotindaniel.memorize.BaseE2ETest;
-import zlotindaniel.memorize.MemorizeApplication;
-import zlotindaniel.memorize.MemorizeE2EApplication;
-
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
