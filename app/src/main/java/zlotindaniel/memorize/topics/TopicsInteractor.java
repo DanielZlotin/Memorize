@@ -37,4 +37,5 @@ public class TopicsInteractor {
 	private void handleFailure(final Exception e) {
 		display.bind(e.getMessage());
 	}
+
 }

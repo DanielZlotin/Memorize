@@ -26,6 +26,12 @@ public class TopicsActivity extends BaseActivity {
 				pushTopicsCards(topic.getId());
 			}
 		});
+		view.setOnRefresh(new Runnable() {
+			@Override
+			public void run() {
+				interactor.start();
+			}
+		});
 
 		setContentView(view);
 
