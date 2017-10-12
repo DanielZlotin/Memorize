@@ -13,6 +13,8 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static zlotindaniel.memorize.MemorizeApplication.dp;
 
 public class CardsView extends RelativeLayout implements CardsDisplay {
+	public static final String TITLE = "What is:";
+
 	private TextView title;
 	private TextView textView;
 	private ProgressBar progressBar;
@@ -50,7 +52,7 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 	private void initTitle(Context context) {
 		title = new TextView(context);
 		title.setVisibility(GONE);
-		title.setText("What is:");
+		title.setText(TITLE);
 		title.setSingleLine();
 		title.setId(generateViewId());
 		LayoutParams params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
