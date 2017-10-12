@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.extern.topics;
+package zlotindaniel.memorize.android.topics;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

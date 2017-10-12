@@ -16,10 +16,10 @@
         </activity>
 
         <activity
-            android:name=".extern.topics.TopicsActivity"
+            android:name=".android.topics.TopicsActivity"
             android:exported="false"/>
         <activity
-            android:name=".extern.cards.CardsActivity"
+            android:name=".android.cards.CardsActivity"
             android:exported="false"/>
     </application>
 

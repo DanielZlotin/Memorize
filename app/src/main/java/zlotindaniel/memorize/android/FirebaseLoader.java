@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.extern;
+package zlotindaniel.memorize.android;
 
 import com.google.common.base.Joiner;
 import com.google.firebase.database.FirebaseDatabase;

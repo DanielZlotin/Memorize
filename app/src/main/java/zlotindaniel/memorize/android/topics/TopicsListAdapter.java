@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.extern.topics;
+package zlotindaniel.memorize.android.topics;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import zlotindaniel.memorize.data.Topic;
 
-class TopicsListAdapter extends BaseAdapter {
+public class TopicsListAdapter extends BaseAdapter {
 	private List<Topic> data = Lists.newArrayList();
 
 	@Override

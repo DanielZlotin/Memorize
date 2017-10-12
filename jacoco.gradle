@@ -38,7 +38,7 @@ project.afterEvaluate {
                                    '**/Manifest*.*',
 
                                    '**/zlotindaniel/memorize/*.*',
-                                   '**/zlotindaniel/memorize/extern/**/*.*',
+                                   '**/zlotindaniel/memorize/android/**/*.*',
                         ]
                 )
 

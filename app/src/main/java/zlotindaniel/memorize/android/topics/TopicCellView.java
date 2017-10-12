@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.extern.topics;
+package zlotindaniel.memorize.android.topics;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -11,7 +11,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static zlotindaniel.memorize.MemorizeApplication.dp;
 
-class TopicCellView extends LinearLayout {
+public class TopicCellView extends LinearLayout {
 	private TextView title;
 
 	public TopicCellView(final Context context) {

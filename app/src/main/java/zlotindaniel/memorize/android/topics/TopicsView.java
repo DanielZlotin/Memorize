@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.extern.topics;
+package zlotindaniel.memorize.android.topics;
 
 import android.app.Activity;
 import android.widget.ListView;

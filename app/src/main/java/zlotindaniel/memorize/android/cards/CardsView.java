@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.extern.cards;
+package zlotindaniel.memorize.android.cards;
 
 import android.content.Context;
 import android.util.TypedValue;
