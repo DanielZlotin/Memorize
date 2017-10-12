@@ -7,7 +7,7 @@ import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.data.Request;
 
 public class CardsRequest extends Request<List<Card>> {
-	public CardsRequest(final OnSuccess<List<Card>> onSuccess, final OnFailure onFailure) {
-		super("topics/cards", new CardsListParser(), onSuccess, onFailure);
+	public CardsRequest(String topicId, final OnSuccess<List<Card>> onSuccess, final OnFailure onFailure) {
+		super("topics/cards/" + topicId, new CardsListParser(), onSuccess, onFailure);
 	}
 }

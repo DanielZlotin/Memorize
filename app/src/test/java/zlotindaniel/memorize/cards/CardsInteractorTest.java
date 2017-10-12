@@ -24,7 +24,7 @@ public class CardsInteractorTest extends BaseTest {
 		loader = new TestLoader();
 		testDisplay = new TestCardsDisplay();
 		testShuffler = new TestShuffler();
-		uut = new CardsInteractor(testDisplay, loader, testShuffler);
+		uut = new CardsInteractor("someTopicId", testDisplay, loader, testShuffler);
 	}
 
 	@Test
@@ -37,7 +37,6 @@ public class CardsInteractorTest extends BaseTest {
 		};
 		uut.start();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Loading);
-
 	}
 
 	@Test
@@ -70,8 +69,6 @@ public class CardsInteractorTest extends BaseTest {
 	@Test
 	public void onClickNotLoaded_DoesNothing() throws Exception {
 		uut.onClick();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Error);
-		assertThat(testDisplay.text).isEqualTo("empty cards");
 	}
 
 	@Test

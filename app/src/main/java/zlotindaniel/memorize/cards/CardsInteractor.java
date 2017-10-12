@@ -1,6 +1,5 @@
 package zlotindaniel.memorize.cards;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -13,22 +12,25 @@ import zlotindaniel.memorize.shuffle.Shuffler;
 
 public class CardsInteractor {
 
+	private final String topicId;
 	private final CardsDisplay display;
 	private final Loader loader;
 	private final Shuffler shuffler;
+
 	private final Stack<Card> cardStack = new Stack<>();
 	private List<Card> loadedCards = Lists.newArrayList();
-	private Card currentCard;
+	private CardsPresentation presentation;
 
-	public CardsInteractor(CardsDisplay display, Loader loader, Shuffler shuffler) {
+	public CardsInteractor(String topicId, CardsDisplay display, Loader loader, Shuffler shuffler) {
+		this.topicId = topicId;
 		this.display = display;
 		this.loader = loader;
 		this.shuffler = shuffler;
 	}
 
 	public void start() {
-		display.bind(CardsPresentation.Loading, "");
-		loader.load(new CardsRequest(new OnSuccess<List<Card>>() {
+		display(CardsPresentation.Loading, "");
+		loader.load(new CardsRequest(topicId, new OnSuccess<List<Card>>() {
 			@Override
 			public void success(final List<Card> cards) {
 				handleSuccess(cards);
@@ -42,35 +44,39 @@ public class CardsInteractor {
 	}
 
 	public void onClick() {
-		showNext();
+		next();
 	}
 
 	private void handleSuccess(List<Card> result) {
 		this.loadedCards = result;
-		currentCard = null;
 		cardStack.clear();
-		showNext();
+		next();
 	}
 
 	private void handleFailure(Exception e) {
-		display.bind(CardsPresentation.Error, e.getMessage());
+		display(CardsPresentation.Error, e.getMessage());
 	}
 
-	private void showNext() {
-		if (Iterables.isEmpty(loadedCards)) {
+	private void next() {
+		if (loadedCards.isEmpty()) {
 			handleFailure(new RuntimeException("empty cards"));
 			return;
 		}
+
 		if (cardStack.isEmpty()) {
 			cardStack.addAll(loadedCards);
 			shuffler.shuffle(cardStack);
 		}
-		if (currentCard == null) {
-			currentCard = cardStack.pop();
-			display.bind(CardsPresentation.Phrase, currentCard.getPhrase());
+
+		if (presentation != CardsPresentation.Phrase) {
+			display(CardsPresentation.Phrase, cardStack.peek().getPhrase());
 		} else {
-			display.bind(CardsPresentation.Definition, currentCard.getDefinition());
-			currentCard = null;
+			display(CardsPresentation.Definition, cardStack.pop().getDefinition());
 		}
+	}
+
+	private void display(final CardsPresentation presentation, final String text) {
+		this.presentation = presentation;
+		display.bind(presentation, text);
 	}
 }
