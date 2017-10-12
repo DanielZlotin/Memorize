@@ -10,11 +10,14 @@ import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 
 public class FirebaseDataLoader implements DataLoader {
-	private final String root;
+	private static final String VERSION = "v1";
+	private static final String CATEGORY = "topics";
+
+	private final String env;
 	private final String topic;
 
-	public FirebaseDataLoader(final String root, final String topic) {
-		this.root = root;
+	public FirebaseDataLoader(final String env, final String topic) {
+		this.env = env;
 		this.topic = topic;
 	}
 
@@ -23,7 +26,9 @@ public class FirebaseDataLoader implements DataLoader {
 		FirebaseDatabase.getInstance()
 				.getReference()
 				.getRoot()
-				.child(root)
+				.child(VERSION)
+				.child(env)
+				.child(CATEGORY)
 				.child(topic)
 				.addListenerForSingleValueEvent(new FirebaseToJson(onSuccess, onFailure));
 	}
