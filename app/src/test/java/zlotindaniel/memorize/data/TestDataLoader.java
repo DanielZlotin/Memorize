@@ -1,24 +1,27 @@
 package zlotindaniel.memorize.data;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class TestDataLoader implements DataLoader {
 	private JSONObject nextSuccess;
 	private Exception nextError;
-
-	public void setNextSuccess(JSONObject nextSuccess) {
-		this.nextSuccess = nextSuccess;
-	}
+	private int rollingId = 1;
 
 	public void setNextSuccess(String... keysAndValues) {
 		nextSuccess = new JSONObject();
 		for (int i = 0; i < keysAndValues.length; i += 2) {
-			try {
-				nextSuccess.put(keysAndValues[i], keysAndValues[i + 1]);
-			} catch (JSONException e) {
-				throw new RuntimeException(e);
-			}
+			String phrase = keysAndValues[i];
+			String definition = keysAndValues[i + 1];
+
+
+			JSONObject cardObj = new JSONObject();
+			Utils.jsonPut(cardObj, "phrase", phrase);
+			Utils.jsonPut(cardObj, "definition", definition);
+
+			String cardId = String.valueOf(rollingId++);
+
+			Utils.jsonPut(nextSuccess, cardId, cardObj);
+
 		}
 	}
 

@@ -17,7 +17,7 @@ public class MemorizeApplication extends Application {
 
 	public Config createConfig() {
 		return new Config(
-				new FirebaseDataLoader("Production", "RT"),
+				new FirebaseDataLoader("production", "-KwCBrj0P9CUOgdCZotZ"),
 				new DefaultShuffler()
 		);
 	}

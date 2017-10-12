@@ -8,7 +8,7 @@ public class MemorizeE2EApplication extends MemorizeApplication {
 	@Override
 	public Config createConfig() {
 		return new Config(
-				new FirebaseDataLoader("Test", "Topic1"),
+				new FirebaseDataLoader("test", "-KwBDgfCOiGiqgduikxF"),
 				new TestShuffler()
 		);
 	}

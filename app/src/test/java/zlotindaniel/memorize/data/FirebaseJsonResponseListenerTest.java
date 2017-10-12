@@ -22,9 +22,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-public class FirebaseToJsonTest extends BaseTest {
+public class FirebaseJsonResponseListenerTest extends BaseTest {
 
-	private FirebaseToJson uut;
+	private FirebaseJsonResponseListener uut;
 	private OnSuccess<JSONObject> onSuccess;
 	private OnFailure onFailure;
 	private DataSnapshot dataSnapshot;
@@ -36,7 +36,7 @@ public class FirebaseToJsonTest extends BaseTest {
 		onSuccess = mock(OnSuccess.class);
 		onFailure = mock(OnFailure.class);
 		dataSnapshot = mock(DataSnapshot.class);
-		uut = new FirebaseToJson(onSuccess, onFailure);
+		uut = new FirebaseJsonResponseListener(onSuccess, onFailure);
 	}
 
 	@Test

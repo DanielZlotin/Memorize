@@ -12,7 +12,8 @@ public class CardsParser {
 		List<Card> result = new ArrayList<>();
 
 		for (String key : Lists.newArrayList(source.keys())) {
-			Card card = Card.create(key, source.optString(key));
+			JSONObject cardObj = source.optJSONObject(key);
+			Card card = Card.fromJson(cardObj);
 			result.add(card);
 		}
 
