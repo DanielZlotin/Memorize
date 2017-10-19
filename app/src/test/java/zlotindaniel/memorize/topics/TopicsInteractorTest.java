@@ -32,7 +32,8 @@ public class TopicsInteractorTest extends BaseTest {
 
 		uut.start();
 
-		assertThat(loader.lastRequest).isInstanceOf(TopicsRequest.class);
+		assertThat(loader.requests).hasSize(1);
+		assertThat(loader.requests.get(0)).isInstanceOf(TopicsRequest.class);
 		assertThat(testDisplay.topics).containsExactly(topic1, topic2, topic3);
 	}
 
@@ -43,5 +44,43 @@ public class TopicsInteractorTest extends BaseTest {
 		uut.start();
 
 		assertThat(testDisplay.error).isEqualTo("The message");
+	}
+
+	@Test
+	public void setListenersOnView() throws Exception {
+		uut.start();
+		assertThat(testDisplay.listener).isNotNull().isEqualTo(uut);
+	}
+
+	@Test
+	public void navigateToSelectedTopic() throws Exception {
+		uut.start();
+		uut.onTopicClicked(Topic.create("the topic id", "the name"));
+
+		assertThat(testDisplay.navigatedToTopics).containsExactly("the topic id");
+	}
+
+	@Test
+	public void onRefreshReloadsTheList() throws Exception {
+		uut.start();
+		assertThat(loader.requests).hasSize(1);
+		uut.onRefresh();
+		assertThat(loader.requests).hasSize(2);
+	}
+
+	@Test
+	public void avoidDoubleNavigate1PerSecond() throws Exception {
+		uut.start();
+		uut.onTopicClicked(Topic.create("theId1", "theName1"));
+		uut.onTopicClicked(Topic.create("theId2", "theName2"));
+		uut.onTopicClicked(Topic.create("theId3", "theName3"));
+		Thread.sleep(1000);
+		uut.onTopicClicked(Topic.create("theId4", "theName4"));
+		assertThat(testDisplay.navigatedToTopics).containsExactly("theId1");
+		Thread.sleep(1000);
+		uut.onTopicClicked(Topic.create("theId5", "theName5"));
+		assertThat(testDisplay.navigatedToTopics).containsExactly("theId1", "theId5");
+		uut.onTopicClicked(Topic.create("theId6", "theName6"));
+		assertThat(testDisplay.navigatedToTopics).containsExactly("theId1", "theId5");
 	}
 }

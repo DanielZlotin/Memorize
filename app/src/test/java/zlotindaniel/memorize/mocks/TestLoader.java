@@ -1,17 +1,21 @@
 package zlotindaniel.memorize.mocks;
 
+import com.google.common.collect.Lists;
+
+import java.util.List;
+
 import zlotindaniel.memorize.data.Loader;
 import zlotindaniel.memorize.data.Request;
 
 public class TestLoader implements Loader {
-	public Request<?> lastRequest;
+	public List<Request<?>> requests = Lists.newArrayList();
 	private Object nextSuccess;
 	private Exception nextError;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> void load(final Request<T> request) {
-		this.lastRequest = request;
+		requests.add(request);
 		if (nextSuccess != null) {
 			T t = (T) nextSuccess;
 			request.onSuccess.success(t);

@@ -1,6 +1,7 @@
 package zlotindaniel.memorize.android.topics;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,7 +11,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import zlotindaniel.memorize.data.OnSuccess;
+import zlotindaniel.memorize.android.cards.CardsActivity;
 import zlotindaniel.memorize.topics.Topic;
 import zlotindaniel.memorize.topics.TopicsDisplay;
 
@@ -46,6 +47,22 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 	}
 
 	@Override
+	public void setListener(final Listener listener) {
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l) {
+				listener.onTopicClicked(listAdapter.getItem(i));
+			}
+		});
+		pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				listener.onRefresh();
+			}
+		});
+	}
+
+	@Override
 	public void bind(final List<Topic> topics) {
 		pullToRefresh.setRefreshing(false);
 		listview.setVisibility(VISIBLE);
@@ -54,25 +71,15 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 
 	@Override
 	public void bind(final String error) {
-		Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
 		pullToRefresh.setRefreshing(false);
+		Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
 	}
 
-	public void setOnTopicClick(final OnSuccess<Topic> onSuccess) {
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l) {
-				onSuccess.success(listAdapter.getItem(i));
-			}
-		});
-	}
-
-	public void setOnRefresh(final Runnable onRefresh) {
-		pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-				onRefresh.run();
-			}
-		});
+	@Override
+	public void navigateShowTopic(final String topicId) {
+		Intent intent = new Intent(getContext(), CardsActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.putExtra(CardsActivity.INTENT_TOPIC_ID, topicId);
+		getContext().startActivity(intent);
 	}
 }

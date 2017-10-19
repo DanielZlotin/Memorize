@@ -21,7 +21,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public abstract class BaseE2ETest {
-	public static final long TIMEOUT = 10000;
+	public static final long TIMEOUT = 30000;
 	public static final String PACKAGE_NAME = getInstrumentation().getTargetContext().getPackageName();
 
 	@Rule

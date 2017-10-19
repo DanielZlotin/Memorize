@@ -12,6 +12,7 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		launchApp();
 		waitForText(TopicsView.TITLE);
 
+		waitForText("Topic Name 1");
 		assertDisplayed("Topic Name 1");
 		assertDisplayed("Topic Name 2");
 		assertDisplayed("Topic Name 3");
@@ -20,6 +21,7 @@ public class MemorizeE2ETest extends BaseE2ETest {
 
 		waitForText(CardsView.TITLE);
 
+		waitForText("Card Phrase 1");
 		assertDisplayed("Card Phrase 1");
 		clickOn("Card Phrase 1");
 		assertDisplayed("Card Definition 1");
