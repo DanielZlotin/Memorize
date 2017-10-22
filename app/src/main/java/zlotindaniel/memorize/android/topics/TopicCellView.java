@@ -2,6 +2,7 @@ package zlotindaniel.memorize.android.topics;
 
 import android.content.Context;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class TopicCellView extends LinearLayout {
 		int p = dp(context, 16);
 		setPadding(p, p, p, p);
 		setOrientation(HORIZONTAL);
+		setGravity(Gravity.CENTER);
 		initTitle();
 	}
 

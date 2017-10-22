@@ -1,7 +1,5 @@
 package zlotindaniel.memorize.topics;
 
-import com.google.common.util.concurrent.RateLimiter;
-
 import java.util.List;
 
 import zlotindaniel.memorize.data.Loader;
@@ -12,13 +10,11 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 
 	private final TopicsDisplay display;
 	private final Loader loader;
-	private final RateLimiter limiter;
 
 
 	public TopicsInteractor(TopicsDisplay display, Loader loader) {
 		this.display = display;
 		this.loader = loader;
-		this.limiter = RateLimiter.create(0.5);
 	}
 
 	public void start() {
@@ -42,9 +38,12 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 
 	@Override
 	public void onTopicClicked(final Topic topic) {
-		if (limiter.tryAcquire()) {
-			display.navigateShowTopic(topic.getId());
-		}
+		display.navigateShowTopic(topic.getId());
+	}
+
+	@Override
+	public void onTopicEditClicked(final Topic topic) {
+		display.navigateEditTopic(topic.getId());
 	}
 
 	@Override

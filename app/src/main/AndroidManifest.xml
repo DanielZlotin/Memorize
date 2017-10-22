@@ -21,6 +21,10 @@
         <activity
             android:name=".android.cards.CardsActivity"
             android:exported="false"/>
+        <activity
+            android:name=".android.edit.EditTopicsActivity"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

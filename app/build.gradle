@@ -86,12 +86,13 @@ dependencies {
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
 
-task unit(dependsOn: 'testDebugUnitTestCoverage') {
-    mustRunAfter 'clean'
-}
-task e2e(dependsOn: 'connectedDebugAndroidTest') {
-    mustRunAfter 'unit'
-}
+task unit(dependsOn: 'testDebugUnitTestCoverage') { mustRunAfter 'clean' }
+task e2e(dependsOn: 'connectedDebugAndroidTest') { mustRunAfter 'unit' }
 task all(dependsOn: ['clean', 'unit', 'e2e']) {}
+
+task start(dependsOn: 'installDebug', type: Exec) {
+    def cmd = "adb shell monkey -p ${android.defaultConfig.applicationId} 1";
+    commandLine cmd.split(" ");
+}
 
 apply plugin: 'com.google.gms.google-services'

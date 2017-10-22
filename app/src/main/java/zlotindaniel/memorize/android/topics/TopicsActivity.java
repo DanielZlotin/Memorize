@@ -1,7 +1,10 @@
 package zlotindaniel.memorize.android.topics;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import zlotindaniel.memorize.BaseActivity;
 import zlotindaniel.memorize.topics.TopicsInteractor;
@@ -19,5 +22,23 @@ public class TopicsActivity extends BaseActivity {
 		interactor = new TopicsInteractor(view, config.loader);
 
 		interactor.start();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		view.onCreateMenu(menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		view.onMenuItemClicked(item);
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		view.onActivityResult(requestCode, resultCode, data);
 	}
 }

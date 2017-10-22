@@ -69,18 +69,10 @@ public class TopicsInteractorTest extends BaseTest {
 	}
 
 	@Test
-	public void avoidDoubleNavigate1PerSecond() throws Exception {
+	public void navigateToEditTopic() throws Exception {
 		uut.start();
-		uut.onTopicClicked(Topic.create("theId1", "theName1"));
-		uut.onTopicClicked(Topic.create("theId2", "theName2"));
-		uut.onTopicClicked(Topic.create("theId3", "theName3"));
-		Thread.sleep(1000);
-		uut.onTopicClicked(Topic.create("theId4", "theName4"));
-		assertThat(testDisplay.navigatedToTopics).containsExactly("theId1");
-		Thread.sleep(1000);
-		uut.onTopicClicked(Topic.create("theId5", "theName5"));
-		assertThat(testDisplay.navigatedToTopics).containsExactly("theId1", "theId5");
-		uut.onTopicClicked(Topic.create("theId6", "theName6"));
-		assertThat(testDisplay.navigatedToTopics).containsExactly("theId1", "theId5");
+		uut.onTopicEditClicked(Topic.create("the topic id", "the name"));
+
+		assertThat(testDisplay.navigatedToEditTopics).containsExactly("the topic id");
 	}
 }

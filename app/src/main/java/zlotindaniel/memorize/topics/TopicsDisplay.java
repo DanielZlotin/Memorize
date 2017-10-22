@@ -8,6 +8,8 @@ public interface TopicsDisplay {
 		void onTopicClicked(Topic topic);
 
 		void onRefresh();
+
+		void onTopicEditClicked(Topic topic);
 	}
 
 	void bind(List<Topic> topics);
@@ -17,4 +19,6 @@ public interface TopicsDisplay {
 	void setListener(Listener listener);
 
 	void navigateShowTopic(String topicId);
+
+	void navigateEditTopic(String topicId);
 }

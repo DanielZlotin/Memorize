@@ -31,7 +31,8 @@ public class TopicsListAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int i, final View view, final ViewGroup viewGroup) {
 		TopicCellView cell = view != null ? (TopicCellView) view : new TopicCellView(viewGroup.getContext());
-		cell.bind(getItem(i));
+		final Topic topic = getItem(i);
+		cell.bind(topic);
 		return cell;
 	}
 
