@@ -1,18 +1,19 @@
 package zlotindaniel.memorize;
 
 import android.app.Application;
-import android.content.Context;
 
 import zlotindaniel.memorize.android.FirebaseLoader;
 import zlotindaniel.memorize.shuffle.DefaultShuffler;
 
 public class MemorizeApplication extends Application {
 
+	public static MemorizeApplication context;
 	private final Config config = createConfig();
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		context = this;
 	}
 
 	public Config createConfig() {
@@ -24,9 +25,5 @@ public class MemorizeApplication extends Application {
 
 	public final Config getConfig() {
 		return config;
-	}
-
-	public static int dp(Context context, float px) {
-		return (int) (context.getResources().getDisplayMetrics().density * px);
 	}
 }

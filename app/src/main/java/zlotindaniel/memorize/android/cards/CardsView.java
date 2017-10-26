@@ -10,7 +10,7 @@ import zlotindaniel.memorize.cards.CardsDisplay;
 import zlotindaniel.memorize.cards.CardsPresentation;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static zlotindaniel.memorize.MemorizeApplication.dp;
+import static zlotindaniel.memorize.android.ViewUtils.dp;
 
 public class CardsView extends RelativeLayout implements CardsDisplay {
 	public static final String TITLE = "What is:";
@@ -21,7 +21,7 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 
 	public CardsView(Context context) {
 		super(context);
-		int p = dp(context, 30);
+		int p = dp(30);
 		setPadding(p, p, p, p);
 		initProgress();
 		initText();

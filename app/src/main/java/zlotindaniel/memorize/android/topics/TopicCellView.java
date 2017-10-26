@@ -10,14 +10,14 @@ import zlotindaniel.memorize.topics.Topic;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static zlotindaniel.memorize.MemorizeApplication.dp;
+import static zlotindaniel.memorize.android.ViewUtils.dp;
 
 public class TopicCellView extends LinearLayout {
 	private TextView title;
 
 	public TopicCellView(final Context context) {
 		super(context);
-		int p = dp(context, 16);
+		int p = dp(16);
 		setPadding(p, p, p, p);
 		setOrientation(HORIZONTAL);
 		setGravity(Gravity.CENTER);
