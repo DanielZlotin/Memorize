@@ -1,6 +1,5 @@
 package zlotindaniel.memorize.android.topics;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
@@ -34,11 +33,5 @@ public class TopicsActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		view.onMenuItemClicked(item);
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		view.onActivityResult(requestCode, resultCode, data);
 	}
 }

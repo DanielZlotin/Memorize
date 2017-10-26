@@ -6,7 +6,7 @@ import android.view.View;
 
 import zlotindaniel.memorize.BaseActivity;
 
-public class EditTopicsActivity extends BaseActivity {
+public class EditTopicActivity extends BaseActivity {
 
 	public static final String INTENT_TOPIC_ID = "INTENT_TOPIC_ID";
 
@@ -16,7 +16,7 @@ public class EditTopicsActivity extends BaseActivity {
 		String topicId = getIntent().getStringExtra(INTENT_TOPIC_ID);
 
 
-		View view = new EditTopicsView(this);
+		View view = new EditTopicView(this);
 		setContentView(view);
 	}
 

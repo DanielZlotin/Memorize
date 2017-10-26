@@ -16,13 +16,16 @@
         </activity>
 
         <activity
+            android:name=".android.login.LoginActivity"
+            android:exported="false"/>
+        <activity
             android:name=".android.topics.TopicsActivity"
             android:exported="false"/>
         <activity
             android:name=".android.cards.CardsActivity"
             android:exported="false"/>
         <activity
-            android:name=".android.edit.EditTopicsActivity"
+            android:name=".android.edit.EditTopicActivity"
             android:exported="false"/>
 
     </application>
