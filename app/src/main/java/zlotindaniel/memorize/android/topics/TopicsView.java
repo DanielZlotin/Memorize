@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import zlotindaniel.memorize.R;
 import zlotindaniel.memorize.android.cards.CardsActivity;
 import zlotindaniel.memorize.android.edit.EditTopicActivity;
 import zlotindaniel.memorize.topics.Topic;
@@ -22,6 +23,8 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class TopicsView extends FrameLayout implements TopicsDisplay {
 	public static final String TITLE = "Select A Topic";
+	public static final String NEW_TOPIC_MENU_ITEM = "Create New Topic";
+	private static final int NEW_TOPIC_ID = View.generateViewId();
 
 	private ListView listview;
 	private TopicsListAdapter listAdapter;
@@ -49,7 +52,10 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 	}
 
 	public void onCreateMenu(final Menu menu) {
-		menu.add("Create New Topic");
+		MenuItem menuItem = menu.add(Menu.NONE, NEW_TOPIC_ID, Menu.NONE, NEW_TOPIC_MENU_ITEM);
+		menuItem.setContentDescription(NEW_TOPIC_MENU_ITEM);
+		menuItem.setIcon(R.drawable.ic_add_white_24dp);
+		menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 	}
 
 	public void onMenuItemClicked(final MenuItem item) {

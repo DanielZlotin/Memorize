@@ -5,6 +5,10 @@ import org.junit.Test;
 import zlotindaniel.memorize.android.cards.CardsView;
 import zlotindaniel.memorize.android.topics.TopicsView;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+
 public class MemorizeE2ETest extends BaseE2ETest {
 
 	@Test
@@ -35,5 +39,14 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		assertDisplayed("Card Answer 3");
 		clickOn("Card Answer 3");
 		assertDisplayed("Card Question 1");
+	}
+
+	@Test
+	public void addNewTopic() throws Exception {
+		launchApp();
+		waitForText(TopicsView.TITLE);
+		waitForText("Topic Name 1");
+
+		onView(withContentDescription(TopicsView.NEW_TOPIC_MENU_ITEM)).perform(click());
 	}
 }
