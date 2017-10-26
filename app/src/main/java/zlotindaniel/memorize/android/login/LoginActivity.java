@@ -23,7 +23,7 @@ public class LoginActivity extends BaseActivity {
 	protected void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (isLoggedIn()) {
+		if (isSignedIn()) {
 			loginSuccess();
 		} else {
 			login();
@@ -52,19 +52,11 @@ public class LoginActivity extends BaseActivity {
 
 		if (requestCode != LOGIN_REQUEST_CODE
 				|| resultCode != Activity.RESULT_OK
-				|| !isLoggedIn()) {
+				|| !isSignedIn()) {
 			loginFailed();
 		} else {
 			loginSuccess();
 		}
-	}
-
-	private boolean isLoggedIn() {
-		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-		return user != null
-				&& user.getEmail() != null
-				&& user.isEmailVerified()
-				&& user.getEmail().equals("zlotindaniel@gmail.com");
 	}
 
 	private void loginSuccess() {
@@ -77,5 +69,13 @@ public class LoginActivity extends BaseActivity {
 		Toast.makeText(this, "Nothing to see here... move along citizen. (Not yet supported)", Toast.LENGTH_LONG).show();
 		FirebaseAuth.getInstance().signOut();
 		finish();
+	}
+
+	public static boolean isSignedIn() {
+		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+		return user != null
+				&& user.getEmail() != null
+				&& user.isEmailVerified()
+				&& user.getEmail().equals("zlotindaniel@gmail.com");
 	}
 }
