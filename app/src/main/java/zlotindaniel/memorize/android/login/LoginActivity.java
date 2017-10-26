@@ -71,7 +71,7 @@ public class LoginActivity extends BaseActivity {
 		finish();
 	}
 
-	public static boolean isSignedIn() {
+	private boolean isSignedIn() {
 		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 		return user != null
 				&& user.getEmail() != null
