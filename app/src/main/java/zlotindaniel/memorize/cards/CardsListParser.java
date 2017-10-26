@@ -18,10 +18,10 @@ public class CardsListParser implements JsonParser<List<Card>> {
 		while (keys.hasNext()) {
 			String cardId = keys.next();
 			JSONObject cardObj = source.optJSONObject(cardId);
-			String phrase = cardObj.optString("phrase");
-			String definition = cardObj.optString("definition");
+			String question = cardObj.optString("question");
+			String answer = cardObj.optString("answer");
 
-			Card card = Card.create(cardId, phrase, definition);
+			Card card = Card.create(cardId, question, answer);
 			result.add(card);
 		}
 

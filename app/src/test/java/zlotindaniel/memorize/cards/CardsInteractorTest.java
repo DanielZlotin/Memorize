@@ -48,22 +48,22 @@ public class CardsInteractorTest extends BaseTest {
 	}
 
 	@Test
-	public void loadDataSucess_ShowCardPhrase() throws Exception {
-		loader.nextSuccess(Lists.newArrayList(Card.create("", "the phrase", "the definition")));
+	public void loadDataSucess_ShowCardQuestion() throws Exception {
+		loader.nextSuccess(Lists.newArrayList(Card.create("", "the question", "the answer")));
 		uut.start();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
-		assertThat(testDisplay.text).isEqualTo("the phrase");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
+		assertThat(testDisplay.text).isEqualTo("the question");
 	}
 
 	@Test
-	public void loadDataSuccess_ShowPhrase_Click_ShowDefinition() throws Exception {
-		loader.nextSuccess(Lists.newArrayList(Card.create("", "the phrase", "the definition")));
+	public void loadDataSuccess_ShowQuestion_Click_ShowAnswer() throws Exception {
+		loader.nextSuccess(Lists.newArrayList(Card.create("", "the question", "the answer")));
 		uut.start();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
-		assertThat(testDisplay.text).isEqualTo("the phrase");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
+		assertThat(testDisplay.text).isEqualTo("the question");
 		uut.onClick();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Definition);
-		assertThat(testDisplay.text).isEqualTo("the definition");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
+		assertThat(testDisplay.text).isEqualTo("the answer");
 	}
 
 	@Test
@@ -82,64 +82,64 @@ public class CardsInteractorTest extends BaseTest {
 	@Test
 	public void displaysTheNextCardInTheList() throws Exception {
 		loader.nextSuccess(Lists.newArrayList(
-				Card.create("", "Phrase1", "Definition1"),
-				Card.create("", "Phrase2", "Definition2"),
-				Card.create("", "Phrase3", "Definition3")));
+				Card.create("", "Question1", "Answer1"),
+				Card.create("", "Question2", "Answer2"),
+				Card.create("", "Question3", "Answer3")));
 
 		uut.start();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
-		assertThat(testDisplay.text).isEqualTo("Phrase1");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
+		assertThat(testDisplay.text).isEqualTo("Question1");
 		uut.onClick();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Definition);
-		assertThat(testDisplay.text).isEqualTo("Definition1");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
+		assertThat(testDisplay.text).isEqualTo("Answer1");
 		uut.onClick();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
-		assertThat(testDisplay.text).isEqualTo("Phrase2");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
+		assertThat(testDisplay.text).isEqualTo("Question2");
 		uut.onClick();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Definition);
-		assertThat(testDisplay.text).isEqualTo("Definition2");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
+		assertThat(testDisplay.text).isEqualTo("Answer2");
 		uut.onClick();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
-		assertThat(testDisplay.text).isEqualTo("Phrase3");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
+		assertThat(testDisplay.text).isEqualTo("Question3");
 		uut.onClick();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Definition);
-		assertThat(testDisplay.text).isEqualTo("Definition3");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
+		assertThat(testDisplay.text).isEqualTo("Answer3");
 	}
 
 	@Test
 	public void listIsDisplayedCircularilyEndlessly() throws Exception {
 		loader.nextSuccess(Lists.newArrayList(
-				Card.create("", "Phrase1", "Definition1"),
-				Card.create("", "Phrase2", "Definition2")));
+				Card.create("", "Question1", "Answer1"),
+				Card.create("", "Question2", "Answer2")));
 		uut.start();
-		assertThat(testDisplay.text).isEqualTo("Phrase1");
+		assertThat(testDisplay.text).isEqualTo("Question1");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("Definition1");
+		assertThat(testDisplay.text).isEqualTo("Answer1");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("Phrase2");
+		assertThat(testDisplay.text).isEqualTo("Question2");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("Definition2");
+		assertThat(testDisplay.text).isEqualTo("Answer2");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("Phrase1");
+		assertThat(testDisplay.text).isEqualTo("Question1");
 		uut.onClick();
-		assertThat(testDisplay.text).isEqualTo("Definition1");
+		assertThat(testDisplay.text).isEqualTo("Answer1");
 	}
 
 	@Test
 	public void cleanStateWhenLoadAgain() throws Exception {
 		loader.nextSuccess(Lists.newArrayList(
-				Card.create("", "Phrase1", "Definition1"),
-				Card.create("", "Phrase2", "Definition2")));
+				Card.create("", "Question1", "Answer1"),
+				Card.create("", "Question2", "Answer2")));
 		uut.start();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
-		assertThat(testDisplay.text).isEqualTo("Phrase1");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
+		assertThat(testDisplay.text).isEqualTo("Question1");
 
 		loader.nextSuccess(Lists.newArrayList(
-				Card.create("", "Phrase1", "Definition1"),
-				Card.create("", "Phrase2", "Definition2")));
+				Card.create("", "Question1", "Answer1"),
+				Card.create("", "Question2", "Answer2")));
 
 		uut.start();
-		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Phrase);
-		assertThat(testDisplay.text).isEqualTo("Phrase1");
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
+		assertThat(testDisplay.text).isEqualTo("Question1");
 	}
 }

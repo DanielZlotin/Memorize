@@ -1,14 +1,14 @@
 package zlotindaniel.memorize.cards;
 
 public enum CardsPresentation {
-	Loading, Error, Phrase, Definition;
+	Loading, Error, Question, Answer;
 
 	public boolean isProgressVisible() {
 		return this == Loading;
 	}
 
 	public boolean isTitleVisbile() {
-		return this == Phrase;
+		return this == Question;
 	}
 
 	public boolean isTextVisible() {

@@ -25,20 +25,20 @@ public class MemorizeE2ETest extends BaseE2ETest {
 
 		waitForText(CardsView.TITLE);
 
-		waitForText("Card Phrase 1");
-		assertDisplayed("Card Phrase 1");
-		clickOn("Card Phrase 1");
-		assertDisplayed("Card Definition 1");
-		clickOn("Card Definition 1");
-		assertDisplayed("Card Phrase 2");
-		clickOn("Card Phrase 2");
-		assertDisplayed("Card Definition 2");
-		clickOn("Card Definition 2");
-		assertDisplayed("Card Phrase 3");
-		clickOn("Card Phrase 3");
-		assertDisplayed("Card Definition 3");
-		clickOn("Card Definition 3");
-		assertDisplayed("Card Phrase 1");
+		waitForText("Card Question 1");
+		assertDisplayed("Card Question 1");
+		clickOn("Card Question 1");
+		assertDisplayed("Card Answer 1");
+		clickOn("Card Answer 1");
+		assertDisplayed("Card Question 2");
+		clickOn("Card Question 2");
+		assertDisplayed("Card Answer 2");
+		clickOn("Card Answer 2");
+		assertDisplayed("Card Question 3");
+		clickOn("Card Question 3");
+		assertDisplayed("Card Answer 3");
+		clickOn("Card Answer 3");
+		assertDisplayed("Card Question 1");
 	}
 
 	@Test

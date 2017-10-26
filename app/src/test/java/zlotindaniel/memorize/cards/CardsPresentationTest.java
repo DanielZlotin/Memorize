@@ -17,21 +17,21 @@ public class CardsPresentationTest extends BaseTest {
 	@Test
 	public void progressVisibility() throws Exception {
 		assertThat(CardsPresentation.Loading.isProgressVisible()).isTrue();
-		assertThat(CardsPresentation.Phrase.isProgressVisible()).isFalse();
+		assertThat(CardsPresentation.Question.isProgressVisible()).isFalse();
 		assertThat(CardsPresentation.Error.isProgressVisible()).isFalse();
 	}
 
 	@Test
 	public void titleVisibility() throws Exception {
-		assertThat(CardsPresentation.Phrase.isTitleVisbile()).isTrue();
-		assertThat(CardsPresentation.Definition.isTitleVisbile()).isFalse();
+		assertThat(CardsPresentation.Question.isTitleVisbile()).isTrue();
+		assertThat(CardsPresentation.Answer.isTitleVisbile()).isFalse();
 		assertThat(CardsPresentation.Error.isTitleVisbile()).isFalse();
 	}
 
 	@Test
 	public void textVisibility() throws Exception {
-		assertThat(CardsPresentation.Phrase.isTextVisible()).isTrue();
-		assertThat(CardsPresentation.Definition.isTextVisible()).isTrue();
+		assertThat(CardsPresentation.Question.isTextVisible()).isTrue();
+		assertThat(CardsPresentation.Answer.isTextVisible()).isTrue();
 		assertThat(CardsPresentation.Error.isTextVisible()).isTrue();
 		assertThat(CardsPresentation.Loading.isTextVisible()).isFalse();
 	}

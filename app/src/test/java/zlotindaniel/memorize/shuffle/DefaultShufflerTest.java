@@ -24,7 +24,7 @@ public class DefaultShufflerTest extends BaseTest {
 				return;
 			}
 		}
-		fail("cant find all phrases in 10,000 retries");
+		fail("cant find all elements in 10,000 retries");
 	}
 
 }

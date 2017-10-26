@@ -68,10 +68,10 @@ public class CardsInteractor {
 			shuffler.shuffle(cardStack);
 		}
 
-		if (presentation != CardsPresentation.Phrase) {
-			display(CardsPresentation.Phrase, cardStack.peek().getPhrase());
+		if (presentation != CardsPresentation.Question) {
+			display(CardsPresentation.Question, cardStack.peek().getQuestion());
 		} else {
-			display(CardsPresentation.Definition, cardStack.pop().getDefinition());
+			display(CardsPresentation.Answer, cardStack.pop().getAnswer());
 		}
 	}
 
