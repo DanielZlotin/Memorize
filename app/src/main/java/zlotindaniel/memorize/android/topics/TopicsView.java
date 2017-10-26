@@ -49,9 +49,11 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 	}
 
 	public void onCreateMenu(final Menu menu) {
+		menu.add("Create New Topic");
 	}
 
 	public void onMenuItemClicked(final MenuItem item) {
+
 	}
 
 	@Override

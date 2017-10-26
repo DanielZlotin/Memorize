@@ -21,8 +21,10 @@ public class FirebaseLoader implements Loader {
 
 	@Override
 	public <T> void load(final Request<T> request) {
+		String fullPath = Joiner.on("/").join(VERSION, env, request.path);
+
 		FirebaseDatabase.getInstance()
-				.getReference(Joiner.on("/").join(VERSION, env, request.path))
+				.getReference(fullPath)
 				.addListenerForSingleValueEvent(new FirebaseJsonResponseListener(new OnSuccess<JSONObject>() {
 					@Override
 					public void success(final JSONObject jsonObject) {
