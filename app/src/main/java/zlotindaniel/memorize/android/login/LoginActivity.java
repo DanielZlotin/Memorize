@@ -74,7 +74,7 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void loginFailed() {
-		Toast.makeText(this, "Hey! You're not me! Go Away! (not yet supported)", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Nothing to see here... move along citizen. (Not yet supported)", Toast.LENGTH_LONG).show();
 		FirebaseAuth.getInstance().signOut();
 		finish();
 	}
