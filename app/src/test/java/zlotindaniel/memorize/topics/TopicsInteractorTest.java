@@ -7,7 +7,7 @@ import org.junit.Test;
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.mocks.TestLoader;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TopicsInteractorTest extends BaseTest {
 
@@ -40,9 +40,7 @@ public class TopicsInteractorTest extends BaseTest {
 	@Test
 	public void start_failureDisplaysErrorMessage() throws Exception {
 		loader.nextError(new RuntimeException("The message"));
-
 		uut.start();
-
 		assertThat(testDisplay.error).isEqualTo("The message");
 	}
 
@@ -53,26 +51,16 @@ public class TopicsInteractorTest extends BaseTest {
 	}
 
 	@Test
-	public void navigateToSelectedTopic() throws Exception {
-		uut.start();
-		uut.onTopicClicked(Topic.create("the topic id", "the name"));
-
-		assertThat(testDisplay.navigatedToTopics).containsExactly("the topic id");
-	}
-
-	@Test
 	public void onRefreshReloadsTheList() throws Exception {
 		uut.start();
 		assertThat(loader.requests).hasSize(1);
-		uut.onRefresh();
+		uut.refresh();
 		assertThat(loader.requests).hasSize(2);
 	}
 
 	@Test
-	public void navigateToEditTopic() throws Exception {
-		uut.start();
-		uut.onTopicEditClicked(Topic.create("the topic id", "the name"));
-
-		assertThat(testDisplay.navigatedToEditTopics).containsExactly("the topic id");
+	public void createTopic_EmptyDoesNothing() throws Exception {
+		uut.createTopic("");
+		assertThat(loader.requests).hasSize(0);
 	}
 }

@@ -16,7 +16,7 @@ import zlotindaniel.memorize.android.topics.TopicsActivity;
 
 public class LoginActivity extends BaseActivity {
 
-	private static final int LOGIN_REQUEST_CODE = 123456;
+	private static final int LOGIN_REQUEST_CODE = 100;
 	private boolean waitingForLogin = false;
 
 	@Override
@@ -60,7 +60,6 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void loginSuccess() {
-		Toast.makeText(this, "Welcome " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Toast.LENGTH_LONG).show();
 		startActivity(new Intent(this, TopicsActivity.class));
 		finish();
 	}

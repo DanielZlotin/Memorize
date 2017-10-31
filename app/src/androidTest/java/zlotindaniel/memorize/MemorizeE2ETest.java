@@ -7,14 +7,18 @@ import zlotindaniel.memorize.android.topics.TopicsView;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class MemorizeE2ETest extends BaseE2ETest {
 
 	@Test
 	public void topicsCardsHappyPath() throws Exception {
 		launchApp();
-		waitForText(TopicsView.TITLE);
+		waitForText(TopicsView.title);
 
 		waitForText("Topic Name 1");
 		assertDisplayed("Topic Name 1");
@@ -44,9 +48,15 @@ public class MemorizeE2ETest extends BaseE2ETest {
 	@Test
 	public void addNewTopic() throws Exception {
 		launchApp();
-		waitForText(TopicsView.TITLE);
+		waitForText(TopicsView.title);
 		waitForText("Topic Name 1");
 
-		onView(withContentDescription(TopicsView.NEW_TOPIC_MENU_ITEM)).perform(click());
+		onView(withContentDescription(TopicsView.menuBtnNewTopicName)).perform(click());
+
+		assertDisplayed("New Topic");
+		onView(withHint("Name")).check(matches(isDisplayed()));
+		onView(withId(TopicsView.idInputCreateNewTopic)).perform(typeText("New Topic 1"));
+
+		clickOn("Create");
 	}
 }

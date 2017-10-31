@@ -1,7 +1,5 @@
 package zlotindaniel.memorize.topics;
 
-import com.google.common.collect.Lists;
-
 import java.util.List;
 
 public class TestTopicsDisplay implements TopicsDisplay {
@@ -9,8 +7,6 @@ public class TestTopicsDisplay implements TopicsDisplay {
 	public List<Topic> topics;
 	public String error;
 	public Listener listener;
-	public List<String> navigatedToTopics = Lists.newArrayList();
-	public List<String> navigatedToEditTopics = Lists.newArrayList();
 
 	@Override
 	public void bind(final List<Topic> topics) {
@@ -25,15 +21,5 @@ public class TestTopicsDisplay implements TopicsDisplay {
 	@Override
 	public void setListener(final Listener listener) {
 		this.listener = listener;
-	}
-
-	@Override
-	public void navigateShowTopic(final String topicId) {
-		navigatedToTopics.add(topicId);
-	}
-
-	@Override
-	public void navigateEditTopic(final String topicId) {
-		navigatedToEditTopics.add(topicId);
 	}
 }

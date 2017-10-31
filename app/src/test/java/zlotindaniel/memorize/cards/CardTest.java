@@ -6,7 +6,7 @@ import org.junit.experimental.theories.DataPoints;
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.EqualsHashCodeTheory;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CardTest extends BaseTest {
 	@Test

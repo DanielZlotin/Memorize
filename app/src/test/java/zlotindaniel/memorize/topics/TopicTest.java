@@ -7,7 +7,7 @@ import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.EqualsHashCodeTheory;
 import zlotindaniel.memorize.topics.Topic;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TopicTest extends BaseTest {
 

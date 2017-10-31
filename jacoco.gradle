@@ -57,14 +57,14 @@ project.afterEvaluate {
                 }
 
                 doLast {
-                    def msg = "\nsee coverage at file://${reports.html.destination}/index.html\n";
-                    def parser = new XmlParser();
+                    def msg = "\nsee coverage at file://${reports.html.destination}/index.html\n"
+                    def parser = new XmlParser()
                     parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
-                    parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-                    def rootNode = parser.parse(file(reports.xml.destination));
+                    parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+                    def rootNode = parser.parse(file(reports.xml.destination))
                     rootNode.counter.forEach { node ->
                         if (node.attribute('missed') != '0') {
-                            throw new RuntimeException("\ncoverage is not 100%\n${msg}");
+                            throw new RuntimeException("\ncoverage is not 100%\n${msg}")
                         }
                     }
                     println "\n-= 100% =- Coverage!\n${msg}"

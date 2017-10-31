@@ -9,7 +9,7 @@ import java.util.List;
 
 import zlotindaniel.memorize.BaseTest;
 
-import static org.assertj.core.api.Java6Assertions.fail;
+import static org.assertj.core.api.Assertions.fail;
 
 public class DefaultShufflerTest extends BaseTest {
 	@Test

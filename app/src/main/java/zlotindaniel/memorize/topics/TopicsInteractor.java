@@ -37,18 +37,13 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 	}
 
 	@Override
-	public void onTopicClicked(final Topic topic) {
-		display.navigateShowTopic(topic.getId());
-	}
-
-	@Override
-	public void onTopicEditClicked(final Topic topic) {
-		display.navigateEditTopic(topic.getId());
-	}
-
-	@Override
-	public void onRefresh() {
+	public void refresh() {
 		load();
+	}
+
+	@Override
+	public void createTopic(String name) {
+
 	}
 
 	private void handleSucess(final List<Topic> topics) {

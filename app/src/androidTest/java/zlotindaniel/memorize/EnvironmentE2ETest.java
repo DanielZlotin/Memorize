@@ -3,7 +3,7 @@ package zlotindaniel.memorize;
 import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class EnvironmentE2ETest extends BaseE2ETest {
 

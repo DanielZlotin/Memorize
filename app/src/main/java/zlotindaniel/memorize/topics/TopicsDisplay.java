@@ -5,11 +5,9 @@ import java.util.List;
 public interface TopicsDisplay {
 
 	interface Listener {
-		void onTopicClicked(Topic topic);
+		void refresh();
 
-		void onRefresh();
-
-		void onTopicEditClicked(Topic topic);
+		void createTopic(String name);
 	}
 
 	void bind(List<Topic> topics);
@@ -17,8 +15,4 @@ public interface TopicsDisplay {
 	void bind(String error);
 
 	void setListener(Listener listener);
-
-	void navigateShowTopic(String topicId);
-
-	void navigateEditTopic(String topicId);
 }

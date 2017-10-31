@@ -10,7 +10,7 @@ import zlotindaniel.memorize.mocks.TestLoader;
 import zlotindaniel.memorize.shuffle.Shuffler;
 import zlotindaniel.memorize.shuffle.TestShuffler;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CardsInteractorTest extends BaseTest {
 	private CardsInteractor uut;
