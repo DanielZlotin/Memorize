@@ -3,8 +3,6 @@ package zlotindaniel.memorize.topics;
 import java.util.List;
 
 import zlotindaniel.memorize.data.Loader;
-import zlotindaniel.memorize.data.OnFailure;
-import zlotindaniel.memorize.data.OnSuccess;
 
 public class TopicsInteractor implements TopicsDisplay.Listener {
 
@@ -23,17 +21,7 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 	}
 
 	private void load() {
-		loader.load(new TopicsRequest(new OnSuccess<List<Topic>>() {
-			@Override
-			public void success(final List<Topic> topics) {
-				handleSucess(topics);
-			}
-		}, new OnFailure() {
-			@Override
-			public void failure(final Exception e) {
-				handleFailure(e);
-			}
-		}));
+		loader.load(new TopicsRequest(this::handleSucess, this::handleFailure));
 	}
 
 	@Override

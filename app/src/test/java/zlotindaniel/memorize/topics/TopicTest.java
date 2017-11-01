@@ -5,7 +5,6 @@ import org.junit.experimental.theories.DataPoints;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.EqualsHashCodeTheory;
-import zlotindaniel.memorize.topics.Topic;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,18 +23,8 @@ public class TopicTest extends BaseTest {
 
 	@Test
 	public void requiredFields() throws Exception {
-		assertThrows(new Runnable() {
-			@Override
-			public void run() {
-				Topic.create(null, null);
-			}
-		});
-		assertThrows(new Runnable() {
-			@Override
-			public void run() {
-				Topic.create(null, "");
-			}
-		});
+		assertThrows(() -> Topic.create(null, null));
+		assertThrows(() -> Topic.create("some id", ""));
 	}
 
 	@Test

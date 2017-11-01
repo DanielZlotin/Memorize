@@ -1,7 +1,6 @@
 package zlotindaniel.memorize.android.cards;
 
 import android.os.Bundle;
-import android.view.View;
 
 import zlotindaniel.memorize.BaseActivity;
 import zlotindaniel.memorize.cards.CardsInteractor;
@@ -20,12 +19,7 @@ public class CardsActivity extends BaseActivity {
 
 		view = new CardsView(this);
 		interactor = new CardsInteractor(topicId, view, config.loader, config.shuffler);
-		view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				interactor.onClick();
-			}
-		});
+		view.setOnClickListener(v -> interactor.onClick());
 
 		setContentView(view);
 

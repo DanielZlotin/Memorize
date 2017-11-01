@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Stack;
 
 import zlotindaniel.memorize.data.Loader;
-import zlotindaniel.memorize.data.OnFailure;
-import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.shuffle.Shuffler;
 
 public class CardsInteractor {
@@ -30,17 +28,7 @@ public class CardsInteractor {
 
 	public void start() {
 		display(CardsPresentation.Loading, "");
-		loader.load(new CardsRequest(topicId, new OnSuccess<List<Card>>() {
-			@Override
-			public void success(final List<Card> cards) {
-				handleSuccess(cards);
-			}
-		}, new OnFailure() {
-			@Override
-			public void failure(final Exception e) {
-				handleFailure(e);
-			}
-		}));
+		loader.load(new CardsRequest(topicId, this::handleSuccess, this::handleFailure));
 	}
 
 	public void onClick() {

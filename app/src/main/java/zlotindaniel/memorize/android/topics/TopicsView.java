@@ -2,7 +2,6 @@ package zlotindaniel.memorize.android.topics;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -11,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -87,36 +85,23 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 
 		layout.addView(input);
 
-		new AlertDialog.Builder(getContext()).setTitle("New Topic").setView(layout).setPositiveButton("Create", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(final DialogInterface dialog, final int which) {
-				String name = input.getText().toString();
-				listener.createTopic(name);
-			}
+		new AlertDialog.Builder(getContext())
+				.setTitle("New Topic")
+				.setView(layout)
+				.setPositiveButton("Create", (dialog, which) -> {
+			String name = input.getText().toString();
+			listener.createTopic(name);
 		}).show();
 	}
 
 	@Override
 	public void setListener(final Listener listener) {
 		this.listener = listener;
-		pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-				listener.refresh();
-			}
-		});
-		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-				navigateShowTopic(listAdapter.getItem(position).getId());
-			}
-		});
-		listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-				navigateEditTopic(listAdapter.getItem(position).getId());
-				return true;
-			}
+		pullToRefresh.setOnRefreshListener(listener::refresh);
+		listview.setOnItemClickListener((parent, view, position, id) -> navigateShowTopic(listAdapter.getItem(position).getId()));
+		listview.setOnItemLongClickListener((parent, view, position, id) -> {
+			navigateEditTopic(listAdapter.getItem(position).getId());
+			return true;
 		});
 	}
 

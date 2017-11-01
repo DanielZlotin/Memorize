@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import zlotindaniel.memorize.data.FirebaseJsonResponseListener;
 import zlotindaniel.memorize.data.Loader;
+import zlotindaniel.memorize.data.OnFailure;
 import zlotindaniel.memorize.data.OnSuccess;
 import zlotindaniel.memorize.data.Request;
 
@@ -23,13 +24,11 @@ public class FirebaseLoader implements Loader {
 	public <T> void load(final Request<T> request) {
 		String fullPath = Joiner.on("/").join(VERSION, env, request.path);
 
+		OnSuccess<JSONObject> onSuccess = (jsonObject) -> request.onSuccess.success(request.parser.parse(jsonObject));
+		OnFailure onFailure = request.onFailure;
+
 		FirebaseDatabase.getInstance()
 				.getReference(fullPath)
-				.addListenerForSingleValueEvent(new FirebaseJsonResponseListener(new OnSuccess<JSONObject>() {
-					@Override
-					public void success(final JSONObject jsonObject) {
-						request.onSuccess.success(request.parser.parse(jsonObject));
-					}
-				}, request.onFailure));
+				.addListenerForSingleValueEvent(new FirebaseJsonResponseListener(onSuccess, onFailure));
 	}
 }
