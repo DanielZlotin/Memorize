@@ -4,25 +4,25 @@ import android.os.*;
 import android.support.annotation.*;
 import android.view.*;
 
-import com.google.common.base.*;
-
 import zlotindaniel.memorize.*;
+import zlotindaniel.memorize.edit.*;
+import zlotindaniel.memorize.topics.*;
 
 public class EditTopicActivity extends BaseActivity {
 
-	public static final String INTENT_TOPIC_ID = "INTENT_TOPIC_ID";
-	public static final String INTENT_TOPIC_NAME = "INTENT_TOPIC_NAME";
-
 	private EditTopicView view;
+	private EditTopicInteractor interactor;
 
 	@Override
 	protected void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		String topicId = Preconditions.checkNotNull(getIntent().getStringExtra(INTENT_TOPIC_ID));
-		String topicName = Preconditions.checkNotNull(getIntent().getStringExtra(INTENT_TOPIC_NAME));
 
-		view = new EditTopicView(this, topicName);
+		Topic topic = MemorizeApplication.context.activityLoad();
+
+		view = new EditTopicView(this, topic.getName());
 		setContentView(view);
+		interactor = new EditTopicInteractor(topic, view, config.network);
+		interactor.start();
 	}
 
 	@Override

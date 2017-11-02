@@ -7,6 +7,8 @@ import org.junit.*;
 
 import zlotindaniel.memorize.*;
 
+import static org.assertj.core.api.Assertions.*;
+
 public class RequestTest extends BaseTest {
 
 	private class TestRequest extends Request<Boolean> {
@@ -26,5 +28,10 @@ public class RequestTest extends BaseTest {
 		assertThrows(() -> new TestRequest("", null, null));
 		assertThrows(() -> new TestRequest("path", null, null));
 		assertThrows(() -> new TestRequest("path", (o) -> {}, null));
+	}
+
+	@Test
+	public void deleteRequest() throws Exception {
+		assertThat(new DeleteRequest("path", o -> {}, o -> {}) {}.parseResponse(null)).isTrue();
 	}
 }

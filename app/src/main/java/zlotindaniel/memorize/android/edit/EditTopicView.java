@@ -4,17 +4,25 @@ import android.app.*;
 import android.view.*;
 import android.widget.*;
 
-public class EditTopicView extends LinearLayout {
+import com.google.common.base.*;
+
+import zlotindaniel.memorize.android.*;
+import zlotindaniel.memorize.edit.*;
+
+public class EditTopicView extends LinearLayout implements EditTopicDisplay {
 
 	private static final String menuBtnDeleteTopicTitle = "Delete Topic";
 	private static final int idMenuBtnDeleteTopic = View.generateViewId();
 	private final String topicName;
+	private Listener listener;
+	private AlertDialog dialog;
 
 	public EditTopicView(final Activity context, final String topicName) {
 		super(context);
 		this.topicName = topicName;
 		context.setTitle(topicName);
 		setOrientation(VERTICAL);
+
 	}
 
 	public void onCreateMenu(final Menu menu) {
@@ -26,6 +34,28 @@ public class EditTopicView extends LinearLayout {
 		if (item.getItemId() == idMenuBtnDeleteTopic) {
 			askDeleteTopic();
 		}
+	}
+
+	@Override
+	public void setListener(final Listener listener) {
+		this.listener = listener;
+	}
+
+	@Override
+	public void bind(final boolean loading, String error) {
+		if (loading && dialog == null) {
+			FrameLayout frame = new FrameLayout(getContext());
+			int p = ViewUtils.dp(16);
+			frame.setPadding(p, p, p, p);
+			ProgressBar progress = new ProgressBar(getContext());
+			progress.setIndeterminate(true);
+			dialog = new AlertDialog.Builder(getContext()).setCancelable(false).setView(progress).show();
+		} else if (!loading && dialog != null) {
+			dialog.dismiss();
+			dialog = null;
+		}
+		if (!Strings.isNullOrEmpty(error)) Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+
 	}
 
 	private void askDeleteTopic() {
@@ -46,10 +76,11 @@ public class EditTopicView extends LinearLayout {
 	}
 
 	private void deleteTopic() {
-		navigateHome();
+		listener.deleteTopic();
 	}
 
-	private void navigateHome() {
+	@Override
+	public void navigateHome() {
 		((Activity) getContext()).finish();
 	}
 }

@@ -121,8 +121,7 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 	private void navigateEditTopic(final Topic topic) {
 		Intent intent = new Intent(getContext(), EditTopicActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(EditTopicActivity.INTENT_TOPIC_ID, topic.getId());
-		intent.putExtra(EditTopicActivity.INTENT_TOPIC_NAME, topic.getName());
+		MemorizeApplication.context.acitivityStore(topic);
 		getContext().startActivity(intent);
 	}
 }

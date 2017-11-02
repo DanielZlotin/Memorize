@@ -31,8 +31,8 @@ public class TopicsInteractorTest extends BaseTest {
 
 		uut.start();
 
-		assertThat(network.requests).hasSize(1);
-		assertThat(network.requests.get(0)).isInstanceOf(GetTopicsRequest.class);
+		assertThat(network.loads).hasSize(1);
+		assertThat(network.loads.get(0)).isInstanceOf(GetTopicsRequest.class);
 		assertThat(testDisplay.topics).containsExactly(topic1, topic2, topic3);
 	}
 
@@ -52,15 +52,15 @@ public class TopicsInteractorTest extends BaseTest {
 	@Test
 	public void onRefreshReloadsTheList() throws Exception {
 		uut.start();
-		assertThat(network.requests).hasSize(1);
+		assertThat(network.loads).hasSize(1);
 		uut.refresh();
-		assertThat(network.requests).hasSize(2);
+		assertThat(network.loads).hasSize(2);
 	}
 
 	@Test
 	public void createTopic_EmptyDoesNothing() throws Exception {
 		uut.createTopic("");
-		assertThat(network.requests).hasSize(0);
+		assertThat(network.loads).hasSize(0);
 	}
 
 	@Test
@@ -71,8 +71,8 @@ public class TopicsInteractorTest extends BaseTest {
 
 		assertThat(network.payloads).hasSize(1);
 		assertThat(network.payloads.get(0)).isInstanceOf(CreateTopicPayload.class);
-		assertThat(network.requests).hasSize(1);
-		assertThat(network.requests.get(0)).isInstanceOf(GetTopicsRequest.class);
+		assertThat(network.loads).hasSize(1);
+		assertThat(network.loads.get(0)).isInstanceOf(GetTopicsRequest.class);
 	}
 
 	@Test

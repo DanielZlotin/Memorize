@@ -37,6 +37,7 @@ public class CardsInteractorTest extends BaseTest {
 		};
 		uut.start();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Loading);
+		assertThat(testDisplay.listener).isEqualTo(uut);
 	}
 
 	@Test
@@ -61,14 +62,14 @@ public class CardsInteractorTest extends BaseTest {
 		uut.start();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
 		assertThat(testDisplay.text).isEqualTo("the question");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
 		assertThat(testDisplay.text).isEqualTo("the answer");
 	}
 
 	@Test
-	public void onClickNotLoaded_DoesNothing() throws Exception {
-		uut.onClick();
+	public void clickNotLoaded_DoesNothing() throws Exception {
+		uut.click();
 	}
 
 	@Test
@@ -89,19 +90,19 @@ public class CardsInteractorTest extends BaseTest {
 		uut.start();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
 		assertThat(testDisplay.text).isEqualTo("Question1");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
 		assertThat(testDisplay.text).isEqualTo("Answer1");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
 		assertThat(testDisplay.text).isEqualTo("Question2");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
 		assertThat(testDisplay.text).isEqualTo("Answer2");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
 		assertThat(testDisplay.text).isEqualTo("Question3");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
 		assertThat(testDisplay.text).isEqualTo("Answer3");
 	}
@@ -113,15 +114,15 @@ public class CardsInteractorTest extends BaseTest {
 				Card.create("", "Question2", "Answer2")));
 		uut.start();
 		assertThat(testDisplay.text).isEqualTo("Question1");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.text).isEqualTo("Answer1");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.text).isEqualTo("Question2");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.text).isEqualTo("Answer2");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.text).isEqualTo("Question1");
-		uut.onClick();
+		uut.click();
 		assertThat(testDisplay.text).isEqualTo("Answer1");
 	}
 

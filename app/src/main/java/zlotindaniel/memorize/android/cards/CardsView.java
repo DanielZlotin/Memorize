@@ -59,6 +59,11 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 	}
 
 	@Override
+	public void setListener(final Listener listener) {
+		setOnClickListener(view -> listener.click());
+	}
+
+	@Override
 	public void bind(final CardsPresentation presentation, final String text) {
 		progressBar.setVisibility(presentation.isProgressVisible() ? VISIBLE : GONE);
 		titleView.setVisibility(presentation.isTitleVisbile() ? VISIBLE : GONE);

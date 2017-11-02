@@ -7,21 +7,28 @@ import java.util.*;
 import zlotindaniel.memorize.data.*;
 
 public class TestNetwork implements Network {
-	public List<Request<?>> requests = Lists.newArrayList();
+	public List<Request<?>> loads = Lists.newArrayList();
 	public List<Payload> payloads = Lists.newArrayList();
+	public List<Request<Boolean>> deletions = Lists.newArrayList();
 
 	private Stack<Object> nextSuccesses = new Stack<>();
 	private Stack<Exception> nextErrors = new Stack<>();
 
 	@Override
 	public <T> void load(final Request<T> request) {
-		requests.add(request);
+		loads.add(request);
 		next(request);
 	}
 
 	@Override
 	public void save(final Payload request) {
 		payloads.add(request);
+		next(request);
+	}
+
+	@Override
+	public void delete(final DeleteRequest request) {
+		deletions.add(request);
 		next(request);
 	}
 

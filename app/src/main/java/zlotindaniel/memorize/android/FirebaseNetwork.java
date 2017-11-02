@@ -33,7 +33,16 @@ public class FirebaseNetwork implements Network {
 		                .getReference(fullpath(request.path))
 		                .push()
 		                .setValue(request.payload())
-		                .addOnSuccessListener(o -> request.onSuccess.success(true))
+		                .addOnSuccessListener(o -> request.onSuccess.success(Boolean.TRUE))
+		                .addOnFailureListener(request.onFailure::failure);
+	}
+
+	@Override
+	public void delete(final DeleteRequest request) {
+		FirebaseDatabase.getInstance()
+		                .getReference(fullpath(request.path))
+		                .removeValue()
+		                .addOnSuccessListener(o -> request.onSuccess.success(Boolean.TRUE))
 		                .addOnFailureListener(request.onFailure::failure);
 	}
 

@@ -1,13 +1,16 @@
 package zlotindaniel.memorize;
 
-import android.app.Application;
+import android.app.*;
 
-import zlotindaniel.memorize.android.FirebaseNetwork;
-import zlotindaniel.memorize.shuffle.DefaultShuffler;
+import java.util.*;
+
+import zlotindaniel.memorize.android.*;
+import zlotindaniel.memorize.shuffle.*;
 
 public class MemorizeApplication extends Application {
 
 	public static MemorizeApplication context;
+	private Stack<Object> activityStore = new Stack<>();
 	private final Config config = createConfig();
 
 	@Override
@@ -25,5 +28,14 @@ public class MemorizeApplication extends Application {
 
 	public final Config getConfig() {
 		return config;
+	}
+
+	public <T> void acitivityStore(T obj) {
+		activityStore.push(obj);
+	}
+
+
+	public <T> T activityLoad() {
+		return (T) activityStore.pop();
 	}
 }

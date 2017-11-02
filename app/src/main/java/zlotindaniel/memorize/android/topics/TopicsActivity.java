@@ -19,7 +19,11 @@ public class TopicsActivity extends BaseActivity {
 		view = new TopicsView(this);
 		setContentView(view);
 		interactor = new TopicsInteractor(view, config.network);
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
 		interactor.start();
 	}
 

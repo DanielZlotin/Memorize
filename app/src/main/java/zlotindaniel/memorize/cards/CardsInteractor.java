@@ -8,7 +8,7 @@ import java.util.Stack;
 import zlotindaniel.memorize.data.Network;
 import zlotindaniel.memorize.shuffle.Shuffler;
 
-public class CardsInteractor {
+public class CardsInteractor implements CardsDisplay.Listener{
 
 	private final String topicId;
 	private final CardsDisplay display;
@@ -27,11 +27,13 @@ public class CardsInteractor {
 	}
 
 	public void start() {
+		display.setListener(this);
 		display(CardsPresentation.Loading, "");
 		network.load(new GetCardsRequest(topicId, this::handleSuccess, this::handleFailure));
 	}
 
-	public void onClick() {
+	@Override
+	public void click() {
 		next();
 	}
 
