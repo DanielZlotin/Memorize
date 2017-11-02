@@ -92,4 +92,18 @@ public class TopicsInteractorTest extends BaseTest {
 		assertThat(network.payloads.get(0)).isInstanceOf(CreateTopicPayload.class);
 		assertThat(testDisplay.error).isEqualTo("the error");
 	}
+
+	@Test
+	public void createTopic_EnsureNoDuplicateByName() throws Exception {
+		Topic topic1 = Topic.create("", "Topic 1");
+		Topic topic2 = Topic.create("", "Topic 2");
+		Topic topic3 = Topic.create("", "Topic 3");
+		network.nextSuccess(Lists.newArrayList(topic1, topic2, topic3));
+
+		uut.start();
+
+		uut.createTopic("   Topic  \n     \t    1 \t\n");
+
+		assertThat(testDisplay.error).isEqualTo("Topic already exists");
+	}
 }

@@ -1,21 +1,18 @@
 package zlotindaniel.memorize.android.cards;
 
-import android.content.Context;
-import android.util.TypedValue;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.content.*;
+import android.util.*;
+import android.widget.*;
 
-import zlotindaniel.memorize.cards.CardsDisplay;
-import zlotindaniel.memorize.cards.CardsPresentation;
+import zlotindaniel.memorize.cards.*;
 
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static zlotindaniel.memorize.android.ViewUtils.dp;
+import static android.view.ViewGroup.LayoutParams.*;
+import static zlotindaniel.memorize.android.ViewUtils.*;
 
 public class CardsView extends RelativeLayout implements CardsDisplay {
-	public static final String TITLE = "What is:";
+	public static final String title = "What is:";
 
-	private TextView title;
+	private TextView titleView;
 	private TextView textView;
 	private ProgressBar progressBar;
 
@@ -50,21 +47,21 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 	}
 
 	private void initTitle() {
-		title = new TextView(getContext());
-		title.setVisibility(GONE);
-		title.setText(TITLE);
-		title.setSingleLine();
-		title.setId(generateViewId());
+		titleView = new TextView(getContext());
+		titleView.setVisibility(GONE);
+		titleView.setText(title);
+		titleView.setSingleLine();
+		titleView.setId(generateViewId());
 		LayoutParams params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
 		params.addRule(CENTER_HORIZONTAL);
 		params.addRule(ABOVE, textView.getId());
-		addView(title, params);
+		addView(titleView, params);
 	}
 
 	@Override
 	public void bind(final CardsPresentation presentation, final String text) {
 		progressBar.setVisibility(presentation.isProgressVisible() ? VISIBLE : GONE);
-		title.setVisibility(presentation.isTitleVisbile() ? VISIBLE : GONE);
+		titleView.setVisibility(presentation.isTitleVisbile() ? VISIBLE : GONE);
 		textView.setVisibility(presentation.isTextVisible() ? VISIBLE : GONE);
 		textView.setText(text);
 	}

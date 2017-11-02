@@ -1,28 +1,22 @@
 package zlotindaniel.memorize;
 
-import android.support.test.espresso.Espresso;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.By;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.Until;
-import android.view.View;
+import android.support.test.espresso.*;
+import android.support.test.rule.*;
+import android.support.test.runner.*;
+import android.support.test.uiautomator.*;
+import android.view.*;
 
 import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.runner.RunWith;
+import org.hamcrest.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.InstrumentationRegistry.*;
+import static android.support.test.espresso.action.ViewActions.*;
+import static android.support.test.espresso.assertion.ViewAssertions.*;
+import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(AndroidJUnit4.class)
@@ -55,6 +49,10 @@ public abstract class BaseE2ETest {
 
 	public void assertDisplayed(String txt) {
 		Espresso.onView(withText(txt)).check(matches(isDisplayed()));
+	}
+
+	public void assertNotDisplayed(String txt) {
+		assertThat(device().findObject(new UiSelector().text(txt)).exists()).isFalse();
 	}
 
 	public void clickOn(String txt) {

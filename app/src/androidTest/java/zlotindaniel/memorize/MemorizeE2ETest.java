@@ -1,22 +1,23 @@
 package zlotindaniel.memorize;
 
-import org.junit.Test;
+import android.support.test.espresso.*;
 
-import zlotindaniel.memorize.android.cards.CardsView;
-import zlotindaniel.memorize.android.topics.TopicsView;
+import org.junit.*;
+import org.junit.runners.*;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import zlotindaniel.memorize.android.cards.*;
+import zlotindaniel.memorize.android.topics.*;
 
+import static android.support.test.espresso.Espresso.*;
+import static android.support.test.espresso.action.ViewActions.*;
+import static android.support.test.espresso.assertion.ViewAssertions.*;
+import static android.support.test.espresso.matcher.ViewMatchers.*;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MemorizeE2ETest extends BaseE2ETest {
 
 	@Test
-	public void topicsCardsHappyPath() throws Exception {
+	public void _1_topicsCardsHappyPath() throws Exception {
 		launchApp();
 		waitForText(TopicsView.title);
 
@@ -27,7 +28,7 @@ public class MemorizeE2ETest extends BaseE2ETest {
 
 		clickOn("Topic Name 1");
 
-		waitForText(CardsView.TITLE);
+		waitForText(CardsView.title);
 
 		waitForText("Card Question 1");
 		assertDisplayed("Card Question 1");
@@ -46,7 +47,7 @@ public class MemorizeE2ETest extends BaseE2ETest {
 	}
 
 	@Test
-	public void addNewTopic() throws Exception {
+	public void _2_addNewTopic() throws Exception {
 		launchApp();
 		waitForText(TopicsView.title);
 		waitForText("Topic Name 1");
@@ -61,5 +62,36 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		waitForText(TopicsView.title);
 		waitForText("New Topic 1");
 		assertDisplayed("New Topic 1");
+	}
+
+	@Test
+	public void _3_topicDetailsRemoveTopic() throws Exception {
+		launchApp();
+		waitForText(TopicsView.title);
+		waitForText("Topic Name 1");
+
+		onView(withText("New Topic 1")).perform(longClick());
+
+		Espresso.onIdle();
+		assertDisplayed("New Topic 1");
+
+		onView(withContentDescription("More options")).perform(click());
+		clickOn("Delete Topic");
+		assertDisplayed("Delete New Topic 1?");
+		clickOn("Oops. NO!");
+		assertDisplayed("New Topic 1");
+
+		onView(withContentDescription("More options")).perform(click());
+		clickOn("Delete Topic");
+		assertDisplayed("Delete New Topic 1?");
+		clickOn("Yes");
+		assertDisplayed("Are you sure?");
+		assertDisplayed("There's no going back! New Topic 1 will be lost forever!");
+		clickOn("Yes yes go ahead!");
+
+		Espresso.onIdle();
+		waitForText(TopicsView.title);
+
+		assertNotDisplayed("New Topic 1");
 	}
 }

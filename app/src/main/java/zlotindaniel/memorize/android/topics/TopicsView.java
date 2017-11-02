@@ -1,29 +1,22 @@
 package zlotindaniel.memorize.android.topics;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.FrameLayout;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.app.*;
+import android.content.*;
+import android.support.design.widget.*;
+import android.support.v4.widget.*;
+import android.view.*;
+import android.view.inputmethod.*;
+import android.widget.*;
 
-import java.util.List;
+import java.util.*;
 
-import zlotindaniel.memorize.R;
+import zlotindaniel.memorize.*;
 import zlotindaniel.memorize.android.ViewUtils;
-import zlotindaniel.memorize.android.cards.CardsActivity;
-import zlotindaniel.memorize.android.edit.EditTopicActivity;
-import zlotindaniel.memorize.topics.Topic;
-import zlotindaniel.memorize.topics.TopicsDisplay;
+import zlotindaniel.memorize.android.cards.*;
+import zlotindaniel.memorize.android.edit.*;
+import zlotindaniel.memorize.topics.*;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.*;
 
 public class TopicsView extends FrameLayout implements TopicsDisplay {
 	public static final String title = "Select A Topic";
@@ -100,7 +93,7 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 		pullToRefresh.setOnRefreshListener(listener::refresh);
 		listview.setOnItemClickListener((parent, view, position, id) -> navigateShowTopic(listAdapter.getItem(position).getId()));
 		listview.setOnItemLongClickListener((parent, view, position, id) -> {
-			navigateEditTopic(listAdapter.getItem(position).getId());
+			navigateEditTopic(listAdapter.getItem(position));
 			return true;
 		});
 	}
@@ -125,10 +118,11 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 		getContext().startActivity(intent);
 	}
 
-	private void navigateEditTopic(final String topicId) {
+	private void navigateEditTopic(final Topic topic) {
 		Intent intent = new Intent(getContext(), EditTopicActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(EditTopicActivity.INTENT_TOPIC_ID, topicId);
+		intent.putExtra(EditTopicActivity.INTENT_TOPIC_ID, topic.getId());
+		intent.putExtra(EditTopicActivity.INTENT_TOPIC_NAME, topic.getName());
 		getContext().startActivity(intent);
 	}
 }

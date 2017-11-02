@@ -1,9 +1,8 @@
 package zlotindaniel.memorize.topics;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
+import android.support.annotation.*;
+
+import com.google.common.base.*;
 
 public class Topic {
 	private static final String NO_ID = "NO_ID";
@@ -15,9 +14,10 @@ public class Topic {
 	}
 
 	private final String id;
+	@NonNull
 	private final String name;
 
-	private Topic(final String id, final String name) {
+	private Topic(final String id, @NonNull final String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -26,10 +26,12 @@ public class Topic {
 		return !Objects.equal(id, NO_ID);
 	}
 
+	@Nullable
 	public String getId() {
 		return id;
 	}
 
+	@NonNull
 	public String getName() {
 		return name;
 	}
