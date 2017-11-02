@@ -1,26 +1,25 @@
 package zlotindaniel.memorize.topics;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
-import org.junit.Test;
+import org.junit.*;
 
-import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.mocks.TestLoader;
+import zlotindaniel.memorize.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class TopicsInteractorTest extends BaseTest {
 
 	private TopicsInteractor uut;
-	private TestLoader loader;
+	private TestNetwork network;
 	private TestTopicsDisplay testDisplay;
 
 	@Override
 	public void beforeEach() {
 		super.beforeEach();
 		testDisplay = new TestTopicsDisplay();
-		loader = new TestLoader();
-		uut = new TopicsInteractor(testDisplay, loader);
+		network = new TestNetwork();
+		uut = new TopicsInteractor(testDisplay, network);
 	}
 
 	@Test
@@ -28,18 +27,18 @@ public class TopicsInteractorTest extends BaseTest {
 		Topic topic1 = Topic.create("", "Topic 1");
 		Topic topic2 = Topic.create("", "Topic 2");
 		Topic topic3 = Topic.create("", "Topic 3");
-		loader.nextSuccess(Lists.newArrayList(topic1, topic2, topic3));
+		network.nextSuccess(Lists.newArrayList(topic1, topic2, topic3));
 
 		uut.start();
 
-		assertThat(loader.requests).hasSize(1);
-		assertThat(loader.requests.get(0)).isInstanceOf(TopicsRequest.class);
+		assertThat(network.requests).hasSize(1);
+		assertThat(network.requests.get(0)).isInstanceOf(GetTopicsRequest.class);
 		assertThat(testDisplay.topics).containsExactly(topic1, topic2, topic3);
 	}
 
 	@Test
 	public void start_failureDisplaysErrorMessage() throws Exception {
-		loader.nextError(new RuntimeException("The message"));
+		network.nextError(new RuntimeException("The message"));
 		uut.start();
 		assertThat(testDisplay.error).isEqualTo("The message");
 	}
@@ -53,14 +52,44 @@ public class TopicsInteractorTest extends BaseTest {
 	@Test
 	public void onRefreshReloadsTheList() throws Exception {
 		uut.start();
-		assertThat(loader.requests).hasSize(1);
+		assertThat(network.requests).hasSize(1);
 		uut.refresh();
-		assertThat(loader.requests).hasSize(2);
+		assertThat(network.requests).hasSize(2);
 	}
 
 	@Test
 	public void createTopic_EmptyDoesNothing() throws Exception {
 		uut.createTopic("");
-		assertThat(loader.requests).hasSize(0);
+		assertThat(network.requests).hasSize(0);
+	}
+
+	@Test
+	public void createTopic_SendsRequest_OnSuccessReload() throws Exception {
+		network.nextSuccess(true);
+
+		uut.createTopic("the new topic name");
+
+		assertThat(network.payloads).hasSize(1);
+		assertThat(network.payloads.get(0)).isInstanceOf(CreateTopicPayload.class);
+		assertThat(network.requests).hasSize(1);
+		assertThat(network.requests.get(0)).isInstanceOf(GetTopicsRequest.class);
+	}
+
+	@Test
+	public void createTopicNormalizesInput() throws Exception {
+		uut.createTopic("  \n\n a \t b     c  \r\n");
+		assertThat(network.payloads).hasSize(1);
+		assertThat(network.payloads.get(0).payload().get("name")).isEqualTo("a b c");
+	}
+
+	@Test
+	public void createTopic_Failure() throws Exception {
+		RuntimeException error = new RuntimeException("the error");
+		network.nextError(error);
+		uut.createTopic("the new topic name");
+
+		assertThat(network.payloads).hasSize(1);
+		assertThat(network.payloads.get(0)).isInstanceOf(CreateTopicPayload.class);
+		assertThat(testDisplay.error).isEqualTo("the error");
 	}
 }

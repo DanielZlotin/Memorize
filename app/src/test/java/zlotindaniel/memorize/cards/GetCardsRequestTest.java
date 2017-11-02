@@ -1,13 +1,21 @@
 package zlotindaniel.memorize.cards;
 
-import org.json.JSONObject;
-import org.junit.Test;
+import org.json.*;
+import org.junit.*;
 
-import zlotindaniel.memorize.BaseTest;
+import zlotindaniel.memorize.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
-public class CardsListParserTest extends BaseTest {
+public class GetCardsRequestTest extends BaseTest {
+
+	private GetCardsRequest uut = new GetCardsRequest("the topic id", cards -> { }, e -> { });
+
+	@Test
+	public void correctArgs() throws Exception {
+		assertThat(uut.path).isEqualTo("topics/cards/the topic id");
+	}
+
 	@Test
 	public void parses() throws Exception {
 		JSONObject o = new JSONObject();
@@ -21,7 +29,7 @@ public class CardsListParserTest extends BaseTest {
 		o.put("cardId1", carObj1);
 		o.put("cardId2", carObj2);
 
-		assertThat(new CardsListParser().parse(o))
+		assertThat(uut.parseResponse(o))
 				.containsOnly(Card.create("cardId1", "question1", "answer1"),
 						Card.create("cardId2", "question2", "answer2")
 				);

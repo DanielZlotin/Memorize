@@ -18,7 +18,7 @@ public class CardsActivity extends BaseActivity {
 		String topicId = getIntent().getStringExtra(INTENT_TOPIC_ID);
 
 		view = new CardsView(this);
-		interactor = new CardsInteractor(topicId, view, config.loader, config.shuffler);
+		interactor = new CardsInteractor(topicId, view, config.network, config.shuffler);
 		view.setOnClickListener(v -> interactor.onClick());
 
 		setContentView(view);

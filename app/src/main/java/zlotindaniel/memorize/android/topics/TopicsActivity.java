@@ -18,7 +18,7 @@ public class TopicsActivity extends BaseActivity {
 
 		view = new TopicsView(this);
 		setContentView(view);
-		interactor = new TopicsInteractor(view, config.loader);
+		interactor = new TopicsInteractor(view, config.network);
 
 		interactor.start();
 	}

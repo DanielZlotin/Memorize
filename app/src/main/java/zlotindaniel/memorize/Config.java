@@ -1,14 +1,14 @@
 package zlotindaniel.memorize;
 
-import zlotindaniel.memorize.data.Loader;
+import zlotindaniel.memorize.data.Network;
 import zlotindaniel.memorize.shuffle.Shuffler;
 
 public final class Config {
-	public final Loader loader;
+	public final Network network;
 	public final Shuffler shuffler;
 
-	public Config(Loader loader, final Shuffler shuffler) {
-		this.loader = loader;
+	public Config(Network network, final Shuffler shuffler) {
+		this.network = network;
 		this.shuffler = shuffler;
 	}
 }

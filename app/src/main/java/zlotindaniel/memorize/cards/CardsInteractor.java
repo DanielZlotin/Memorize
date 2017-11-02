@@ -5,30 +5,30 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Stack;
 
-import zlotindaniel.memorize.data.Loader;
+import zlotindaniel.memorize.data.Network;
 import zlotindaniel.memorize.shuffle.Shuffler;
 
 public class CardsInteractor {
 
 	private final String topicId;
 	private final CardsDisplay display;
-	private final Loader loader;
+	private final Network network;
 	private final Shuffler shuffler;
 
 	private final Stack<Card> cardStack = new Stack<>();
 	private List<Card> loadedCards = Lists.newArrayList();
 	private CardsPresentation presentation;
 
-	public CardsInteractor(String topicId, CardsDisplay display, Loader loader, Shuffler shuffler) {
+	public CardsInteractor(String topicId, CardsDisplay display, Network network, Shuffler shuffler) {
 		this.topicId = topicId;
 		this.display = display;
-		this.loader = loader;
+		this.network = network;
 		this.shuffler = shuffler;
 	}
 
 	public void start() {
 		display(CardsPresentation.Loading, "");
-		loader.load(new CardsRequest(topicId, this::handleSuccess, this::handleFailure));
+		network.load(new GetCardsRequest(topicId, this::handleSuccess, this::handleFailure));
 	}
 
 	public void onClick() {

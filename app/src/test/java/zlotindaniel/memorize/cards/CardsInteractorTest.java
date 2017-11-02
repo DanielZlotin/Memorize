@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import zlotindaniel.memorize.BaseTest;
 import zlotindaniel.memorize.data.Request;
-import zlotindaniel.memorize.mocks.TestLoader;
+import zlotindaniel.memorize.TestNetwork;
 import zlotindaniel.memorize.shuffle.Shuffler;
 import zlotindaniel.memorize.shuffle.TestShuffler;
 
@@ -16,12 +16,12 @@ public class CardsInteractorTest extends BaseTest {
 	private CardsInteractor uut;
 	private TestCardsDisplay testDisplay;
 	private Shuffler testShuffler;
-	private TestLoader loader;
+	private TestNetwork loader;
 
 	@Override
 	public void beforeEach() {
 		super.beforeEach();
-		loader = new TestLoader();
+		loader = new TestNetwork();
 		testDisplay = new TestCardsDisplay();
 		testShuffler = new TestShuffler();
 		uut = new CardsInteractor("someTopicId", testDisplay, loader, testShuffler);
@@ -29,7 +29,7 @@ public class CardsInteractorTest extends BaseTest {
 
 	@Test
 	public void start_LoadsData() throws Exception {
-		loader = new TestLoader() {
+		loader = new TestNetwork() {
 			@Override
 			public <T> void load(final Request<T> request) {
 				//

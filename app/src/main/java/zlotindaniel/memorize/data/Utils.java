@@ -1,6 +1,8 @@
 package zlotindaniel.memorize.data;
 
-import org.json.JSONObject;
+import com.google.common.base.*;
+
+import org.json.*;
 
 public final class Utils {
 
@@ -10,6 +12,13 @@ public final class Utils {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static String normalize(final String in) {
+		return CharMatcher.whitespace()
+		                  .or(CharMatcher.invisible())
+		                  .collapseFrom(Strings.nullToEmpty(in), ' ')
+		                  .trim();
 	}
 
 	Utils() {

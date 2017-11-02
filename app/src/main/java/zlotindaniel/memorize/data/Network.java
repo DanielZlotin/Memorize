@@ -1,5 +1,7 @@
 package zlotindaniel.memorize.data;
 
-public interface Loader {
+public interface Network {
 	<T> void load(Request<T> request);
+
+	void save(Payload request);
 }

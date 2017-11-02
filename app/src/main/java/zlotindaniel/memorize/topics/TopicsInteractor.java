@@ -1,18 +1,22 @@
 package zlotindaniel.memorize.topics;
 
-import java.util.List;
+import android.support.annotation.*;
 
-import zlotindaniel.memorize.data.Loader;
+import com.google.common.base.*;
+
+import java.util.*;
+
+import zlotindaniel.memorize.data.*;
 
 public class TopicsInteractor implements TopicsDisplay.Listener {
 
 	private final TopicsDisplay display;
-	private final Loader loader;
+	private final Network network;
 
 
-	public TopicsInteractor(TopicsDisplay display, Loader loader) {
+	public TopicsInteractor(TopicsDisplay display, Network network) {
 		this.display = display;
-		this.loader = loader;
+		this.network = network;
 	}
 
 	public void start() {
@@ -21,7 +25,7 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 	}
 
 	private void load() {
-		loader.load(new TopicsRequest(this::handleSucess, this::handleFailure));
+		network.load(new GetTopicsRequest(this::handleSucess, this::handleFailure));
 	}
 
 	@Override
@@ -30,8 +34,11 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 	}
 
 	@Override
-	public void createTopic(String name) {
-
+	public void createTopic(@NonNull String name) {
+		String normalized = Utils.normalize(name);
+		if (!Strings.isNullOrEmpty(normalized)) {
+			network.save(new CreateTopicPayload(normalized, b -> refresh(), this::handleFailure));
+		}
 	}
 
 	private void handleSucess(final List<Topic> topics) {

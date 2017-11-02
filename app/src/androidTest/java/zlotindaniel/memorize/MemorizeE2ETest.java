@@ -58,5 +58,8 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		onView(withId(TopicsView.idInputCreateNewTopic)).perform(typeText("New Topic 1"));
 
 		clickOn("Create");
+		waitForText(TopicsView.title);
+		waitForText("New Topic 1");
+		assertDisplayed("New Topic 1");
 	}
 }

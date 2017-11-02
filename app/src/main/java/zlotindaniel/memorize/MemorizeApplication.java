@@ -2,7 +2,7 @@ package zlotindaniel.memorize;
 
 import android.app.Application;
 
-import zlotindaniel.memorize.android.FirebaseLoader;
+import zlotindaniel.memorize.android.FirebaseNetwork;
 import zlotindaniel.memorize.shuffle.DefaultShuffler;
 
 public class MemorizeApplication extends Application {
@@ -18,7 +18,7 @@ public class MemorizeApplication extends Application {
 
 	public Config createConfig() {
 		return new Config(
-				new FirebaseLoader("production"),
+				new FirebaseNetwork("production"),
 				new DefaultShuffler()
 		);
 	}

@@ -1,11 +1,11 @@
 package zlotindaniel.memorize.data;
 
-import org.json.JSONObject;
-import org.junit.Test;
+import org.json.*;
+import org.junit.*;
 
-import zlotindaniel.memorize.BaseTest;
+import zlotindaniel.memorize.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class UtilsTest extends BaseTest {
 	@Test
@@ -24,5 +24,18 @@ public class UtilsTest extends BaseTest {
 	@Test(expected = RuntimeException.class)
 	public void jsonPutUncheckedExceptions() throws Exception {
 		Utils.jsonPut(null, null, null);
+	}
+
+	@Test
+	public void normalize() throws Exception {
+		assertThat(Utils.normalize(null)).isEqualTo("");
+		assertThat(Utils.normalize("")).isEqualTo("");
+		assertThat(Utils.normalize(" ")).isEqualTo("");
+		assertThat(Utils.normalize("x")).isEqualTo("x");
+		assertThat(Utils.normalize("x x")).isEqualTo("x x");
+		assertThat(Utils.normalize("x  x")).isEqualTo("x x");
+		assertThat(Utils.normalize("x \t x")).isEqualTo("x x");
+		assertThat(Utils.normalize("x \b\nx")).isEqualTo("x x");
+		assertThat(Utils.normalize("       \n\n\n      \n\nx \t\n\r\b x  \n\r\b\t")).isEqualTo("x x");
 	}
 }

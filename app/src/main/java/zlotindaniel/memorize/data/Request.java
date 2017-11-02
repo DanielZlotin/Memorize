@@ -1,15 +1,26 @@
 package zlotindaniel.memorize.data;
 
-public class Request<T> {
+import android.support.annotation.*;
+
+import com.google.common.base.*;
+
+import org.json.*;
+
+public abstract class Request<T> {
+	@NonNull
 	public final String path;
-	public final JsonParser<T> parser;
+	@NonNull
 	public final OnSuccess<T> onSuccess;
+	@NonNull
 	public final OnFailure onFailure;
 
-	public Request(final String path, final JsonParser<T> parser, final OnSuccess<T> onSuccess, final OnFailure onFailure) {
-		this.path = path;
-		this.parser = parser;
-		this.onSuccess = onSuccess;
-		this.onFailure = onFailure;
+	public Request(@NonNull final String path,
+	               @NonNull final OnSuccess<T> onSuccess,
+	               @NonNull final OnFailure onFailure) {
+		this.path = Preconditions.checkNotNull(Strings.emptyToNull(path));
+		this.onSuccess = Preconditions.checkNotNull(onSuccess);
+		this.onFailure = Preconditions.checkNotNull(onFailure);
 	}
+
+	abstract public T parseResponse(JSONObject response);
 }
