@@ -27,23 +27,23 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		assertDisplayed("Topic Name 2");
 		assertDisplayed("Topic Name 3");
 
-		clickOn("Topic Name 1");
+		onView(withText("Topic Name 1")).perform(click());
 
 		waitForText(CardsView.title);
 
 		waitForText("Card Question 1");
 		assertDisplayed("Card Question 1");
-		clickOn("Card Question 1");
+		onView(withText("Card Question 1")).perform(click());
 		assertDisplayed("Card Answer 1");
-		clickOn("Card Answer 1");
+		onView(withText("Card Answer 1")).perform(click());
 		assertDisplayed("Card Question 2");
-		clickOn("Card Question 2");
+		onView(withText("Card Question 2")).perform(click());
 		assertDisplayed("Card Answer 2");
-		clickOn("Card Answer 2");
+		onView(withText("Card Answer 2")).perform(click());
 		assertDisplayed("Card Question 3");
-		clickOn("Card Question 3");
+		onView(withText("Card Question 3")).perform(click());
 		assertDisplayed("Card Answer 3");
-		clickOn("Card Answer 3");
+		onView(withText("Card Answer 3")).perform(click());
 		assertDisplayed("Card Question 1");
 	}
 
@@ -59,7 +59,7 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		onView(withHint("Name")).check(matches(isDisplayed()));
 		onView(withId(TopicsView.idInputCreateNewTopic)).perform(typeText("New Topic"));
 
-		clickOn("Create");
+		onView(withText("Create")).perform(click());
 		waitForText(TopicsView.title);
 		waitForText("New Topic");
 		assertDisplayed("New Topic");
@@ -80,7 +80,7 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		onView(withId(EditTopicView.idInputRenameTopic)).perform(clearText());
 		onView(withId(EditTopicView.idInputRenameTopic)).perform(typeText("renamed topic"));
 
-		clickOn("Save");
+		onView(withText("Save")).perform(click());
 		Espresso.onIdle();
 		waitForText("Renamed Topic");
 		assertDisplayed("Renamed Topic");
@@ -102,22 +102,34 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		assertDisplayed("Renamed Topic");
 
 		onView(withContentDescription("More options")).perform(click());
-		clickOn("Delete Topic");
+		onView(withText("Delete Topic")).perform(click());
 		assertDisplayed("Delete Renamed Topic?");
-		clickOn("Oops. NO!");
+		onView(withText("Oops. NO!")).perform(click());
 		assertDisplayed("Renamed Topic");
 
 		onView(withContentDescription("More options")).perform(click());
-		clickOn("Delete Topic");
+		onView(withText("Delete Topic")).perform(click());
 		assertDisplayed("Delete Renamed Topic?");
-		clickOn("Yes");
+		onView(withText("Yes")).perform(click());
 		assertDisplayed("Are you sure?");
 		assertDisplayed("There's no going back! Renamed Topic will be lost forever!");
-		clickOn("Yes yes go ahead!");
+		onView(withText("Yes yes go ahead!")).perform(click());
 
 		Espresso.onIdle();
 		waitForText(TopicsView.title);
 
 		assertNotDisplayed("Renamed Topic");
+	}
+
+	@Test
+	public void _5_topicDetailsShowCards() throws Exception {
+		launchApp();
+		waitForText(TopicsView.title);
+		waitForText("Topic Name 1");
+
+		onView(withText("Topic Name 3")).perform(longClick());
+		waitForText("Card Question 1A");
+		assertDisplayed("Card Question 1A");
+		assertDisplayed("Card Answer 1A");
 	}
 }

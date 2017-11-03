@@ -17,12 +17,15 @@ public class FirebaseNetwork implements Network {
 
 	@Override
 	public void create(CreateRequest request) {
-		FirebaseDatabase.getInstance()
-		                .getReference(fullpath(request.path))
-		                .push()
-		                .setValue(Utils.toMap(request.payload.toJson()))
-		                .addOnSuccessListener(o -> request.onSuccess.success(Boolean.TRUE))
-		                .addOnFailureListener(request.onFailure::failure);
+		DatabaseReference ref = FirebaseDatabase.getInstance()
+		                                        .getReference(fullpath(request.path))
+		                                        .push();
+
+		String id = ref.getKey();
+
+		ref.setValue(Utils.toMap(request.payload.toJson()))
+		   .addOnSuccessListener(o -> request.onSuccess.success(id))
+		   .addOnFailureListener(request.onFailure::failure);
 	}
 
 	@Override

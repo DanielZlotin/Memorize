@@ -14,7 +14,6 @@ import org.junit.runner.*;
 import java.lang.reflect.*;
 
 import static android.support.test.InstrumentationRegistry.*;
-import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,10 +52,6 @@ public abstract class BaseE2ETest {
 
 	public void assertNotDisplayed(String txt) {
 		assertThat(device().findObject(new UiSelector().text(txt)).exists()).isFalse();
-	}
-
-	public void clickOn(String txt) {
-		Espresso.onView(withText(txt)).perform(click());
 	}
 
 	public void waitForText(String text) {

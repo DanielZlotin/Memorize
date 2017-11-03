@@ -1,7 +1,5 @@
 package zlotindaniel.memorize.topics;
 
-import com.google.common.collect.*;
-
 import java.util.*;
 
 import zlotindaniel.memorize.data.*;
@@ -11,8 +9,6 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 
 	private final TopicsDisplay display;
 	private final Network network;
-	private List<Topic> topics = Collections.emptyList();
-
 
 	public TopicsInteractor(TopicsDisplay display, Network network) {
 		this.display = display;
@@ -38,24 +34,13 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 		String normalized = Utils.normalize(name);
 		if (normalized.isEmpty()) return;
 
-		if (hasTopic(normalized)) {
-			handleFailure(new RuntimeException("Topic already exists"));
-		} else {
-			network.create(new CreateRequest(
-					"topics/index",
-					new Topic("", normalized),
-					b -> this.refresh(),
-					this::handleFailure));
-		}
-	}
-
-	private boolean hasTopic(final String normalized) {
-		return Iterables.any(topics, topic -> topic.getName().equalsIgnoreCase(normalized));
+		new TopicService(network).create(normalized,
+				t -> this.refresh(),
+				this::handleFailure);
 	}
 
 	private void handleSucess(final List<Topic> topics) {
 		Collections.sort(topics, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
-		this.topics = topics;
 		display.bind(topics);
 	}
 

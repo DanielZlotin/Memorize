@@ -12,7 +12,7 @@ import zlotindaniel.memorize.*;
 import zlotindaniel.memorize.android.ViewUtils;
 import zlotindaniel.memorize.edit.*;
 
-public class EditTopicView extends LinearLayout implements EditTopicDisplay {
+public class EditTopicView extends FrameLayout implements EditTopicDisplay {
 
 	public static final String menuBtnRenameTopicTitle = "Rename Topic";
 	public static final int idInputRenameTopic = View.generateViewId();
@@ -25,7 +25,11 @@ public class EditTopicView extends LinearLayout implements EditTopicDisplay {
 
 	public EditTopicView(final Activity context) {
 		super(context);
-		setOrientation(VERTICAL);
+		initCards();
+	}
+
+	private void initCards() {
+
 	}
 
 	public void onCreateMenu(final Menu menu) {
@@ -43,33 +47,6 @@ public class EditTopicView extends LinearLayout implements EditTopicDisplay {
 		} else if (item.getItemId() == idMenuBtnRenameTopic) {
 			askRenameTopic();
 		}
-	}
-
-	private void askRenameTopic() {
-		TextInputLayout layout = new TextInputLayout(getContext());
-		int p = ViewUtils.dp(16);
-		layout.setPadding(p, p, p, p);
-
-		final TextInputEditText input = new TextInputEditText(getContext());
-		input.setInputType(EditorInfo.TYPE_CLASS_TEXT
-				| EditorInfo.TYPE_TEXT_FLAG_AUTO_COMPLETE
-				| EditorInfo.TYPE_TEXT_FLAG_AUTO_CORRECT
-				| EditorInfo.TYPE_TEXT_FLAG_CAP_WORDS);
-		input.setSingleLine();
-		input.setHint("Name");
-		input.setText(topicName);
-		input.selectAll();
-		input.setId(idInputRenameTopic);
-
-		layout.addView(input);
-
-		new AlertDialog.Builder(getContext())
-				.setTitle("Rename Topic " + topicName)
-				.setView(layout)
-				.setPositiveButton("Save", (dialog, which) -> {
-					String name = input.getText().toString();
-					listener.renameTopic(name);
-				}).show();
 	}
 
 	@Override
@@ -100,6 +77,39 @@ public class EditTopicView extends LinearLayout implements EditTopicDisplay {
 
 	}
 
+	@Override
+	public void navigateHome() {
+		if (dialog != null) dialog.dismiss();
+		((Activity) getContext()).finish();
+	}
+
+	private void askRenameTopic() {
+		TextInputLayout layout = new TextInputLayout(getContext());
+		int p = ViewUtils.dp(16);
+		layout.setPadding(p, p, p, p);
+
+		final TextInputEditText input = new TextInputEditText(getContext());
+		input.setInputType(EditorInfo.TYPE_CLASS_TEXT
+				| EditorInfo.TYPE_TEXT_FLAG_AUTO_COMPLETE
+				| EditorInfo.TYPE_TEXT_FLAG_AUTO_CORRECT
+				| EditorInfo.TYPE_TEXT_FLAG_CAP_WORDS);
+		input.setSingleLine();
+		input.setHint("Name");
+		input.setText(topicName);
+		input.selectAll();
+		input.setId(idInputRenameTopic);
+
+		layout.addView(input);
+
+		new AlertDialog.Builder(getContext())
+				.setTitle("Rename Topic " + topicName)
+				.setView(layout)
+				.setPositiveButton("Save", (dialog, which) -> {
+					String name = input.getText().toString();
+					listener.renameTopic(name);
+				}).show();
+	}
+
 	private void askDeleteTopic() {
 		new AlertDialog.Builder(getContext())
 				.setTitle("Delete " + topicName + "?")
@@ -119,10 +129,5 @@ public class EditTopicView extends LinearLayout implements EditTopicDisplay {
 
 	private void deleteTopic() {
 		listener.deleteTopic();
-	}
-
-	@Override
-	public void navigateHome() {
-		((Activity) getContext()).finish();
 	}
 }

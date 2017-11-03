@@ -64,43 +64,21 @@ public class TopicsInteractorTest extends BaseTest {
 
 	@Test
 	public void createTopic_SendsRequest_OnSuccessReload() throws Exception {
-		network.nextSuccess(true);
+		network.nextSuccess(Lists.newArrayList(new Topic("new id", "bla")));
+		network.nextSuccess("new id");
 
 		uut.createTopic("the new topic name");
 
 		assertThat(network.creations).hasSize(1);
-		assertThat(network.reads).hasSize(1);
+		assertThat(network.reads).hasSize(2);
 	}
 
 	@Test
 	public void createTopicNormalizesInput() throws Exception {
+		network.nextSuccess(Lists.newArrayList());
 		uut.createTopic("  \n\n a \t b     c  \r\n");
 		assertThat(network.creations).hasSize(1);
 		assertThat(network.creations.get(0).payload.toJson().get("name")).isEqualTo("A B C");
-	}
-
-	@Test
-	public void createTopic_Failure() throws Exception {
-		RuntimeException error = new RuntimeException("the error");
-		network.nextError(error);
-		uut.createTopic("the new topic name");
-
-		assertThat(network.creations).hasSize(1);
-		assertThat(testDisplay.error).isEqualTo("the error");
-	}
-
-	@Test
-	public void createTopic_EnsureNoDuplicateByName() throws Exception {
-		Topic topic1 = new Topic("", "Topic 1");
-		Topic topic2 = new Topic("", "Topic 2");
-		Topic topic3 = new Topic("", "Topic 3");
-		network.nextSuccess(Lists.newArrayList(topic1, topic2, topic3));
-
-		uut.start();
-
-		uut.createTopic("   Topic  \n     \t    1 \t\n");
-
-		assertThat(testDisplay.error).isEqualTo("Topic already exists");
 	}
 
 	@Test

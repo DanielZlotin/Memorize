@@ -24,7 +24,7 @@ public abstract class BaseTest {
 		} catch (Exception e) {
 			err = e;
 		}
-		assertThat(err).isNotNull();
+		assertThat(err).withFailMessage("expected to throw").isNotNull();
 	}
 }
 

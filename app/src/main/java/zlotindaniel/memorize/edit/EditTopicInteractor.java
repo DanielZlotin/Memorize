@@ -1,9 +1,5 @@
 package zlotindaniel.memorize.edit;
 
-import com.google.common.collect.*;
-
-import java.util.*;
-
 import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.data.request.*;
 import zlotindaniel.memorize.topics.*;
@@ -42,23 +38,12 @@ public class EditTopicInteractor implements EditTopicDisplay.Listener {
 		}
 		loading();
 
-		network.read(new ReadRequest<>("topics/index", new TopicsListParser(), topics -> {
-			if (hasTopic(verified, topics)) {
-				handleError(new RuntimeException("Topic Already Exists"));
-			} else {
-				this.topic = new Topic(topic.getId(), verified);
-				network.update(new UpdateRequest(
-						"topics/index/" + topic.getId(),
-						topic,
-						b -> refresh(),
-						this::handleError));
-			}
-		}, this::handleError));
-
-	}
-
-	private boolean hasTopic(final String verified, final List<Topic> topics) {
-		return Iterables.any(topics, t -> t.getName().equalsIgnoreCase(verified));
+		new TopicService(network).update(topic.withName(verified),
+				t -> {
+					this.topic = t;
+					refresh();
+				},
+				this::handleError);
 	}
 
 	private void loading() {

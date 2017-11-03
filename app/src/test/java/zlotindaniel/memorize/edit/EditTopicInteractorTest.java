@@ -57,8 +57,10 @@ public class EditTopicInteractorTest extends BaseTest {
 	@Test
 	public void renameTopic() throws Exception {
 		network.nextSuccess(Lists.newArrayList());
+		network.nextSuccess(true);
 		uut.renameTopic("the new name");
 		assertThat(network.updates).hasSize(1);
+		assertThat(display.topicName).isEqualTo("The New Name");
 	}
 
 	@Test
@@ -66,22 +68,6 @@ public class EditTopicInteractorTest extends BaseTest {
 		uut.renameTopic("");
 		assertThat(network.updates).isEmpty();
 		uut.renameTopic("   \t\n the   \t \n NAME  \r\n\b");
-		assertThat(network.updates).isEmpty();
-	}
-
-	@Test
-	public void renameTopicSuccess() throws Exception {
-		network.nextSuccess(Lists.newArrayList());
-		network.nextSuccess(true);
-		uut.renameTopic("    new       \t name\n\r\t\b");
-		assertThat(display.topicName).isEqualTo("New Name");
-	}
-
-	@Test
-	public void renameTopicPreventDuplicates() throws Exception {
-		network.nextSuccess(Lists.newArrayList(new Topic("", "the new name")));
-		uut.renameTopic("the new name");
-		assertThat(network.reads).hasSize(1);
 		assertThat(network.updates).isEmpty();
 	}
 }

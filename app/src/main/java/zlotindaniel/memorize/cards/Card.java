@@ -28,12 +28,20 @@ public class Card implements ValueType {
 		this.answer = checkNotNull(Strings.emptyToNull(answer));
 	}
 
+	@Override
 	public String getId() {
 		return id;
 	}
 
+	@Override
 	public boolean hasId() {
 		return !Objects.equal(id, NO_ID);
+	}
+
+	@Override
+	public Card withId(final String id) {
+		Preconditions.checkArgument(!hasId(), "already has id");
+		return new Card(id, question, answer);
 	}
 
 	public String getQuestion() {

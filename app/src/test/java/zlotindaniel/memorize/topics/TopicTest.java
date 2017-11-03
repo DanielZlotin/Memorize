@@ -19,6 +19,9 @@ public class TopicTest extends BaseTest {
 		assertThat(topic).isEqualTo(new Topic("theId", "the name"));
 		assertThat(topic).isNotEqualTo(new Topic("x", "the name"));
 		assertThat(topic).isNotEqualTo(new Topic("theId", "x"));
+
+		assertThat(new Topic("", "the name").withId("newId")).isEqualTo(new Topic("newId", "The Name"));
+		assertThrows(() -> new Topic("xxx", "yyy").withId("another"));
 	}
 
 	@Test
@@ -44,6 +47,12 @@ public class TopicTest extends BaseTest {
 		assertThat(new Topic("a", "asd").getId()).isNotEmpty();
 
 		assertThat(new Topic("", "asd").toString()).isEqualTo("{\"name\":\"Asd\"}");
+	}
+
+	@Test
+	public void withName() throws Exception {
+		assertThat(new Topic("asd", "zxc").withName("new name"))
+				.isEqualTo(new Topic("asd", "New Name"));
 	}
 
 	@Test

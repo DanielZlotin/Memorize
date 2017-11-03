@@ -27,12 +27,24 @@ public class Topic implements ValueType {
 		this.name = checkNotNull(emptyToNull(capitalizeFully(normalize(name))));
 	}
 
+	@Override
 	public boolean hasId() {
 		return !Objects.equal(id, NO_ID);
 	}
 
+	@Override
 	public String getId() {
 		return id;
+	}
+
+	@Override
+	public Topic withId(final String id) {
+		Preconditions.checkArgument(!hasId(), "already has id");
+		return new Topic(id, name);
+	}
+
+	public Topic withName(String newName) {
+		return new Topic(id, newName);
 	}
 
 	public String getName() {

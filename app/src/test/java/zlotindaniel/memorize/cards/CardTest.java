@@ -43,6 +43,9 @@ public class CardTest extends BaseTest {
 		assertThat(first).isNotEqualTo(new Card("x", "question", "answer"));
 		assertThat(first).isNotEqualTo(new Card("id", "x", "answer"));
 		assertThat(first).isNotEqualTo(new Card("id", "question", "x"));
+
+		assertThat(new Card("", "q", "a").withId("id")).isEqualTo(new Card("id", "q", "a"));
+		assertThrows(() -> first.withId("any"));
 	}
 
 	@Test(expected = NullPointerException.class)

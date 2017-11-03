@@ -18,7 +18,7 @@ public class MemorizeApplication extends Application {
 
 	public Config createConfig() {
 		return new Config(
-				new FirebaseNetwork("production"),
+				new FirebaseNetwork("test"),
 				new DefaultShuffler()
 		);
 	}
