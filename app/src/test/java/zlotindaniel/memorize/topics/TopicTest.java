@@ -1,49 +1,58 @@
 package zlotindaniel.memorize.topics;
 
-import org.junit.Test;
-import org.junit.experimental.theories.DataPoints;
+import org.json.*;
+import org.junit.*;
+import org.junit.experimental.theories.*;
 
-import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.EqualsHashCodeTheory;
+import zlotindaniel.memorize.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class TopicTest extends BaseTest {
 
 	@Test
 	public void valueType() throws Exception {
-		Topic topic = Topic.create("theId", "the name");
+		Topic topic = new Topic("theId", "the name");
 		assertThat(topic.getId()).isEqualTo("theId");
 		assertThat(topic.getName()).isEqualTo("the name");
 
-		assertThat(topic).isEqualTo(Topic.create("theId", "the name"));
-		assertThat(topic).isNotEqualTo(Topic.create("x", "the name"));
-		assertThat(topic).isNotEqualTo(Topic.create("theId", "x"));
+		assertThat(topic).isEqualTo(new Topic("theId", "the name"));
+		assertThat(topic).isNotEqualTo(new Topic("x", "the name"));
+		assertThat(topic).isNotEqualTo(new Topic("theId", "x"));
 	}
 
 	@Test
 	public void requiredFields() throws Exception {
-		assertThrows(() -> Topic.create(null, null));
-		assertThrows(() -> Topic.create("some id", ""));
+		assertThrows(() -> new Topic(null, null));
+		assertThrows(() -> new Topic("some id", ""));
 	}
 
 	@Test
 	public void idIsOptional() throws Exception {
-		assertThat(Topic.create(null, "asd").hasId()).isFalse();
-		assertThat(Topic.create("", "asd").hasId()).isFalse();
-		assertThat(Topic.create("a", "asd").hasId()).isTrue();
+		assertThat(new Topic(null, "asd").hasId()).isFalse();
+		assertThat(new Topic("", "asd").hasId()).isFalse();
+		assertThat(new Topic("a", "asd").hasId()).isTrue();
 
-		assertThat(Topic.create(null, "asd").getId()).isNotEmpty();
-		assertThat(Topic.create("", "asd").getId()).isNotEmpty();
-		assertThat(Topic.create("a", "asd").getId()).isNotEmpty();
+		assertThat(new Topic(null, "asd").getId()).isNotEmpty();
+		assertThat(new Topic("", "asd").getId()).isNotEmpty();
+		assertThat(new Topic("a", "asd").getId()).isNotEmpty();
+
+		assertThat(new Topic("", "asd").toString()).isEqualTo("{\"name\":\"asd\"}");
+	}
+
+	@Test
+	public void json() throws Exception {
+		JSONObject json = new Topic("theId", "theName").toJson();
+		assertThat(json).isNotNull();
+		assertThat(Topic.parse(json)).isEqualTo(new Topic("theId", "theName"));
 	}
 
 	public static class TopicValueType extends EqualsHashCodeTheory {
 		@DataPoints
 		public static Object[] data = {
-				Topic.create("theId", "theName"),
-				Topic.create("a", "a"),
-				Topic.create("", "a")
+				new Topic("theId", "theName"),
+				new Topic("a", "a"),
+				new Topic("", "a")
 		};
 	}
 }

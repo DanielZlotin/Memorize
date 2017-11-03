@@ -1,10 +1,10 @@
 package zlotindaniel.memorize;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.content.*;
+import android.os.*;
+import android.support.annotation.*;
 
-import zlotindaniel.memorize.android.login.LoginActivity;
+import zlotindaniel.memorize.android.login.*;
 
 public class LaunchActivity extends BaseActivity {
 

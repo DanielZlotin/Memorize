@@ -1,18 +1,17 @@
 package zlotindaniel.memorize.android.login;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.widget.Toast;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.widget.*;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.common.collect.Lists;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.firebase.ui.auth.*;
+import com.google.common.collect.*;
+import com.google.firebase.auth.*;
 
-import zlotindaniel.memorize.BaseActivity;
-import zlotindaniel.memorize.android.topics.TopicsActivity;
+import zlotindaniel.memorize.*;
+import zlotindaniel.memorize.android.topics.*;
 
 public class LoginActivity extends BaseActivity {
 

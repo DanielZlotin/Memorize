@@ -1,9 +1,13 @@
 package zlotindaniel.memorize.data;
 
-public interface Network {
-	<T> void load(Request<T> request);
+import zlotindaniel.memorize.data.request.*;
 
-	void save(Payload request);
+public interface Network {
+	void create(CreateRequest request);
+
+	<T> void read(ReadRequest<T> request);
+
+	void update(UpdateRequest request);
 
 	void delete(DeleteRequest request);
 }

@@ -1,7 +1,6 @@
 package zlotindaniel.memorize.shuffle;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class DefaultShuffler implements Shuffler {
 	@Override

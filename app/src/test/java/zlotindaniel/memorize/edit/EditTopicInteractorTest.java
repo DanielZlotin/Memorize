@@ -17,7 +17,7 @@ public class EditTopicInteractorTest extends BaseTest {
 	@Override
 	public void beforeEach() {
 		super.beforeEach();
-		topic = Topic.create("the id", "the name");
+		topic = new Topic("the id", "the name");
 		display = new TestEditTopicDisplay();
 		network = new TestNetwork();
 		uut = new EditTopicInteractor(topic, display, network);
@@ -33,7 +33,6 @@ public class EditTopicInteractorTest extends BaseTest {
 	public void deleteTopic() throws Exception {
 		uut.deleteTopic();
 		assertThat(network.deletions).hasSize(1);
-		assertThat(network.deletions.get(0)).isInstanceOf(DeleteTopicRequest.class);
 
 		assertThat(display.loading).isTrue();
 	}
@@ -52,5 +51,26 @@ public class EditTopicInteractorTest extends BaseTest {
 		assertThat(display.navigateHomeCalled).isFalse();
 		assertThat(display.loading).isFalse();
 		assertThat(display.error).isEqualTo("the error");
+	}
+
+	@Test
+	public void renameTopic() throws Exception {
+		uut.renameTopic("the new name");
+		assertThat(network.updates).hasSize(1);
+	}
+
+	@Test
+	public void renameTopic_MustBeDifferentAfterNormalization() throws Exception {
+		uut.renameTopic("");
+		assertThat(network.updates).isEmpty();
+		uut.renameTopic("   \t\n the   \t \n NAME  \r\n\b");
+		assertThat(network.updates).isEmpty();
+	}
+
+	@Test
+	public void renameTopicSuccess() throws Exception {
+		network.nextSuccess(true);
+		uut.renameTopic("    new       \t name\n\r\t\b");
+		assertThat(display.topicName).isEqualTo("New Name");
 	}
 }

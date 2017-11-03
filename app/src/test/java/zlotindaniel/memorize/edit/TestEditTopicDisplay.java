@@ -2,6 +2,7 @@ package zlotindaniel.memorize.edit;
 
 public class TestEditTopicDisplay implements EditTopicDisplay {
 	public Listener listener;
+	public String topicName;
 	public boolean loading;
 	public String error;
 	public boolean navigateHomeCalled;
@@ -12,7 +13,8 @@ public class TestEditTopicDisplay implements EditTopicDisplay {
 	}
 
 	@Override
-	public void bind(final boolean loading, String error) {
+	public void bind(final String topicName, final boolean loading, final String error) {
+		this.topicName = topicName;
 		this.loading = loading;
 		this.error = error;
 	}

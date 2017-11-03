@@ -1,6 +1,6 @@
 package zlotindaniel.memorize.shuffle;
 
-import java.util.List;
+import java.util.*;
 
 public interface Shuffler {
 	<T> void shuffle(List<T> objs);

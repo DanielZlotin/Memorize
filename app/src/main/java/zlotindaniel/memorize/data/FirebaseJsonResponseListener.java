@@ -1,12 +1,10 @@
 package zlotindaniel.memorize.data;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.*;
 
-import org.json.JSONObject;
+import org.json.*;
 
-import java.util.Map;
+import java.util.*;
 
 public class FirebaseJsonResponseListener implements ValueEventListener {
 	private final OnSuccess<JSONObject> onSuccess;

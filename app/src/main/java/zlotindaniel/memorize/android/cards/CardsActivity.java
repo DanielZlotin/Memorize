@@ -1,9 +1,9 @@
 package zlotindaniel.memorize.android.cards;
 
-import android.os.Bundle;
+import android.os.*;
 
-import zlotindaniel.memorize.BaseActivity;
-import zlotindaniel.memorize.cards.CardsInteractor;
+import zlotindaniel.memorize.*;
+import zlotindaniel.memorize.cards.*;
 
 public class CardsActivity extends BaseActivity {
 

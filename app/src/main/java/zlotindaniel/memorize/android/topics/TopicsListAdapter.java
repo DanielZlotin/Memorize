@@ -1,14 +1,13 @@
 package zlotindaniel.memorize.android.topics;
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.view.*;
+import android.widget.*;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
-import java.util.List;
+import java.util.*;
 
-import zlotindaniel.memorize.topics.Topic;
+import zlotindaniel.memorize.topics.*;
 
 public class TopicsListAdapter extends BaseAdapter {
 	private List<Topic> data = Lists.newArrayList();

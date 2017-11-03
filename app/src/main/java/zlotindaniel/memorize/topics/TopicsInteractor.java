@@ -1,13 +1,12 @@
 package zlotindaniel.memorize.topics;
 
-import android.support.annotation.*;
-
 import com.google.common.base.*;
 import com.google.common.collect.*;
 
 import java.util.*;
 
 import zlotindaniel.memorize.data.*;
+import zlotindaniel.memorize.data.request.*;
 
 public class TopicsInteractor implements TopicsDisplay.Listener {
 
@@ -27,7 +26,7 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 	}
 
 	private void load() {
-		network.load(new GetTopicsRequest(this::handleSucess, this::handleFailure));
+		network.read(new ReadRequest<>("topics/index", new TopicsListParser(), this::handleSucess, this::handleFailure));
 	}
 
 	@Override
@@ -36,14 +35,18 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 	}
 
 	@Override
-	public void createTopic(@NonNull String name) {
+	public void createTopic(String name) {
 		String normalized = Utils.normalize(name);
 		if (Strings.isNullOrEmpty(normalized)) return;
 
 		if (hasTopic(normalized)) {
 			handleFailure(new RuntimeException("Topic already exists"));
 		} else {
-			network.save(new CreateTopicPayload(normalized, b -> refresh(), this::handleFailure));
+			network.create(new CreateRequest(
+					"topics/index",
+					new Topic("", normalized),
+					b -> this.refresh(),
+					this::handleFailure));
 		}
 	}
 

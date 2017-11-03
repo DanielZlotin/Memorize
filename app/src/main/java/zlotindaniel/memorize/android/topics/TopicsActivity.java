@@ -1,12 +1,11 @@
 package zlotindaniel.memorize.android.topics;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.*;
+import android.support.annotation.*;
+import android.view.*;
 
-import zlotindaniel.memorize.BaseActivity;
-import zlotindaniel.memorize.topics.TopicsInteractor;
+import zlotindaniel.memorize.*;
+import zlotindaniel.memorize.topics.*;
 
 public class TopicsActivity extends BaseActivity {
 	private TopicsView view;

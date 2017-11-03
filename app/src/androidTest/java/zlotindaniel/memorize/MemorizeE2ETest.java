@@ -6,6 +6,7 @@ import org.junit.*;
 import org.junit.runners.*;
 
 import zlotindaniel.memorize.android.cards.*;
+import zlotindaniel.memorize.android.edit.*;
 import zlotindaniel.memorize.android.topics.*;
 
 import static android.support.test.espresso.Espresso.*;
@@ -65,7 +66,21 @@ public class MemorizeE2ETest extends BaseE2ETest {
 	}
 
 	@Test
-	public void _3_topicDetailsRemoveTopic() throws Exception {
+	public void _3_renameTopic() throws Exception {
+		launchApp();
+		waitForText(TopicsView.title);
+		waitForText("Topic Name 1");
+
+		onView(withText("New Topic 1")).perform(longClick());
+
+		Espresso.onIdle();
+		assertDisplayed("New Topic 1");
+
+		onView(withContentDescription(EditTopicView.menuBtnRenameTopicTitle)).perform(click());
+	}
+
+	@Test
+	public void _4_topicDetailsRemoveTopic() throws Exception {
 		launchApp();
 		waitForText(TopicsView.title);
 		waitForText("Topic Name 1");

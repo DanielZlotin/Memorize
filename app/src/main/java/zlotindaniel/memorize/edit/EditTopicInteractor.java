@@ -1,10 +1,11 @@
 package zlotindaniel.memorize.edit;
 
 import zlotindaniel.memorize.data.*;
+import zlotindaniel.memorize.data.request.*;
 import zlotindaniel.memorize.topics.*;
 
 public class EditTopicInteractor implements EditTopicDisplay.Listener {
-	private final Topic topic;
+	private Topic topic;
 	private final EditTopicDisplay display;
 	private final Network network;
 
@@ -16,11 +17,43 @@ public class EditTopicInteractor implements EditTopicDisplay.Listener {
 
 	public void start() {
 		display.setListener(this);
+		refresh();
 	}
 
 	@Override
 	public void deleteTopic() {
-		display.bind(true, "");
-		network.delete(new DeleteTopicRequest(topic.getId(), b -> display.navigateHome(), e -> display.bind(false, e.getMessage())));
+		loading();
+		network.delete(new DeleteRequest(
+				"topics/index/" + topic.getId(),
+				b -> display.navigateHome(),
+				this::handleError));
+	}
+
+	@Override
+	public void renameTopic(final String newName) {
+		String verified = Utils.capitalizeFully(Utils.normalize(newName));
+
+		if (verified.isEmpty() || topic.getName().equalsIgnoreCase(verified)) {
+			return;
+		}
+		loading();
+		this.topic = new Topic(topic.getId(), verified);
+		network.update(new UpdateRequest(
+				"topics/index/" + topic.getId(),
+				topic,
+				b -> refresh(),
+				this::handleError));
+	}
+
+	private void loading() {
+		display.bind(topic.getName(), true, "");
+	}
+
+	private void refresh() {
+		display.bind(topic.getName(), false, "");
+	}
+
+	private void handleError(final Exception e) {
+		display.bind(topic.getName(), false, e.getMessage());
 	}
 }

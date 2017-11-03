@@ -1,16 +1,14 @@
 package zlotindaniel.memorize.cards;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
-import org.junit.Test;
+import org.junit.*;
 
-import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.data.Request;
-import zlotindaniel.memorize.TestNetwork;
-import zlotindaniel.memorize.shuffle.Shuffler;
-import zlotindaniel.memorize.shuffle.TestShuffler;
+import zlotindaniel.memorize.*;
+import zlotindaniel.memorize.data.request.*;
+import zlotindaniel.memorize.shuffle.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class CardsInteractorTest extends BaseTest {
 	private CardsInteractor uut;
@@ -31,7 +29,7 @@ public class CardsInteractorTest extends BaseTest {
 	public void start_LoadsData() throws Exception {
 		loader = new TestNetwork() {
 			@Override
-			public <T> void load(final Request<T> request) {
+			public <T> void read(final ReadRequest<T> request) {
 				//
 			}
 		};
@@ -50,7 +48,7 @@ public class CardsInteractorTest extends BaseTest {
 
 	@Test
 	public void loadDataSucess_ShowCardQuestion() throws Exception {
-		loader.nextSuccess(Lists.newArrayList(Card.create("", "the question", "the answer")));
+		loader.nextSuccess(Lists.newArrayList(new Card("", "the question", "the answer")));
 		uut.start();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
 		assertThat(testDisplay.text).isEqualTo("the question");
@@ -58,7 +56,7 @@ public class CardsInteractorTest extends BaseTest {
 
 	@Test
 	public void loadDataSuccess_ShowQuestion_Click_ShowAnswer() throws Exception {
-		loader.nextSuccess(Lists.newArrayList(Card.create("", "the question", "the answer")));
+		loader.nextSuccess(Lists.newArrayList(new Card("", "the question", "the answer")));
 		uut.start();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
 		assertThat(testDisplay.text).isEqualTo("the question");
@@ -83,9 +81,9 @@ public class CardsInteractorTest extends BaseTest {
 	@Test
 	public void displaysTheNextCardInTheList() throws Exception {
 		loader.nextSuccess(Lists.newArrayList(
-				Card.create("", "Question1", "Answer1"),
-				Card.create("", "Question2", "Answer2"),
-				Card.create("", "Question3", "Answer3")));
+				new Card("", "Question1", "Answer1"),
+				new Card("", "Question2", "Answer2"),
+				new Card("", "Question3", "Answer3")));
 
 		uut.start();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
@@ -110,8 +108,8 @@ public class CardsInteractorTest extends BaseTest {
 	@Test
 	public void listIsDisplayedCircularilyEndlessly() throws Exception {
 		loader.nextSuccess(Lists.newArrayList(
-				Card.create("", "Question1", "Answer1"),
-				Card.create("", "Question2", "Answer2")));
+				new Card("", "Question1", "Answer1"),
+				new Card("", "Question2", "Answer2")));
 		uut.start();
 		assertThat(testDisplay.text).isEqualTo("Question1");
 		uut.click();
@@ -129,15 +127,15 @@ public class CardsInteractorTest extends BaseTest {
 	@Test
 	public void cleanStateWhenLoadAgain() throws Exception {
 		loader.nextSuccess(Lists.newArrayList(
-				Card.create("", "Question1", "Answer1"),
-				Card.create("", "Question2", "Answer2")));
+				new Card("", "Question1", "Answer1"),
+				new Card("", "Question2", "Answer2")));
 		uut.start();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
 		assertThat(testDisplay.text).isEqualTo("Question1");
 
 		loader.nextSuccess(Lists.newArrayList(
-				Card.create("", "Question1", "Answer1"),
-				Card.create("", "Question2", "Answer2")));
+				new Card("", "Question1", "Answer1"),
+				new Card("", "Question2", "Answer2")));
 
 		uut.start();
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);

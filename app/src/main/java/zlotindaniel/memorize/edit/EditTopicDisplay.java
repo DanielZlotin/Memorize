@@ -4,11 +4,13 @@ public interface EditTopicDisplay {
 
 	interface Listener {
 		void deleteTopic();
+
+		void renameTopic(String newName);
 	}
 
 	void setListener(Listener listener);
 
-	void bind(boolean loading, String error);
+	void bind(String topicName, boolean loading, String error);
 
 	void navigateHome();
 }

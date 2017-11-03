@@ -1,6 +1,6 @@
 package zlotindaniel.memorize.topics;
 
-import java.util.List;
+import java.util.*;
 
 public interface TopicsDisplay {
 

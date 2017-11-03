@@ -1,17 +1,17 @@
 package zlotindaniel.memorize.cards;
 
-import org.junit.Test;
-import org.junit.experimental.theories.DataPoints;
+import org.json.*;
+import org.junit.*;
+import org.junit.experimental.theories.*;
 
-import zlotindaniel.memorize.BaseTest;
-import zlotindaniel.memorize.EqualsHashCodeTheory;
+import zlotindaniel.memorize.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 public class CardTest extends BaseTest {
 	@Test
 	public void holdsQuestionAndAnswer() throws Exception {
-		Card card = Card.create("someId", "hi", "ho");
+		Card card = new Card("someId", "hi", "ho");
 		assertThat(card).isNotNull();
 		assertThat(card.getQuestion()).isEqualTo("hi");
 		assertThat(card.getAnswer()).isEqualTo("ho");
@@ -19,53 +19,63 @@ public class CardTest extends BaseTest {
 
 	@Test
 	public void hasId() throws Exception {
-		Card card = Card.create("myId", "hi", "ho");
+		Card card = new Card("myId", "hi", "ho");
 		assertThat(card.getId()).isEqualTo("myId");
 	}
 
 	@Test
 	public void idIsOptional() throws Exception {
-		assertThat(Card.create("", "theQuestion", "theAnswer").hasId()).isFalse();
-		assertThat(Card.create("", "theQuestion", "theAnswer").getId()).isNotEmpty();
+		assertThat(new Card("", "theQuestion", "theAnswer").hasId()).isFalse();
+		assertThat(new Card("", "theQuestion", "theAnswer").getId()).isNotEmpty();
 
-		assertThat(Card.create(null, "theQuestion", "theAnswer").hasId()).isFalse();
-		assertThat(Card.create(null, "theQuestion", "theAnswer").getId()).isNotEmpty();
+		assertThat(new Card((String) null, "theQuestion", "theAnswer").hasId()).isFalse();
+		assertThat(new Card((String) null, "theQuestion", "theAnswer").getId()).isNotEmpty();
 
-		assertThat(Card.create("someId", "theQuestion", "theAnswer").hasId()).isTrue();
-		assertThat(Card.create("someId", "theQuestion", "theAnswer").getId()).isNotEmpty();
+		assertThat(new Card("someId", "theQuestion", "theAnswer").hasId()).isTrue();
+		assertThat(new Card("someId", "theQuestion", "theAnswer").getId()).isNotEmpty();
 	}
 
 	@Test
 	public void valueType() throws Exception {
-		Card first = Card.create("id", "question", "answer");
-		Card second = Card.create("id", "question", "answer");
+		Card first = new Card("id", "question", "answer");
+		Card second = new Card("id", "question", "answer");
 		assertThat(first).isEqualTo(second);
-		assertThat(first).isNotEqualTo(Card.create("x", "question", "answer"));
-		assertThat(first).isNotEqualTo(Card.create("id", "x", "answer"));
-		assertThat(first).isNotEqualTo(Card.create("id", "question", "x"));
+		assertThat(first).isNotEqualTo(new Card("x", "question", "answer"));
+		assertThat(first).isNotEqualTo(new Card("id", "x", "answer"));
+		assertThat(first).isNotEqualTo(new Card("id", "question", "x"));
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void neverNullQuestion() throws Exception {
-		Card.create("asd", null, null);
+		new Card("asd", (String) null, (String) null);
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void neverNullAnswer() throws Exception {
-		Card.create("asd", "asd", null);
+		new Card("asd", "asd", (String) null);
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void neverEmptyValues() throws Exception {
-		Card.create("", "", "");
+		new Card("", "", "");
+	}
+
+	@Test
+	public void json() throws Exception {
+		Card card = new Card("id", "question", "answer");
+		JSONObject json = card.toJson();
+		assertThat(json).isNotNull();
+		assertThat(Card.parse(json)).isEqualTo(card);
+
+		assertThat(new Card("", "q", "a").toJson().keys()).containsOnly("question", "answer");
 	}
 
 	public static class CardValueType extends EqualsHashCodeTheory {
 		@DataPoints
 		public static Object[] data = {
-				Card.create("theId", "theQuestion", "theAnswer"),
-				Card.create("a", "a", "a"),
-				Card.create("", "theQuestion", "theAnswer")
+				new Card("theId", "theQuestion", "theAnswer"),
+				new Card("a", "a", "a"),
+				new Card("", "theQuestion", "theAnswer")
 		};
 	}
 }

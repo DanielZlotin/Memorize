@@ -1,29 +1,31 @@
 package zlotindaniel.memorize.cards;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
+import com.google.common.base.*;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.json.*;
 
-public class Card {
+import zlotindaniel.memorize.data.*;
+
+import static com.google.common.base.Preconditions.*;
+
+public class Card implements ValueType {
 	private static final String NO_ID = "NO_ID";
 
-	public static Card create(String id, String question, String answer) {
-		return new Card(
-				MoreObjects.firstNonNull(Strings.emptyToNull(id), NO_ID),
-				checkNotNull(Strings.emptyToNull(question)),
-				checkNotNull(Strings.emptyToNull(answer)));
+	public static Card parse(final JSONObject json) {
+		String id = json.optString("id");
+		String question = json.optString("question");
+		String answer = json.optString("answer");
+		return new Card(id, question, answer);
 	}
 
 	private final String id;
 	private final String question;
 	private final String answer;
 
-	private Card(String id, String question, String answer) {
-		this.id = id;
-		this.question = question;
-		this.answer = answer;
+	public Card(String id, String question, String answer) {
+		this.id = MoreObjects.firstNonNull(Strings.emptyToNull(id), NO_ID);
+		this.question = checkNotNull(Strings.emptyToNull(question));
+		this.answer = checkNotNull(Strings.emptyToNull(answer));
 	}
 
 	public String getId() {
@@ -62,5 +64,14 @@ public class Card {
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this).addValue(question).addValue(answer).toString();
+	}
+
+	@Override
+	public JSONObject toJson() {
+		JSONObject json = new JSONObject();
+		if (hasId()) Utils.jsonPut(json, "id", id);
+		Utils.jsonPut(json, "question", question);
+		Utils.jsonPut(json, "answer", answer);
+		return json;
 	}
 }

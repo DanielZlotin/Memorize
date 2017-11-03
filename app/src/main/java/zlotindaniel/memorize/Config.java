@@ -1,7 +1,7 @@
 package zlotindaniel.memorize;
 
-import zlotindaniel.memorize.data.Network;
-import zlotindaniel.memorize.shuffle.Shuffler;
+import zlotindaniel.memorize.data.*;
+import zlotindaniel.memorize.shuffle.*;
 
 public final class Config {
 	public final Network network;

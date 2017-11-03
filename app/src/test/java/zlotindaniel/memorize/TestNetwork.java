@@ -5,32 +5,16 @@ import com.google.common.collect.*;
 import java.util.*;
 
 import zlotindaniel.memorize.data.*;
+import zlotindaniel.memorize.data.request.*;
 
 public class TestNetwork implements Network {
-	public List<Request<?>> loads = Lists.newArrayList();
-	public List<Payload> payloads = Lists.newArrayList();
-	public List<Request<Boolean>> deletions = Lists.newArrayList();
+	public List<CreateRequest> creations = Lists.newArrayList();
+	public List<ReadRequest<?>> reads = Lists.newArrayList();
+	public List<UpdateRequest> updates = Lists.newArrayList();
+	public List<DeleteRequest> deletions = Lists.newArrayList();
 
 	private Stack<Object> nextSuccesses = new Stack<>();
 	private Stack<Exception> nextErrors = new Stack<>();
-
-	@Override
-	public <T> void load(final Request<T> request) {
-		loads.add(request);
-		next(request);
-	}
-
-	@Override
-	public void save(final Payload request) {
-		payloads.add(request);
-		next(request);
-	}
-
-	@Override
-	public void delete(final DeleteRequest request) {
-		deletions.add(request);
-		next(request);
-	}
 
 	public void nextSuccess(Object o) {
 		nextSuccesses.add(o);
@@ -40,8 +24,32 @@ public class TestNetwork implements Network {
 		nextErrors.add(e);
 	}
 
+	@Override
+	public void create(final CreateRequest request) {
+		creations.add(request);
+		next(request);
+	}
+
+	@Override
+	public <T> void read(final ReadRequest<T> request) {
+		reads.add(request);
+		next(request);
+	}
+
+	@Override
+	public void update(final UpdateRequest request) {
+		updates.add(request);
+		next(request);
+	}
+
+	@Override
+	public void delete(final DeleteRequest request) {
+		deletions.add(request);
+		next(request);
+	}
+
 	@SuppressWarnings("unchecked")
-	private <T> void next(final Request<T> request) {
+	private <T> void next(Request<T> request) {
 		if (!nextSuccesses.isEmpty()) {
 			T t = (T) nextSuccesses.pop();
 			request.onSuccess.success(t);

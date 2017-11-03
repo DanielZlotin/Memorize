@@ -1,6 +1,6 @@
 package zlotindaniel.memorize.android;
 
-import zlotindaniel.memorize.MemorizeApplication;
+import zlotindaniel.memorize.*;
 
 public class ViewUtils {
 	public static int dp(float px) {

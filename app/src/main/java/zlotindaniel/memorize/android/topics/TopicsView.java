@@ -82,9 +82,9 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 				.setTitle("New Topic")
 				.setView(layout)
 				.setPositiveButton("Create", (dialog, which) -> {
-			String name = input.getText().toString();
-			listener.createTopic(name);
-		}).show();
+					String name = input.getText().toString();
+					listener.createTopic(name);
+				}).show();
 	}
 
 	@Override
@@ -121,7 +121,8 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 	private void navigateEditTopic(final Topic topic) {
 		Intent intent = new Intent(getContext(), EditTopicActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		MemorizeApplication.context.acitivityStore(topic);
+		intent.putExtra(EditTopicActivity.INTENT_TOPIC_ID, topic.getId());
+		intent.putExtra(EditTopicActivity.INTENT_TOPIC_NAME, topic.getName());
 		getContext().startActivity(intent);
 	}
 }

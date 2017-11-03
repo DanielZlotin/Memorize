@@ -1,9 +1,8 @@
 package zlotindaniel.memorize.shuffle;
 
-import com.google.common.collect.Ordering;
+import com.google.common.collect.*;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class TestShuffler implements Shuffler {
 	@Override

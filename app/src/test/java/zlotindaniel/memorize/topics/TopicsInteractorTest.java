@@ -24,15 +24,14 @@ public class TopicsInteractorTest extends BaseTest {
 
 	@Test
 	public void start_loadsTopics() throws Exception {
-		Topic topic1 = Topic.create("", "Topic 1");
-		Topic topic2 = Topic.create("", "Topic 2");
-		Topic topic3 = Topic.create("", "Topic 3");
+		Topic topic1 = new Topic("", "Topic 1");
+		Topic topic2 = new Topic("", "Topic 2");
+		Topic topic3 = new Topic("", "Topic 3");
 		network.nextSuccess(Lists.newArrayList(topic1, topic2, topic3));
 
 		uut.start();
 
-		assertThat(network.loads).hasSize(1);
-		assertThat(network.loads.get(0)).isInstanceOf(GetTopicsRequest.class);
+		assertThat(network.reads).hasSize(1);
 		assertThat(testDisplay.topics).containsExactly(topic1, topic2, topic3);
 	}
 
@@ -52,15 +51,15 @@ public class TopicsInteractorTest extends BaseTest {
 	@Test
 	public void onRefreshReloadsTheList() throws Exception {
 		uut.start();
-		assertThat(network.loads).hasSize(1);
+		assertThat(network.reads).hasSize(1);
 		uut.refresh();
-		assertThat(network.loads).hasSize(2);
+		assertThat(network.reads).hasSize(2);
 	}
 
 	@Test
 	public void createTopic_EmptyDoesNothing() throws Exception {
 		uut.createTopic("");
-		assertThat(network.loads).hasSize(0);
+		assertThat(network.reads).hasSize(0);
 	}
 
 	@Test
@@ -69,17 +68,15 @@ public class TopicsInteractorTest extends BaseTest {
 
 		uut.createTopic("the new topic name");
 
-		assertThat(network.payloads).hasSize(1);
-		assertThat(network.payloads.get(0)).isInstanceOf(CreateTopicPayload.class);
-		assertThat(network.loads).hasSize(1);
-		assertThat(network.loads.get(0)).isInstanceOf(GetTopicsRequest.class);
+		assertThat(network.creations).hasSize(1);
+		assertThat(network.reads).hasSize(1);
 	}
 
 	@Test
 	public void createTopicNormalizesInput() throws Exception {
 		uut.createTopic("  \n\n a \t b     c  \r\n");
-		assertThat(network.payloads).hasSize(1);
-		assertThat(network.payloads.get(0).payload().get("name")).isEqualTo("a b c");
+		assertThat(network.creations).hasSize(1);
+		assertThat(network.creations.get(0).payload.toJson().get("name")).isEqualTo("a b c");
 	}
 
 	@Test
@@ -88,16 +85,15 @@ public class TopicsInteractorTest extends BaseTest {
 		network.nextError(error);
 		uut.createTopic("the new topic name");
 
-		assertThat(network.payloads).hasSize(1);
-		assertThat(network.payloads.get(0)).isInstanceOf(CreateTopicPayload.class);
+		assertThat(network.creations).hasSize(1);
 		assertThat(testDisplay.error).isEqualTo("the error");
 	}
 
 	@Test
 	public void createTopic_EnsureNoDuplicateByName() throws Exception {
-		Topic topic1 = Topic.create("", "Topic 1");
-		Topic topic2 = Topic.create("", "Topic 2");
-		Topic topic3 = Topic.create("", "Topic 3");
+		Topic topic1 = new Topic("", "Topic 1");
+		Topic topic2 = new Topic("", "Topic 2");
+		Topic topic3 = new Topic("", "Topic 3");
 		network.nextSuccess(Lists.newArrayList(topic1, topic2, topic3));
 
 		uut.start();

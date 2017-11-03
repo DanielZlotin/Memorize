@@ -1,16 +1,14 @@
 package zlotindaniel.memorize.android.topics;
 
-import android.content.Context;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.content.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
 
-import zlotindaniel.memorize.topics.Topic;
+import zlotindaniel.memorize.topics.*;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static zlotindaniel.memorize.android.ViewUtils.dp;
+import static android.view.ViewGroup.LayoutParams.*;
+import static zlotindaniel.memorize.android.ViewUtils.*;
 
 public class TopicCellView extends LinearLayout {
 	private TextView title;

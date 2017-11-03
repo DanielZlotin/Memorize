@@ -1,14 +1,14 @@
 package zlotindaniel.memorize.cards;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
-import zlotindaniel.memorize.data.Network;
-import zlotindaniel.memorize.shuffle.Shuffler;
+import zlotindaniel.memorize.data.*;
+import zlotindaniel.memorize.data.request.*;
+import zlotindaniel.memorize.shuffle.*;
 
-public class CardsInteractor implements CardsDisplay.Listener{
+public class CardsInteractor implements CardsDisplay.Listener {
 
 	private final String topicId;
 	private final CardsDisplay display;
@@ -29,7 +29,7 @@ public class CardsInteractor implements CardsDisplay.Listener{
 	public void start() {
 		display.setListener(this);
 		display(CardsPresentation.Loading, "");
-		network.load(new GetCardsRequest(topicId, this::handleSuccess, this::handleFailure));
+		network.read(new ReadRequest<>("topics/cards/" + topicId, new CardsListParser(), this::handleSuccess, this::handleFailure));
 	}
 
 	@Override
