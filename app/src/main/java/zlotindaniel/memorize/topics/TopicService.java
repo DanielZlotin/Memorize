@@ -38,6 +38,10 @@ public class TopicService {
 		network.read(new ReadRequest<>("topics/index", new TopicsListParser(), onSuccess, onFailure));
 	}
 
+	public void deleteTopic(final Topic topic, final OnSuccess<Boolean> onSuccess, final OnFailure onFailure) {
+		network.delete(new DeleteRequest("topics/index/" + topic.getId(), onSuccess, onFailure));
+	}
+
 	private void checkNoDuplicate(Topic topic, OnSuccess<Boolean> onSuccess, OnFailure onFailure) {
 		readAllTopics(topics -> {
 			if (hasTopic(topics, topic.getName())) {

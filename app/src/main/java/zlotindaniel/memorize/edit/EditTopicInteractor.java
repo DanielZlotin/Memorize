@@ -1,18 +1,17 @@
 package zlotindaniel.memorize.edit;
 
 import zlotindaniel.memorize.data.*;
-import zlotindaniel.memorize.data.request.*;
 import zlotindaniel.memorize.topics.*;
 
 public class EditTopicInteractor implements EditTopicDisplay.Listener {
 	private Topic topic;
 	private final EditTopicDisplay display;
-	private final Network network;
+	private final TopicService service;
 
-	public EditTopicInteractor(final Topic topic, final EditTopicDisplay display, final Network network) {
+	public EditTopicInteractor(Topic topic, EditTopicDisplay display, TopicService service) {
 		this.topic = topic;
 		this.display = display;
-		this.network = network;
+		this.service = service;
 	}
 
 	public void start() {
@@ -23,10 +22,7 @@ public class EditTopicInteractor implements EditTopicDisplay.Listener {
 	@Override
 	public void deleteTopic() {
 		loading();
-		network.delete(new DeleteRequest(
-				"topics/index/" + topic.getId(),
-				b -> display.navigateHome(),
-				this::handleError));
+		service.deleteTopic(topic, b -> display.navigateHome(), this::handleError);
 	}
 
 	@Override
@@ -38,7 +34,7 @@ public class EditTopicInteractor implements EditTopicDisplay.Listener {
 		}
 		loading();
 
-		new TopicService(network).updateTopic(topic.withName(verified),
+		service.updateTopic(topic.withName(verified),
 				t -> {
 					this.topic = t;
 					refresh();

@@ -3,6 +3,8 @@ package zlotindaniel.memorize.topics;
 import org.assertj.core.util.*;
 import org.junit.*;
 
+import java.util.concurrent.atomic.*;
+
 import zlotindaniel.memorize.*;
 import zlotindaniel.memorize.data.*;
 
@@ -75,5 +77,15 @@ public class TopicServiceTest extends BaseTest {
 		assertThat(network.updates.get(0).path).isEqualTo("topics/index/theId");
 		verifyZeroInteractions(onFailure);
 		verify(onSuccess, times(1)).success(eq(new Topic("theId", "some name")));
+	}
+
+	@Test
+	public void deleteTopic() throws Exception {
+		network.nextSuccess(true);
+		AtomicBoolean success = new AtomicBoolean();
+		uut.deleteTopic(new Topic("some-id", "name"), success::set, onFailure);
+		assertThat(network.deletions.get(0).path).isEqualTo("topics/index/some-id");
+		verifyZeroInteractions(onFailure);
+		assertThat(success.get()).isTrue();
 	}
 }

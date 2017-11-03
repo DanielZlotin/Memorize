@@ -1,6 +1,5 @@
 package zlotindaniel.memorize.edit;
 
-import org.assertj.core.util.*;
 import org.junit.*;
 
 import zlotindaniel.memorize.*;
@@ -13,41 +12,42 @@ public class EditTopicInteractorTest extends BaseTest {
 	private EditTopicInteractor uut;
 	private Topic topic;
 	private TestEditTopicDisplay display;
-	private TestNetwork network;
+	private TestTopicService service;
 
 	@Override
 	public void beforeEach() {
 		super.beforeEach();
 		topic = new Topic("the id", "the name");
 		display = new TestEditTopicDisplay();
-		network = new TestNetwork();
-		uut = new EditTopicInteractor(topic, display, network);
+		service = new TestTopicService();
+		uut = new EditTopicInteractor(topic, display, service);
 	}
 
 	@Test
 	public void start() throws Exception {
 		uut.start();
 		assertThat(display.listener).isEqualTo(uut);
+		assertThat(display.topicName).isEqualTo("The Name");
 	}
 
 	@Test
 	public void deleteTopic() throws Exception {
 		uut.deleteTopic();
-		assertThat(network.deletions).hasSize(1);
+		assertThat(service.deleteTopicCalls).hasSize(1);
 
 		assertThat(display.loading).isTrue();
 	}
 
 	@Test
 	public void deleteTopicSuccess() throws Exception {
-		network.nextSuccess(true);
+		service.nextDeleteTopic.offer(true);
 		uut.deleteTopic();
 		assertThat(display.navigateHomeCalled).isTrue();
 	}
 
 	@Test
 	public void deleteTopicError() throws Exception {
-		network.nextError(new RuntimeException("the error"));
+		service.nextError.offer(new RuntimeException("the error"));
 		uut.deleteTopic();
 		assertThat(display.navigateHomeCalled).isFalse();
 		assertThat(display.loading).isFalse();
@@ -56,18 +56,17 @@ public class EditTopicInteractorTest extends BaseTest {
 
 	@Test
 	public void renameTopic() throws Exception {
-		network.nextSuccess(Lists.newArrayList());
-		network.nextSuccess(true);
+		service.nextUpdateTopic.offer(new Topic("id", "name"));
 		uut.renameTopic("the new name");
-		assertThat(network.updates).hasSize(1);
-		assertThat(display.topicName).isEqualTo("The New Name");
+		assertThat(service.updateTopicCalls).hasSize(1);
+		assertThat(display.topicName).isEqualTo("Name");
 	}
 
 	@Test
 	public void renameTopic_MustBeDifferentAfterNormalization() throws Exception {
 		uut.renameTopic("");
-		assertThat(network.updates).isEmpty();
+		assertThat(service.updateTopicCalls).isEmpty();
 		uut.renameTopic("   \t\n the   \t \n NAME  \r\n\b");
-		assertThat(network.updates).isEmpty();
+		assertThat(service.updateTopicCalls).isEmpty();
 	}
 }

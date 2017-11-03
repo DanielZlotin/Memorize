@@ -1,5 +1,6 @@
 package zlotindaniel.memorize.topics;
 
+import org.assertj.core.util.*;
 import org.junit.*;
 
 import zlotindaniel.memorize.*;
@@ -25,7 +26,7 @@ public class TopicsInteractorTest extends BaseTest {
 		Topic topic1 = new Topic("", "Topic 1");
 		Topic topic2 = new Topic("", "Topic 2");
 		Topic topic3 = new Topic("", "Topic 3");
-		service.nextReadAllTopics(topic1, topic2, topic3);
+		service.nextReadTopics.offer(Lists.newArrayList(topic1, topic2, topic3));
 
 		uut.start();
 
@@ -34,7 +35,7 @@ public class TopicsInteractorTest extends BaseTest {
 
 	@Test
 	public void start_failureDisplaysErrorMessage() throws Exception {
-		service.nextError(new RuntimeException("The message"));
+		service.nextError.offer(new RuntimeException("The message"));
 		uut.start();
 		assertThat(testDisplay.error).isEqualTo("The message");
 	}
@@ -62,7 +63,7 @@ public class TopicsInteractorTest extends BaseTest {
 	@Test
 	public void createTopic_SendsRequest_OnSuccessReload() throws Exception {
 		assertThat(service.readAllTopicsCalls).isZero();
-		service.nextCreateTopic(new Topic("id", "name"));
+		service.nextCreateTopic.offer(new Topic("id", "name"));
 		uut.createTopic("the new topic name");
 
 		assertThat(service.readAllTopicsCalls).isOne();
@@ -80,7 +81,7 @@ public class TopicsInteractorTest extends BaseTest {
 		Topic topic1 = new Topic("", "Topic 1");
 		Topic topic2 = new Topic("", "Topic 2");
 		Topic topic3 = new Topic("", "Topic 3");
-		service.nextReadAllTopics(topic3, topic1, topic2);
+		service.nextReadTopics.offer(Lists.newArrayList(topic3, topic1, topic2));
 		uut.start();
 		assertThat(testDisplay.topics).containsExactly(topic1, topic2, topic3);
 	}
