@@ -28,7 +28,7 @@ public class TopicServiceTest extends BaseTest {
 	@Test
 	public void createTopicCheckForDuplicateByName() throws Exception {
 		network.nextSuccess(Lists.newArrayList(new Topic("", "  Some Name\n\n ")));
-		uut.create("some name", onSuccess, onFailure);
+		uut.createTopic(new Topic("", "some name"), onSuccess, onFailure);
 		assertThat(network.reads).hasSize(1);
 		assertThat(network.creations).hasSize(0);
 		verify(onFailure, times(1)).failure(isA(TopicService.TopicExistsException.class));
@@ -39,7 +39,7 @@ public class TopicServiceTest extends BaseTest {
 	public void createTopic() throws Exception {
 		network.nextSuccess(Lists.newArrayList(new Topic("", "other")));
 		network.nextSuccess("theNewId");
-		uut.create("new name", onSuccess, onFailure);
+		uut.createTopic(new Topic("", "new name"), onSuccess, onFailure);
 		assertThat(network.creations).hasSize(1);
 		verify(onSuccess, times(1)).success(eq(new Topic("theNewId", "New Name")));
 		verifyZeroInteractions(onFailure);
@@ -49,7 +49,7 @@ public class TopicServiceTest extends BaseTest {
 	public void createError() throws Exception {
 		RuntimeException error = new RuntimeException("error");
 		network.nextError(error);
-		uut.create("new name", onSuccess, onFailure);
+		uut.createTopic(new Topic("", "some name"), onSuccess, onFailure);
 		verify(onFailure, times(1)).failure(eq(error));
 		verifyZeroInteractions(onSuccess);
 	}
@@ -57,7 +57,7 @@ public class TopicServiceTest extends BaseTest {
 	@Test
 	public void updateTopicChecksDuplicateName() throws Exception {
 		network.nextSuccess(Lists.newArrayList(new Topic("", "  Some Name\n\n ")));
-		uut.update(new Topic("theId", "some name"), onSuccess, onFailure);
+		uut.updateTopic(new Topic("theId", "some name"), onSuccess, onFailure);
 		assertThat(network.reads).hasSize(1);
 		assertThat(network.updates).hasSize(0);
 		verify(onFailure, times(1)).failure(isA(TopicService.TopicExistsException.class));
@@ -69,7 +69,7 @@ public class TopicServiceTest extends BaseTest {
 	public void updateTopic() throws Exception {
 		network.nextSuccess(Lists.newArrayList(new Topic("", "othe")));
 		network.nextSuccess(true);
-		uut.update(new Topic("theId", "some name"), onSuccess, onFailure);
+		uut.updateTopic(new Topic("theId", "some name"), onSuccess, onFailure);
 		assertThat(network.reads).hasSize(1);
 		assertThat(network.updates).hasSize(1);
 		assertThat(network.updates.get(0).path).isEqualTo("topics/index/theId");

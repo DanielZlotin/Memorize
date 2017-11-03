@@ -22,27 +22,30 @@ public class TopicService {
 		this.network = network;
 	}
 
-	public void create(String name, OnSuccess<Topic> onSuccess, OnFailure onFailure) {
-		Topic topic = new Topic("", name);
+	public void createTopic(Topic topic, OnSuccess<Topic> onSuccess, OnFailure onFailure) {
 		checkNoDuplicate(topic,
 				b -> network.create(new CreateRequest("topics/index", topic, (id) -> onSuccess.success(topic.withId(id)), onFailure)),
 				onFailure);
 	}
 
-	public void update(Topic topic, OnSuccess<Topic> onSuccess, OnFailure onFailure) {
+	public void updateTopic(Topic topic, OnSuccess<Topic> onSuccess, OnFailure onFailure) {
 		checkNoDuplicate(topic,
 				b -> network.update(new UpdateRequest("topics/index/" + topic.getId(), topic, b2 -> onSuccess.success(topic), onFailure)),
 				onFailure);
 	}
 
+	public void readAllTopics(OnSuccess<List<Topic>> onSuccess, OnFailure onFailure) {
+		network.read(new ReadRequest<>("topics/index", new TopicsListParser(), onSuccess, onFailure));
+	}
+
 	private void checkNoDuplicate(Topic topic, OnSuccess<Boolean> onSuccess, OnFailure onFailure) {
-		network.read(new ReadRequest<>("topics/index", new TopicsListParser(), topics -> {
+		readAllTopics(topics -> {
 			if (hasTopic(topics, topic.getName())) {
 				onFailure.failure(new TopicExistsException());
 			} else {
 				onSuccess.success(Boolean.TRUE);
 			}
-		}, onFailure));
+		}, onFailure);
 	}
 
 	private boolean hasTopic(final List<Topic> topics, final String topicName) {

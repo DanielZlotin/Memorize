@@ -1,7 +1,5 @@
 package zlotindaniel.memorize.topics;
 
-import com.google.common.collect.*;
-
 import org.junit.*;
 
 import zlotindaniel.memorize.*;
@@ -11,15 +9,15 @@ import static org.assertj.core.api.Assertions.*;
 public class TopicsInteractorTest extends BaseTest {
 
 	private TopicsInteractor uut;
-	private TestNetwork network;
 	private TestTopicsDisplay testDisplay;
+	private TestTopicService service;
 
 	@Override
 	public void beforeEach() {
 		super.beforeEach();
 		testDisplay = new TestTopicsDisplay();
-		network = new TestNetwork();
-		uut = new TopicsInteractor(testDisplay, network);
+		service = new TestTopicService();
+		uut = new TopicsInteractor(testDisplay, service);
 	}
 
 	@Test
@@ -27,17 +25,16 @@ public class TopicsInteractorTest extends BaseTest {
 		Topic topic1 = new Topic("", "Topic 1");
 		Topic topic2 = new Topic("", "Topic 2");
 		Topic topic3 = new Topic("", "Topic 3");
-		network.nextSuccess(Lists.newArrayList(topic1, topic2, topic3));
+		service.nextReadAllTopics(topic1, topic2, topic3);
 
 		uut.start();
 
-		assertThat(network.reads).hasSize(1);
 		assertThat(testDisplay.topics).containsExactly(topic1, topic2, topic3);
 	}
 
 	@Test
 	public void start_failureDisplaysErrorMessage() throws Exception {
-		network.nextError(new RuntimeException("The message"));
+		service.nextError(new RuntimeException("The message"));
 		uut.start();
 		assertThat(testDisplay.error).isEqualTo("The message");
 	}
@@ -51,34 +48,31 @@ public class TopicsInteractorTest extends BaseTest {
 	@Test
 	public void onRefreshReloadsTheList() throws Exception {
 		uut.start();
-		assertThat(network.reads).hasSize(1);
+		assertThat(service.readAllTopicsCalls).isOne();
 		uut.refresh();
-		assertThat(network.reads).hasSize(2);
+		assertThat(service.readAllTopicsCalls).isEqualTo(2);
 	}
 
 	@Test
 	public void createTopic_EmptyDoesNothing() throws Exception {
 		uut.createTopic("");
-		assertThat(network.reads).hasSize(0);
+		assertThat(service.readAllTopicsCalls).isZero();
 	}
 
 	@Test
 	public void createTopic_SendsRequest_OnSuccessReload() throws Exception {
-		network.nextSuccess(Lists.newArrayList(new Topic("new id", "bla")));
-		network.nextSuccess("new id");
-
+		assertThat(service.readAllTopicsCalls).isZero();
+		service.nextCreateTopic(new Topic("id", "name"));
 		uut.createTopic("the new topic name");
 
-		assertThat(network.creations).hasSize(1);
-		assertThat(network.reads).hasSize(2);
+		assertThat(service.readAllTopicsCalls).isOne();
 	}
 
 	@Test
 	public void createTopicNormalizesInput() throws Exception {
-		network.nextSuccess(Lists.newArrayList());
 		uut.createTopic("  \n\n a \t b     c  \r\n");
-		assertThat(network.creations).hasSize(1);
-		assertThat(network.creations.get(0).payload.toJson().get("name")).isEqualTo("A B C");
+		assertThat(service.createTopicCalls).hasSize(1);
+		assertThat(service.createTopicCalls.poll().getName()).isEqualTo("A B C");
 	}
 
 	@Test
@@ -86,7 +80,7 @@ public class TopicsInteractorTest extends BaseTest {
 		Topic topic1 = new Topic("", "Topic 1");
 		Topic topic2 = new Topic("", "Topic 2");
 		Topic topic3 = new Topic("", "Topic 3");
-		network.nextSuccess(Lists.newArrayList(topic3, topic1, topic2));
+		service.nextReadAllTopics(topic3, topic1, topic2);
 		uut.start();
 		assertThat(testDisplay.topics).containsExactly(topic1, topic2, topic3);
 	}

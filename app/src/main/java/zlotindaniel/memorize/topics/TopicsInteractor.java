@@ -3,16 +3,15 @@ package zlotindaniel.memorize.topics;
 import java.util.*;
 
 import zlotindaniel.memorize.data.*;
-import zlotindaniel.memorize.data.request.*;
 
 public class TopicsInteractor implements TopicsDisplay.Listener {
 
 	private final TopicsDisplay display;
-	private final Network network;
+	private final TopicService service;
 
-	public TopicsInteractor(TopicsDisplay display, Network network) {
+	public TopicsInteractor(TopicsDisplay display, TopicService service) {
 		this.display = display;
-		this.network = network;
+		this.service = service;
 	}
 
 	public void start() {
@@ -21,7 +20,7 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 	}
 
 	private void load() {
-		network.read(new ReadRequest<>("topics/index", new TopicsListParser(), this::handleSucess, this::handleFailure));
+		service.readAllTopics(this::handleSucess, this::handleFailure);
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 		String normalized = Utils.normalize(name);
 		if (normalized.isEmpty()) return;
 
-		new TopicService(network).create(normalized,
+		service.createTopic(new Topic("", normalized),
 				t -> this.refresh(),
 				this::handleFailure);
 	}

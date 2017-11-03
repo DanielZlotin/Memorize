@@ -38,7 +38,7 @@ public class EditTopicInteractor implements EditTopicDisplay.Listener {
 		}
 		loading();
 
-		new TopicService(network).update(topic.withName(verified),
+		new TopicService(network).updateTopic(topic.withName(verified),
 				t -> {
 					this.topic = t;
 					refresh();
