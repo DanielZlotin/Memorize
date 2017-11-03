@@ -76,7 +76,7 @@ public class TopicsInteractorTest extends BaseTest {
 	public void createTopicNormalizesInput() throws Exception {
 		uut.createTopic("  \n\n a \t b     c  \r\n");
 		assertThat(network.creations).hasSize(1);
-		assertThat(network.creations.get(0).payload.toJson().get("name")).isEqualTo("a b c");
+		assertThat(network.creations.get(0).payload.toJson().get("name")).isEqualTo("A B C");
 	}
 
 	@Test

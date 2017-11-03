@@ -6,6 +6,10 @@ import org.json.*;
 
 import zlotindaniel.memorize.data.*;
 
+import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Strings.*;
+import static zlotindaniel.memorize.data.Utils.*;
+
 public class Topic implements ValueType {
 	private static final String NO_ID = "NO_ID";
 
@@ -19,8 +23,8 @@ public class Topic implements ValueType {
 	private final String name;
 
 	public Topic(final String id, final String name) {
-		this.id = MoreObjects.firstNonNull(Strings.emptyToNull(id), NO_ID);
-		this.name = Preconditions.checkNotNull(Strings.emptyToNull(name));
+		this.id = MoreObjects.firstNonNull(emptyToNull(normalize(id)), NO_ID);
+		this.name = checkNotNull(emptyToNull(capitalizeFully(normalize(name))));
 	}
 
 	public boolean hasId() {

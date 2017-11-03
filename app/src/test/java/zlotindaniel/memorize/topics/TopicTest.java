@@ -14,7 +14,7 @@ public class TopicTest extends BaseTest {
 	public void valueType() throws Exception {
 		Topic topic = new Topic("theId", "the name");
 		assertThat(topic.getId()).isEqualTo("theId");
-		assertThat(topic.getName()).isEqualTo("the name");
+		assertThat(topic.getName()).isEqualTo("The Name");
 
 		assertThat(topic).isEqualTo(new Topic("theId", "the name"));
 		assertThat(topic).isNotEqualTo(new Topic("x", "the name"));
@@ -28,6 +28,12 @@ public class TopicTest extends BaseTest {
 	}
 
 	@Test
+	public void nameAutoCapitalizesAndNormalizes() throws Exception {
+		Topic topic = new Topic("theId", "    \n\t the\n NAME  ");
+		assertThat(topic.getName()).isEqualTo("The Name");
+	}
+
+	@Test
 	public void idIsOptional() throws Exception {
 		assertThat(new Topic(null, "asd").hasId()).isFalse();
 		assertThat(new Topic("", "asd").hasId()).isFalse();
@@ -37,7 +43,7 @@ public class TopicTest extends BaseTest {
 		assertThat(new Topic("", "asd").getId()).isNotEmpty();
 		assertThat(new Topic("a", "asd").getId()).isNotEmpty();
 
-		assertThat(new Topic("", "asd").toString()).isEqualTo("{\"name\":\"asd\"}");
+		assertThat(new Topic("", "asd").toString()).isEqualTo("{\"name\":\"Asd\"}");
 	}
 
 	@Test

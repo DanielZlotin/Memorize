@@ -1,5 +1,6 @@
 package zlotindaniel.memorize.edit;
 
+import org.assertj.core.util.*;
 import org.junit.*;
 
 import zlotindaniel.memorize.*;
@@ -55,6 +56,7 @@ public class EditTopicInteractorTest extends BaseTest {
 
 	@Test
 	public void renameTopic() throws Exception {
+		network.nextSuccess(Lists.newArrayList());
 		uut.renameTopic("the new name");
 		assertThat(network.updates).hasSize(1);
 	}
@@ -69,8 +71,17 @@ public class EditTopicInteractorTest extends BaseTest {
 
 	@Test
 	public void renameTopicSuccess() throws Exception {
+		network.nextSuccess(Lists.newArrayList());
 		network.nextSuccess(true);
 		uut.renameTopic("    new       \t name\n\r\t\b");
 		assertThat(display.topicName).isEqualTo("New Name");
+	}
+
+	@Test
+	public void renameTopicPreventDuplicates() throws Exception {
+		network.nextSuccess(Lists.newArrayList(new Topic("", "the new name")));
+		uut.renameTopic("the new name");
+		assertThat(network.reads).hasSize(1);
+		assertThat(network.updates).isEmpty();
 	}
 }

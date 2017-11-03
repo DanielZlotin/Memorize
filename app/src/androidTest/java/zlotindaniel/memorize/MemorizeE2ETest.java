@@ -57,12 +57,12 @@ public class MemorizeE2ETest extends BaseE2ETest {
 
 		assertDisplayed("New Topic");
 		onView(withHint("Name")).check(matches(isDisplayed()));
-		onView(withId(TopicsView.idInputCreateNewTopic)).perform(typeText("New Topic 1"));
+		onView(withId(TopicsView.idInputCreateNewTopic)).perform(typeText("New Topic"));
 
 		clickOn("Create");
 		waitForText(TopicsView.title);
-		waitForText("New Topic 1");
-		assertDisplayed("New Topic 1");
+		waitForText("New Topic");
+		assertDisplayed("New Topic");
 	}
 
 	@Test
@@ -71,12 +71,23 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		waitForText(TopicsView.title);
 		waitForText("Topic Name 1");
 
-		onView(withText("New Topic 1")).perform(longClick());
+		onView(withText("New Topic")).perform(longClick());
 
 		Espresso.onIdle();
-		assertDisplayed("New Topic 1");
+		assertDisplayed("New Topic");
 
 		onView(withContentDescription(EditTopicView.menuBtnRenameTopicTitle)).perform(click());
+		onView(withId(EditTopicView.idInputRenameTopic)).perform(clearText());
+		onView(withId(EditTopicView.idInputRenameTopic)).perform(typeText("renamed topic"));
+
+		clickOn("Save");
+		Espresso.onIdle();
+		waitForText("Renamed Topic");
+		assertDisplayed("Renamed Topic");
+
+		device().pressBack();
+		assertDisplayed("Renamed Topic");
+		assertNotDisplayed("New Topic");
 	}
 
 	@Test
@@ -85,28 +96,28 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		waitForText(TopicsView.title);
 		waitForText("Topic Name 1");
 
-		onView(withText("New Topic 1")).perform(longClick());
+		onView(withText("Renamed Topic")).perform(longClick());
 
 		Espresso.onIdle();
-		assertDisplayed("New Topic 1");
+		assertDisplayed("Renamed Topic");
 
 		onView(withContentDescription("More options")).perform(click());
 		clickOn("Delete Topic");
-		assertDisplayed("Delete New Topic 1?");
+		assertDisplayed("Delete Renamed Topic?");
 		clickOn("Oops. NO!");
-		assertDisplayed("New Topic 1");
+		assertDisplayed("Renamed Topic");
 
 		onView(withContentDescription("More options")).perform(click());
 		clickOn("Delete Topic");
-		assertDisplayed("Delete New Topic 1?");
+		assertDisplayed("Delete Renamed Topic?");
 		clickOn("Yes");
 		assertDisplayed("Are you sure?");
-		assertDisplayed("There's no going back! New Topic 1 will be lost forever!");
+		assertDisplayed("There's no going back! Renamed Topic will be lost forever!");
 		clickOn("Yes yes go ahead!");
 
 		Espresso.onIdle();
 		waitForText(TopicsView.title);
 
-		assertNotDisplayed("New Topic 1");
+		assertNotDisplayed("Renamed Topic");
 	}
 }

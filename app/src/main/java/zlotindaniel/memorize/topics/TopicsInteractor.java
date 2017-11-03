@@ -1,6 +1,5 @@
 package zlotindaniel.memorize.topics;
 
-import com.google.common.base.*;
 import com.google.common.collect.*;
 
 import java.util.*;
@@ -37,7 +36,7 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 	@Override
 	public void createTopic(String name) {
 		String normalized = Utils.normalize(name);
-		if (Strings.isNullOrEmpty(normalized)) return;
+		if (normalized.isEmpty()) return;
 
 		if (hasTopic(normalized)) {
 			handleFailure(new RuntimeException("Topic already exists"));

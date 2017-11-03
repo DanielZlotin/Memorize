@@ -13,15 +13,15 @@ public class TestNetwork implements Network {
 	public List<UpdateRequest> updates = Lists.newArrayList();
 	public List<DeleteRequest> deletions = Lists.newArrayList();
 
-	private Stack<Object> nextSuccesses = new Stack<>();
-	private Stack<Exception> nextErrors = new Stack<>();
+	private Queue<Object> nextSuccesses = new ArrayDeque<>();
+	private Queue<Exception> nextErrors = new ArrayDeque<>();
 
 	public void nextSuccess(Object o) {
-		nextSuccesses.add(o);
+		nextSuccesses.offer(o);
 	}
 
 	public void nextError(Exception e) {
-		nextErrors.add(e);
+		nextErrors.offer(e);
 	}
 
 	@Override
@@ -51,10 +51,10 @@ public class TestNetwork implements Network {
 	@SuppressWarnings("unchecked")
 	private <T> void next(Request<T> request) {
 		if (!nextSuccesses.isEmpty()) {
-			T t = (T) nextSuccesses.pop();
+			T t = (T) nextSuccesses.poll();
 			request.onSuccess.success(t);
 		} else if (!nextErrors.isEmpty()) {
-			request.onFailure.failure(nextErrors.pop());
+			request.onFailure.failure(nextErrors.poll());
 		}
 	}
 }
