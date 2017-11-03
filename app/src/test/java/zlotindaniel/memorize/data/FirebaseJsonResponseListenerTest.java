@@ -1,26 +1,19 @@
 package zlotindaniel.memorize.data;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseException;
+import com.google.firebase.database.*;
 
-import org.assertj.core.util.Maps;
-import org.json.JSONObject;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
+import org.assertj.core.util.*;
+import org.json.*;
+import org.junit.*;
+import org.mockito.*;
 
-import java.util.Map;
+import java.util.*;
 
-import zlotindaniel.memorize.BaseTest;
+import zlotindaniel.memorize.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class FirebaseJsonResponseListenerTest extends BaseTest {
 
@@ -63,12 +56,15 @@ public class FirebaseJsonResponseListenerTest extends BaseTest {
 	}
 
 	@Test
-	public void nullReportsError() throws Exception {
+	public void nullReturnsEmpty() throws Exception {
 		when(dataSnapshot.getValue()).thenReturn(null);
 		uut.onDataChange(dataSnapshot);
 
-		verifyZeroInteractions(onSuccess);
-		verify(onFailure, times(1)).failure(any(RuntimeException.class));
+		verifyZeroInteractions(onFailure);
+		ArgumentCaptor<JSONObject> captor = ArgumentCaptor.forClass(JSONObject.class);
+		verify(onSuccess, times(1)).success(captor.capture());
+		assertThat(captor.getValue()).isNotNull();
+		assertThat(captor.getValue().keys()).isEmpty();
 	}
 
 	@Test

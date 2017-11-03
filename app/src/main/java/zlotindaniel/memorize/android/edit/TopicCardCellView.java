@@ -39,6 +39,7 @@ public class TopicCardCellView extends LinearLayout {
 	}
 
 	public void bind(final Card item) {
-		question.setText(item.getQuestion());
+		question.setText(item.getQuestion() + ":");
+		answer.setText(item.getAnswer());
 	}
 }

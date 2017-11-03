@@ -1,5 +1,9 @@
 package zlotindaniel.memorize.edit;
 
+import java.util.*;
+
+import zlotindaniel.memorize.cards.*;
+
 public interface EditTopicDisplay {
 
 	interface Listener {
@@ -10,7 +14,7 @@ public interface EditTopicDisplay {
 
 	void setListener(Listener listener);
 
-	void bind(String topicName, boolean loading, String error);
+	void bind(String topicName, List<Card> cards, boolean loading, String error);
 
 	void navigateHome();
 }

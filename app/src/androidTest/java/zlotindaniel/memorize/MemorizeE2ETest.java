@@ -128,8 +128,7 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		waitForText("Topic Name 1");
 
 		onView(withText("Topic Name 3")).perform(longClick());
-		waitForText("Card Question 1A");
-		assertDisplayed("Card Question 1A");
+		assertDisplayed("Card Question 1A:");
 		assertDisplayed("Card Answer 1A");
 	}
 }

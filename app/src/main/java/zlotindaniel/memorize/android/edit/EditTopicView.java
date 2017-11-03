@@ -8,9 +8,14 @@ import android.widget.*;
 
 import com.google.common.base.*;
 
+import java.util.*;
+
 import zlotindaniel.memorize.*;
 import zlotindaniel.memorize.android.ViewUtils;
+import zlotindaniel.memorize.cards.*;
 import zlotindaniel.memorize.edit.*;
+
+import static android.view.ViewGroup.LayoutParams.*;
 
 public class EditTopicView extends FrameLayout implements EditTopicDisplay {
 
@@ -22,14 +27,22 @@ public class EditTopicView extends FrameLayout implements EditTopicDisplay {
 	private Listener listener;
 	private AlertDialog dialog;
 	private String topicName = "";
+	private ListView cardsList;
+	private EditTopicCardsAdapter adapter;
 
 	public EditTopicView(final Activity context) {
 		super(context);
-		initCards();
+		initCardsList();
 	}
 
-	private void initCards() {
+	private void initCardsList() {
+		cardsList = new ListView(getContext());
 
+		LayoutParams params = new LayoutParams(MATCH_PARENT, MATCH_PARENT);
+		addView(cardsList, params);
+
+		adapter = new EditTopicCardsAdapter();
+		cardsList.setAdapter(adapter);
 	}
 
 	public void onCreateMenu(final Menu menu) {
@@ -55,17 +68,11 @@ public class EditTopicView extends FrameLayout implements EditTopicDisplay {
 	}
 
 	@Override
-	public void bind(String topicName, final boolean loading, String error) {
+	public void bind(String topicName, List<Card> cards, final boolean loading, String error) {
 		this.topicName = topicName;
 
 		if (loading && dialog == null) {
-			FrameLayout frame = new FrameLayout(getContext());
-			int p = ViewUtils.dp(16);
-			frame.setPadding(p, p, p, p);
-			ProgressBar progress = new ProgressBar(getContext());
-			progress.setIndeterminate(true);
-			frame.addView(progress);
-			dialog = new AlertDialog.Builder(getContext()).setCancelable(false).setView(frame).show();
+			dialog = showLoading();
 		} else if (!loading && dialog != null) {
 			dialog.dismiss();
 			dialog = null;
@@ -75,6 +82,22 @@ public class EditTopicView extends FrameLayout implements EditTopicDisplay {
 
 		if (!Strings.isNullOrEmpty(error)) Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
 
+		adapter.bind(cards);
+	}
+
+	private AlertDialog showLoading() {
+		FrameLayout frame = new FrameLayout(getContext());
+		int p = ViewUtils.dp(16);
+		frame.setPadding(p, p, p, p);
+
+		ProgressBar progress = new ProgressBar(getContext());
+		progress.setIndeterminate(true);
+		frame.addView(progress);
+
+		return new AlertDialog.Builder(getContext())
+				.setCancelable(false)
+				.setView(frame)
+				.show();
 	}
 
 	@Override

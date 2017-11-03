@@ -31,9 +31,6 @@ public class FirebaseJsonResponseListener implements ValueEventListener {
 
 	private JSONObject jsonValue(final DataSnapshot dataSnapshot) {
 		Map value = (Map) dataSnapshot.getValue();
-		if (value == null) {
-			throw new NullPointerException("value is null");
-		}
-		return new JSONObject(value);
+		return value == null ? new JSONObject() : new JSONObject(value);
 	}
 }
