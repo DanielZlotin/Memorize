@@ -54,6 +54,7 @@ public class TopicsInteractor implements TopicsDisplay.Listener {
 	}
 
 	private void handleSucess(final List<Topic> topics) {
+		Collections.sort(topics, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
 		this.topics = topics;
 		display.bind(topics);
 	}

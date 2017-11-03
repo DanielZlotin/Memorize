@@ -102,4 +102,14 @@ public class TopicsInteractorTest extends BaseTest {
 
 		assertThat(testDisplay.error).isEqualTo("Topic already exists");
 	}
+
+	@Test
+	public void sortsTopicsByName() throws Exception {
+		Topic topic1 = new Topic("", "Topic 1");
+		Topic topic2 = new Topic("", "Topic 2");
+		Topic topic3 = new Topic("", "Topic 3");
+		network.nextSuccess(Lists.newArrayList(topic3, topic1, topic2));
+		uut.start();
+		assertThat(testDisplay.topics).containsExactly(topic1, topic2, topic3);
+	}
 }
