@@ -59,7 +59,7 @@ public class TopicServiceTest extends BaseTest {
 		network.nextSuccess(Lists.newArrayList(new Topic("", "  Some Name\n\n ")));
 		uut.update(new Topic("theId", "some name"), onSuccess, onFailure);
 		assertThat(network.reads).hasSize(1);
-		assertThat(network.creations).hasSize(0);
+		assertThat(network.updates).hasSize(0);
 		verify(onFailure, times(1)).failure(isA(TopicService.TopicExistsException.class));
 		verifyZeroInteractions(onSuccess);
 		assertThat(new TopicService.TopicExistsException()).hasMessage("Topic already exists");
@@ -71,7 +71,8 @@ public class TopicServiceTest extends BaseTest {
 		network.nextSuccess(true);
 		uut.update(new Topic("theId", "some name"), onSuccess, onFailure);
 		assertThat(network.reads).hasSize(1);
-		assertThat(network.creations).hasSize(0);
+		assertThat(network.updates).hasSize(1);
+		assertThat(network.updates.get(0).path).isEqualTo("topics/index/theId");
 		verifyZeroInteractions(onFailure);
 		verify(onSuccess, times(1)).success(eq(new Topic("theId", "some name")));
 	}

@@ -31,7 +31,7 @@ public class TopicService {
 
 	public void update(Topic topic, OnSuccess<Topic> onSuccess, OnFailure onFailure) {
 		checkNoDuplicate(topic,
-				b -> network.update(new UpdateRequest("topics/index" + topic.getId(), topic, b2 -> onSuccess.success(topic), onFailure)),
+				b -> network.update(new UpdateRequest("topics/index/" + topic.getId(), topic, b2 -> onSuccess.success(topic), onFailure)),
 				onFailure);
 	}
 
