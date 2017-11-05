@@ -15,7 +15,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MemorizeE2ETest extends BaseE2ETest {
+public class E2ETest extends BaseE2ETest {
 
 	@Test
 	public void _1_topicsCardsHappyPath() throws Exception {
@@ -128,7 +128,8 @@ public class MemorizeE2ETest extends BaseE2ETest {
 		waitForText("Topic Name 1");
 
 		onView(withText("Topic Name 3")).perform(longClick());
-		assertDisplayed("Card Question 1A:");
-		assertDisplayed("Card Answer 1A");
+		waitForText("Topic Name 3");
+		assertDisplayed("This is a very long card question. What is the actual reason for this long a question?");
+		assertDisplayed("This is a very long card answer. The reason being that we have to make sure it all looks good in multiline etc.");
 	}
 }
