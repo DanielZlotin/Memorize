@@ -10,24 +10,24 @@ public class CardsInteractor implements CardsDisplay.Listener {
 
 	private final String topicId;
 	private final CardsDisplay display;
-	private final CardsService cardsService;
+	private final CardService cardService;
 	private final Shuffler shuffler;
 
 	private final Stack<Card> cardStack = new Stack<>();
 	private List<Card> loadedCards = Lists.newArrayList();
 	private CardsPresentation presentation;
 
-	public CardsInteractor(String topicId, CardsDisplay display, CardsService cardsService, Shuffler shuffler) {
+	public CardsInteractor(String topicId, CardsDisplay display, CardService cardService, Shuffler shuffler) {
 		this.topicId = topicId;
 		this.display = display;
-		this.cardsService = cardsService;
+		this.cardService = cardService;
 		this.shuffler = shuffler;
 	}
 
 	public void start() {
 		display.setListener(this);
 		display(CardsPresentation.Loading, "");
-		cardsService.readTopicCards(topicId, this::handleSuccess, this::handleFailure);
+		cardService.readTopicCards(topicId, this::handleSuccess, this::handleFailure);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package zlotindaniel.memorize.edit;
 
+import org.assertj.core.groups.*;
 import org.assertj.core.util.*;
 import org.junit.*;
 
@@ -15,15 +16,15 @@ public class EditTopicInteractorTest extends BaseTest {
 	private Topic topic;
 	private TestEditTopicDisplay display;
 	private TestTopicService topicService;
-	private TestCardsService cardsService;
+	private TestCardService cardsService;
 
 	@Override
 	public void beforeEach() {
 		super.beforeEach();
-		topic = new Topic("the id", "the name");
+		topic = new Topic("theTopicId", "the name");
 		display = new TestEditTopicDisplay();
 		topicService = new TestTopicService();
-		cardsService = new TestCardsService();
+		cardsService = new TestCardService();
 		uut = new EditTopicInteractor(topic, display, topicService, cardsService);
 	}
 
@@ -33,6 +34,7 @@ public class EditTopicInteractorTest extends BaseTest {
 		assertThat(display.listener).isEqualTo(uut);
 		assertThat(display.topicName).isEqualTo("The Name");
 		assertThat(display.loading).isTrue();
+		assertThat(cardsService.readCardsCalls).hasSize(1).containsExactly(Tuple.tuple("theTopicId"));
 	}
 
 	@Test
@@ -57,6 +59,12 @@ public class EditTopicInteractorTest extends BaseTest {
 		assertThat(display.navigateHomeCalled).isFalse();
 		assertThat(display.loading).isFalse();
 		assertThat(display.error).isEqualTo("the error");
+	}
+
+	@Test
+	public void renameTopicStartsLoading() throws Exception {
+		uut.renameTopic("the new name");
+		assertThat(display.loading).isTrue();
 	}
 
 	@Test
@@ -91,5 +99,85 @@ public class EditTopicInteractorTest extends BaseTest {
 		uut.start();
 		assertThat(display.loading).isFalse();
 		assertThat(display.cards).containsExactly(card1, card2);
+	}
+
+	@Test
+	public void createCardStartsLoading() throws Exception {
+		uut.createCard("q", "a");
+		assertThat(display.loading).isTrue();
+	}
+
+	@Test
+	public void createCardValidatesNonEmptyInput() throws Exception {
+		uut.createCard(null, "");
+		assertThat(display.loading).isFalse();
+		uut.createCard("q", "");
+		assertThat(display.loading).isFalse();
+	}
+
+	@Test
+	public void createCardReloads() throws Exception {
+		Card card1 = new Card("the id", "q1", "a1");
+		Card card2 = new Card("id2", "q2", "a2");
+		cardsService.nextReadCards.offer(Lists.newArrayList(card2, card1));
+		cardsService.nextCreateCard.offer("the id");
+
+		uut.createCard("q1", "a1");
+
+		assertThat(cardsService.createCardCalls).containsOnly(Tuple.tuple("theTopicId", new Card("", "q1", "a1")));
+		assertThat(cardsService.readCardsCalls).hasSize(1);
+		assertThat(display.loading).isFalse();
+		assertThat(display.cards).containsExactly(
+				new Card("the id", "q1", "a1"),
+				new Card("id2", "q2", "a2"));
+	}
+
+	@Test
+	public void cardDetailsSave() throws Exception {
+		Card card = new Card("cardId", "q", "a");
+		uut.saveCard(card, " q2  \n", "a2");
+		assertThat(cardsService.updateCardCalls).hasSize(1).containsExactly(
+				Tuple.tuple("theTopicId", new Card("cardId", "q2", "a2")));
+		assertThat(display.loading).isTrue();
+	}
+
+	@Test
+	public void cardDetailsSaveAndReload() throws Exception {
+		Card card = new Card("cardId", "q", "a");
+
+		cardsService.nextUpdateCard.offer(true);
+		cardsService.nextReadCards.offer(Lists.newArrayList());
+		uut.saveCard(card, "q", "a2");
+
+		assertThat(cardsService.readCardsCalls).hasSize(1);
+		assertThat(display.loading).isFalse();
+	}
+
+	@Test
+	public void cardDetailsSaveSameDetailsDoesNothing() throws Exception {
+		Card card = new Card("cardId", "q", "a");
+		uut.saveCard(card, null, " a  ");
+		assertThat(cardsService.updateCardCalls).isEmpty();
+		uut.saveCard(card, "123", "");
+		assertThat(cardsService.updateCardCalls).isEmpty();
+		uut.saveCard(card, "  q  ", "  \n a \t");
+		assertThat(cardsService.updateCardCalls).isEmpty();
+	}
+
+	@Test
+	public void cardDetailsDeleteCard() throws Exception {
+		Card card = new Card("cardId", "q", "a");
+		uut.deleteCard(card);
+		assertThat(cardsService.deleteCardCalls).hasSize(1).containsExactly(Tuple.tuple("theTopicId", card));
+		assertThat(display.loading).isTrue();
+	}
+
+	@Test
+	public void cardDetailsDeleteCardThenReload() throws Exception {
+		Card card = new Card("cardId", "q", "a");
+		cardsService.nextDeleteCard.offer(true);
+		cardsService.nextReadCards.offer(Lists.newArrayList());
+		uut.deleteCard(card);
+		assertThat(display.loading).isFalse();
 	}
 }

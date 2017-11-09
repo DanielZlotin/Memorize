@@ -2,16 +2,14 @@ package zlotindaniel.memorize.android.topics;
 
 import android.app.*;
 import android.content.*;
-import android.support.design.widget.*;
 import android.support.v4.widget.*;
 import android.view.*;
-import android.view.inputmethod.*;
 import android.widget.*;
 
 import java.util.*;
 
 import zlotindaniel.memorize.*;
-import zlotindaniel.memorize.android.ViewUtils;
+import zlotindaniel.memorize.android.*;
 import zlotindaniel.memorize.android.cards.*;
 import zlotindaniel.memorize.android.edit.*;
 import zlotindaniel.memorize.topics.*;
@@ -63,26 +61,13 @@ public class TopicsView extends FrameLayout implements TopicsDisplay {
 	}
 
 	private void askNewTopic() {
-		TextInputLayout layout = new TextInputLayout(getContext());
-		int p = ViewUtils.dp(16);
-		layout.setPadding(p, p, p, p);
-
-		final TextInputEditText input = new TextInputEditText(getContext());
-		input.setInputType(EditorInfo.TYPE_CLASS_TEXT
-				| EditorInfo.TYPE_TEXT_FLAG_AUTO_COMPLETE
-				| EditorInfo.TYPE_TEXT_FLAG_AUTO_CORRECT
-				| EditorInfo.TYPE_TEXT_FLAG_CAP_WORDS);
-		input.setSingleLine();
-		input.setHint("Name");
-		input.setId(idInputCreateNewTopic);
-
-		layout.addView(input);
+		TextInputDialogView view = new TextInputDialogView(getContext(), "Name", idInputCreateNewTopic);
 
 		new AlertDialog.Builder(getContext())
 				.setTitle("New Topic")
-				.setView(layout)
+				.setView(view)
 				.setPositiveButton("Create", (dialog, which) -> {
-					String name = input.getText().toString();
+					String name = view.getText();
 					listener.createTopic(name);
 				}).show();
 	}

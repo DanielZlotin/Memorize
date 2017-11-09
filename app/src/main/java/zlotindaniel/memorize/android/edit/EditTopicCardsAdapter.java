@@ -36,8 +36,7 @@ public class EditTopicCardsAdapter extends BaseAdapter {
 	}
 
 	public void bind(List<Card> data) {
-		this.data.clear();
-		this.data.addAll(data);
+		this.data = data;
 		notifyDataSetChanged();
 	}
 }

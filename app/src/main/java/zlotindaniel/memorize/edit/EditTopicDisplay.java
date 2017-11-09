@@ -10,6 +10,12 @@ public interface EditTopicDisplay {
 		void deleteTopic();
 
 		void renameTopic(String newName);
+
+		void createCard(String question, String answer);
+
+		void saveCard(Card card, String newQuestion, String newAnswer);
+
+		void deleteCard(Card card);
 	}
 
 	void setListener(Listener listener);

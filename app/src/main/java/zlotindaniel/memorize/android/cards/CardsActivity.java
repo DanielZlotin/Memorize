@@ -19,7 +19,7 @@ public class CardsActivity extends BaseActivity {
 
 		view = new CardsView(this);
 		setContentView(view);
-		interactor = new CardsInteractor(topicId, view, new CardsService(config.network), config.shuffler);
+		interactor = new CardsInteractor(topicId, view, new CardService(config.network), config.shuffler);
 		interactor.start();
 	}
 }

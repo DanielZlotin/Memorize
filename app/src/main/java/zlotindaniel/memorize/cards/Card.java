@@ -24,8 +24,8 @@ public class Card implements ValueType {
 
 	public Card(String id, String question, String answer) {
 		this.id = MoreObjects.firstNonNull(Strings.emptyToNull(id), NO_ID);
-		this.question = checkNotNull(Strings.emptyToNull(question));
-		this.answer = checkNotNull(Strings.emptyToNull(answer));
+		this.question = checkNotNull(Strings.emptyToNull(Utils.normalize(question)));
+		this.answer = checkNotNull(Strings.emptyToNull(Utils.normalize(answer)));
 	}
 
 	@Override

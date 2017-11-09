@@ -13,14 +13,14 @@ public class CardsInteractorTest extends BaseTest {
 	private CardsInteractor uut;
 	private TestCardsDisplay testDisplay;
 	private Shuffler testShuffler;
-	private TestCardsService service;
+	private TestCardService service;
 
 	@Override
 	public void beforeEach() {
 		super.beforeEach();
 		testDisplay = new TestCardsDisplay();
 		testShuffler = new TestShuffler();
-		service = new TestCardsService();
+		service = new TestCardService();
 		uut = new CardsInteractor("someTopicId", testDisplay, service, testShuffler);
 	}
 

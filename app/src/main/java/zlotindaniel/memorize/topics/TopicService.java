@@ -39,7 +39,9 @@ public class TopicService {
 	}
 
 	public void deleteTopic(final Topic topic, final OnSuccess<Boolean> onSuccess, final OnFailure onFailure) {
-		network.delete(new DeleteRequest("topics/index/" + topic.getId(), onSuccess, onFailure));
+		network.delete(new DeleteRequest("topics/index/" + topic.getId(), b -> {
+			network.delete(new DeleteRequest("topics/cards/" + topic.getId(), onSuccess, onFailure));
+		}, onFailure));
 	}
 
 	private void checkNoDuplicate(Topic topic, OnSuccess<Boolean> onSuccess, OnFailure onFailure) {

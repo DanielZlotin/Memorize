@@ -1,6 +1,5 @@
 package zlotindaniel.memorize;
 
-import android.support.test.espresso.*;
 import android.support.test.rule.*;
 import android.support.test.runner.*;
 import android.support.test.uiautomator.*;
@@ -14,9 +13,7 @@ import org.junit.runner.*;
 import java.lang.reflect.*;
 
 import static android.support.test.InstrumentationRegistry.*;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @RunWith(AndroidJUnit4.class)
 public abstract class BaseE2ETest {
@@ -44,10 +41,6 @@ public abstract class BaseE2ETest {
 
 	public UiDevice device() {
 		return UiDevice.getInstance(getInstrumentation());
-	}
-
-	public void assertDisplayed(String txt) {
-		Espresso.onView(withText(txt)).check(matches(isDisplayed()));
 	}
 
 	public void assertNotDisplayed(String txt) {

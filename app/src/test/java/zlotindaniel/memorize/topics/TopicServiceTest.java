@@ -80,12 +80,16 @@ public class TopicServiceTest extends BaseTest {
 	}
 
 	@Test
-	public void deleteTopic() throws Exception {
+	public void deleteTopicThenDeleteAllCardsOfSaidTopic() throws Exception {
+		network.nextSuccess(true);
 		network.nextSuccess(true);
 		AtomicBoolean success = new AtomicBoolean();
-		uut.deleteTopic(new Topic("some-id", "name"), success::set, onFailure);
-		assertThat(network.deletions.get(0).path).isEqualTo("topics/index/some-id");
+		uut.deleteTopic(new Topic("theTopicId", "name"), success::set, onFailure);
 		verifyZeroInteractions(onFailure);
 		assertThat(success.get()).isTrue();
+
+		assertThat(network.deletions).hasSize(2);
+		assertThat(network.deletions.get(0).path).isEqualTo("topics/index/theTopicId");
+		assertThat(network.deletions.get(1).path).isEqualTo("topics/cards/theTopicId");
 	}
 }

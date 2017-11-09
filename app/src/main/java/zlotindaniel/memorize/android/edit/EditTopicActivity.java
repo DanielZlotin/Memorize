@@ -31,7 +31,7 @@ public class EditTopicActivity extends BaseActivity {
 
 		view = new EditTopicView(this);
 		setContentView(view);
-		interactor = new EditTopicInteractor(topic, view, new TopicService(config.network), new CardsService(config.network));
+		interactor = new EditTopicInteractor(topic, view, new TopicService(config.network), new CardService(config.network));
 		interactor.start();
 	}
 

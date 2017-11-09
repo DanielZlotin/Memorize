@@ -64,6 +64,12 @@ public class CardTest extends BaseTest {
 	}
 
 	@Test
+	public void normalizesQuestionAndAnswer() throws Exception {
+		assertThat(new Card("", "  \n \t q  \n q   \n", "  \n\r\b a \n\r\b\t a   "))
+				.isEqualTo(new Card("", "q q", "a a"));
+	}
+
+	@Test
 	public void json() throws Exception {
 		Card card = new Card("id", "question", "answer");
 		JSONObject json = card.toJson();

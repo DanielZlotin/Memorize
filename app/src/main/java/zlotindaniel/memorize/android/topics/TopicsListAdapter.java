@@ -36,8 +36,7 @@ public class TopicsListAdapter extends BaseAdapter {
 	}
 
 	public void bind(final List<Topic> topics) {
-		data.clear();
-		data.addAll(topics);
+		data = topics;
 		notifyDataSetChanged();
 	}
 }
