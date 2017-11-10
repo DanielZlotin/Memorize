@@ -38,10 +38,10 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void login() {
+		waitingForLogin = true;
 		AuthUI.IdpConfig idpConfig = new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build();
 		Intent intent = AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(Lists.newArrayList(idpConfig)).build();
 		startActivityForResult(intent, LOGIN_REQUEST_CODE);
-		waitingForLogin = true;
 	}
 
 	@Override
@@ -59,12 +59,13 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void loginSuccess() {
+		config.network.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
 		startActivity(new Intent(this, TopicsActivity.class));
 		finish();
 	}
 
 	private void loginFailed() {
-		Toast.makeText(this, "Nothing to see here... move along citizen. (Not yet supported)", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Nothing to see here... move along citizen", Toast.LENGTH_LONG).show();
 		FirebaseAuth.getInstance().signOut();
 		finish();
 	}
@@ -73,7 +74,6 @@ public class LoginActivity extends BaseActivity {
 		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 		return user != null
 				&& user.getEmail() != null
-				&& user.isEmailVerified()
-				&& user.getEmail().equals("zlotindaniel@gmail.com");
+				&& user.isEmailVerified();
 	}
 }

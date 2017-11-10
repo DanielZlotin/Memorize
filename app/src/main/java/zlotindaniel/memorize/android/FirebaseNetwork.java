@@ -8,15 +8,27 @@ import zlotindaniel.memorize.data.request.*;
 
 public class FirebaseNetwork implements Network {
 	private static final String VERSION = "v1";
+	private static final String USERS = "users";
 
 	private final String env;
+	private String userId = "";
 
 	public FirebaseNetwork(String env) {
 		this.env = env;
 	}
 
 	@Override
+	public void setUserId(final String userId) {
+		this.userId = userId;
+	}
+
+	@Override
 	public void create(CreateRequest request) {
+		if (Strings.isNullOrEmpty(userId)) {
+			request.onFailure.failure(new RuntimeException("no userId"));
+			return;
+		}
+
 		DatabaseReference ref = FirebaseDatabase.getInstance()
 		                                        .getReference(fullpath(request.path))
 		                                        .push();
@@ -30,6 +42,11 @@ public class FirebaseNetwork implements Network {
 
 	@Override
 	public <T> void read(ReadRequest<T> request) {
+		if (Strings.isNullOrEmpty(userId)) {
+			request.onFailure.failure(new RuntimeException("no userId"));
+			return;
+		}
+
 		FirebaseDatabase.getInstance()
 		                .getReference(fullpath(request.path))
 		                .addListenerForSingleValueEvent(
@@ -40,6 +57,11 @@ public class FirebaseNetwork implements Network {
 
 	@Override
 	public void update(UpdateRequest request) {
+		if (Strings.isNullOrEmpty(userId)) {
+			request.onFailure.failure(new RuntimeException("no userId"));
+			return;
+		}
+
 		FirebaseDatabase.getInstance()
 		                .getReference(fullpath(request.path))
 		                .setValue(Utils.toMap(request.payload.toJson()))
@@ -49,6 +71,11 @@ public class FirebaseNetwork implements Network {
 
 	@Override
 	public void delete(DeleteRequest request) {
+		if (Strings.isNullOrEmpty(userId)) {
+			request.onFailure.failure(new RuntimeException("no userId"));
+			return;
+		}
+
 		FirebaseDatabase.getInstance()
 		                .getReference(fullpath(request.path))
 		                .removeValue()
@@ -57,6 +84,6 @@ public class FirebaseNetwork implements Network {
 	}
 
 	private String fullpath(String path) {
-		return Joiner.on("/").join(VERSION, env, path);
+		return Joiner.on("/").join(VERSION, USERS, userId, env, path);
 	}
 }

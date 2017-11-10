@@ -12,6 +12,7 @@ public class TestNetwork implements Network {
 	public List<ReadRequest<?>> reads = Lists.newArrayList();
 	public List<UpdateRequest> updates = Lists.newArrayList();
 	public List<DeleteRequest> deletions = Lists.newArrayList();
+	public String userId;
 
 	private Queue<Object> nextSuccesses = new ArrayDeque<>();
 	private Queue<Exception> nextErrors = new ArrayDeque<>();
@@ -22,6 +23,11 @@ public class TestNetwork implements Network {
 
 	public void nextError(Exception e) {
 		nextErrors.offer(e);
+	}
+
+	@Override
+	public void setUserId(final String userId) {
+		this.userId = userId;
 	}
 
 	@Override
