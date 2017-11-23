@@ -5,7 +5,7 @@ import android.support.annotation.*;
 import android.view.*;
 
 import zlotindaniel.memorize.*;
-import zlotindaniel.memorize.cards.*;
+import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.edit.*;
 import zlotindaniel.memorize.topics.*;
 
@@ -31,7 +31,7 @@ public class EditTopicActivity extends BaseActivity {
 
 		view = new EditTopicView(this);
 		setContentView(view);
-		interactor = new EditTopicInteractor(topic, view, new TopicService(config.network), new CardService(config.network));
+		interactor = new EditTopicInteractor(topic, view, new DatabaseService(getUserId(), config.database));
 		interactor.start();
 	}
 

@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.data;
+package zlotindaniel.memorize.data.parser;
 
 import com.google.common.collect.*;
 
@@ -6,6 +6,7 @@ import org.json.*;
 
 import java.util.*;
 
+import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.topics.*;
 
 public class TopicsListParser implements JsonParser<List<Topic>> {

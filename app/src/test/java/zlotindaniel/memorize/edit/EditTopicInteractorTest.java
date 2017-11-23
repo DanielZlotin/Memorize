@@ -6,6 +6,7 @@ import org.junit.*;
 
 import zlotindaniel.memorize.*;
 import zlotindaniel.memorize.cards.*;
+import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.topics.*;
 
 import static org.assertj.core.api.Assertions.*;
@@ -15,46 +16,45 @@ public class EditTopicInteractorTest extends BaseTest {
 	private EditTopicInteractor uut;
 	private Topic topic;
 	private TestEditTopicDisplay display;
-	private TestTopicService topicService;
-	private TestCardService cardsService;
+	private MockDatabaseService service;
 
 	@Override
 	public void beforeEach() {
 		super.beforeEach();
 		topic = new Topic("theTopicId", "the name");
 		display = new TestEditTopicDisplay();
-		topicService = new TestTopicService();
-		cardsService = new TestCardService();
-		uut = new EditTopicInteractor(topic, display, topicService, cardsService);
+		service = new MockDatabaseService();
+		uut = new EditTopicInteractor(topic, display, service);
 	}
 
 	@Test
 	public void start() throws Exception {
 		uut.start();
+
 		assertThat(display.listener).isEqualTo(uut);
 		assertThat(display.topicName).isEqualTo("The Name");
 		assertThat(display.loading).isTrue();
-		assertThat(cardsService.readCardsCalls).hasSize(1).containsExactly(Tuple.tuple("theTopicId"));
+
+		assertThat(service.readTopicCardsCalls).hasSize(1).containsOnly(Tuple.tuple("theTopicId"));
 	}
 
 	@Test
 	public void deleteTopic() throws Exception {
 		uut.deleteTopic();
-		assertThat(topicService.deleteTopicCalls).hasSize(1);
-
+		assertThat(service.deleteTopicCalls).hasSize(1).containsOnly(Tuple.tuple(topic));
 		assertThat(display.loading).isTrue();
 	}
 
 	@Test
 	public void deleteTopicSuccess() throws Exception {
-		topicService.nextDeleteTopic.offer(true);
+		service.nextSuccess(true);
 		uut.deleteTopic();
 		assertThat(display.navigateHomeCalled).isTrue();
 	}
 
 	@Test
 	public void deleteTopicError() throws Exception {
-		topicService.nextError.offer(new RuntimeException("the error"));
+		service.nextFailures(new RuntimeException("the error"));
 		uut.deleteTopic();
 		assertThat(display.navigateHomeCalled).isFalse();
 		assertThat(display.loading).isFalse();
@@ -69,23 +69,23 @@ public class EditTopicInteractorTest extends BaseTest {
 
 	@Test
 	public void renameTopic() throws Exception {
-		topicService.nextUpdateTopic.offer(new Topic("id", "name"));
+		service.nextSuccess(true);
 		uut.renameTopic("the new name");
-		assertThat(topicService.updateTopicCalls).hasSize(1);
-		assertThat(display.topicName).isEqualTo("Name");
+		assertThat(service.updateTopicCalls).hasSize(1);
+		assertThat(display.topicName).isEqualTo("The New Name");
 	}
 
 	@Test
 	public void renameTopic_MustBeDifferentAfterNormalization() throws Exception {
 		uut.renameTopic("");
-		assertThat(topicService.updateTopicCalls).isEmpty();
+		assertThat(service.updateTopicCalls).isEmpty();
 		uut.renameTopic("   \t\n the   \t \n NAME  \r\n\b");
-		assertThat(topicService.updateTopicCalls).isEmpty();
+		assertThat(service.updateTopicCalls).isEmpty();
 	}
 
 	@Test
 	public void startReadTopicsError() throws Exception {
-		cardsService.nextError.offer(new RuntimeException("the error"));
+		service.nextFailures(new RuntimeException("the error"));
 		uut.start();
 		assertThat(display.loading).isFalse();
 		assertThat(display.error).isEqualTo("the error");
@@ -95,7 +95,7 @@ public class EditTopicInteractorTest extends BaseTest {
 	public void startLoadCardsAndSortsByQuestion() throws Exception {
 		Card card1 = new Card("id1", "q1", "a1");
 		Card card2 = new Card("id2", "q2", "a2");
-		cardsService.nextReadCards.offer(Lists.newArrayList(card2, card1));
+		service.nextSuccess(Lists.newArrayList(card2, card1));
 		uut.start();
 		assertThat(display.loading).isFalse();
 		assertThat(display.cards).containsExactly(card1, card2);
@@ -119,13 +119,14 @@ public class EditTopicInteractorTest extends BaseTest {
 	public void createCardReloads() throws Exception {
 		Card card1 = new Card("the id", "q1", "a1");
 		Card card2 = new Card("id2", "q2", "a2");
-		cardsService.nextReadCards.offer(Lists.newArrayList(card2, card1));
-		cardsService.nextCreateCard.offer("the id");
+		service.nextSuccess("the id");
+		service.nextSuccess(Lists.newArrayList(card2, card1));
 
 		uut.createCard("q1", "a1");
 
-		assertThat(cardsService.createCardCalls).containsOnly(Tuple.tuple("theTopicId", new Card("", "q1", "a1")));
-		assertThat(cardsService.readCardsCalls).hasSize(1);
+		assertThat(service.createCardCalls).containsOnly(Tuple.tuple("theTopicId", new Card("", "q1", "a1")));
+		assertThat(service.readTopicCardsCalls).hasSize(1);
+
 		assertThat(display.loading).isFalse();
 		assertThat(display.cards).containsExactly(
 				new Card("the id", "q1", "a1"),
@@ -136,7 +137,7 @@ public class EditTopicInteractorTest extends BaseTest {
 	public void cardDetailsSave() throws Exception {
 		Card card = new Card("cardId", "q", "a");
 		uut.saveCard(card, " q2  \n", "a2");
-		assertThat(cardsService.updateCardCalls).hasSize(1).containsExactly(
+		assertThat(service.updateCardCalls).hasSize(1).containsExactly(
 				Tuple.tuple("theTopicId", new Card("cardId", "q2", "a2")));
 		assertThat(display.loading).isTrue();
 	}
@@ -145,11 +146,11 @@ public class EditTopicInteractorTest extends BaseTest {
 	public void cardDetailsSaveAndReload() throws Exception {
 		Card card = new Card("cardId", "q", "a");
 
-		cardsService.nextUpdateCard.offer(true);
-		cardsService.nextReadCards.offer(Lists.newArrayList());
+		service.nextSuccess(true);
+		service.nextSuccess(Lists.newArrayList());
 		uut.saveCard(card, "q", "a2");
 
-		assertThat(cardsService.readCardsCalls).hasSize(1);
+		assertThat(service.readTopicCardsCalls).hasSize(1);
 		assertThat(display.loading).isFalse();
 	}
 
@@ -157,26 +158,26 @@ public class EditTopicInteractorTest extends BaseTest {
 	public void cardDetailsSaveSameDetailsDoesNothing() throws Exception {
 		Card card = new Card("cardId", "q", "a");
 		uut.saveCard(card, null, " a  ");
-		assertThat(cardsService.updateCardCalls).isEmpty();
+		assertThat(service.updateCardCalls).isEmpty();
 		uut.saveCard(card, "123", "");
-		assertThat(cardsService.updateCardCalls).isEmpty();
+		assertThat(service.updateCardCalls).isEmpty();
 		uut.saveCard(card, "  q  ", "  \n a \t");
-		assertThat(cardsService.updateCardCalls).isEmpty();
+		assertThat(service.updateCardCalls).isEmpty();
 	}
 
 	@Test
 	public void cardDetailsDeleteCard() throws Exception {
 		Card card = new Card("cardId", "q", "a");
 		uut.deleteCard(card);
-		assertThat(cardsService.deleteCardCalls).hasSize(1).containsExactly(Tuple.tuple("theTopicId", card));
+		assertThat(service.deleteCardCalls).hasSize(1).containsExactly(Tuple.tuple("theTopicId", card));
 		assertThat(display.loading).isTrue();
 	}
 
 	@Test
 	public void cardDetailsDeleteCardThenReload() throws Exception {
 		Card card = new Card("cardId", "q", "a");
-		cardsService.nextDeleteCard.offer(true);
-		cardsService.nextReadCards.offer(Lists.newArrayList());
+		service.nextSuccess(true);
+		service.nextSuccess(Lists.newArrayList());
 		uut.deleteCard(card);
 		assertThat(display.loading).isFalse();
 	}

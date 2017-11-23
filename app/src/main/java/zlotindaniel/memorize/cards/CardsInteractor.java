@@ -4,30 +4,31 @@ import com.google.common.collect.*;
 
 import java.util.*;
 
+import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.shuffle.*;
 
 public class CardsInteractor implements CardsDisplay.Listener {
 
 	private final String topicId;
 	private final CardsDisplay display;
-	private final CardService cardService;
+	private final DatabaseService service;
 	private final Shuffler shuffler;
 
 	private final Stack<Card> cardStack = new Stack<>();
 	private List<Card> loadedCards = Lists.newArrayList();
 	private CardsPresentation presentation;
 
-	public CardsInteractor(String topicId, CardsDisplay display, CardService cardService, Shuffler shuffler) {
+	public CardsInteractor(String topicId, CardsDisplay display, DatabaseService service, Shuffler shuffler) {
 		this.topicId = topicId;
 		this.display = display;
-		this.cardService = cardService;
+		this.service = service;
 		this.shuffler = shuffler;
 	}
 
 	public void start() {
 		display.setListener(this);
 		display(CardsPresentation.Loading, "");
-		cardService.readTopicCards(topicId, this::handleSuccess, this::handleFailure);
+		service.readTopicCards(topicId, this::handleSuccess, this::handleFailure);
 	}
 
 	@Override

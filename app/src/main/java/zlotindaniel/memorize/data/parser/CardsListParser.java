@@ -1,4 +1,4 @@
-package zlotindaniel.memorize.data;
+package zlotindaniel.memorize.data.parser;
 
 import com.google.common.collect.*;
 
@@ -7,6 +7,7 @@ import org.json.*;
 import java.util.*;
 
 import zlotindaniel.memorize.cards.*;
+import zlotindaniel.memorize.data.*;
 
 public class CardsListParser implements JsonParser<List<Card>> {
 	@Override

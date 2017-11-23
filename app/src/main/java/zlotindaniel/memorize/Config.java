@@ -4,11 +4,11 @@ import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.shuffle.*;
 
 public final class Config {
-	public final Network network;
+	public final Database database;
 	public final Shuffler shuffler;
 
-	public Config(Network network, final Shuffler shuffler) {
-		this.network = network;
+	public Config(Database database, final Shuffler shuffler) {
+		this.database = database;
 		this.shuffler = shuffler;
 	}
 }

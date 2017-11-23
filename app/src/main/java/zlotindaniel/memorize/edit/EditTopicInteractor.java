@@ -11,15 +11,13 @@ import zlotindaniel.memorize.topics.*;
 public class EditTopicInteractor implements EditTopicDisplay.Listener {
 	private Topic topic;
 	private final EditTopicDisplay display;
-	private final TopicService topicService;
-	private final CardService cardService;
+	private final DatabaseService service;
 	private List<Card> cards = Lists.newArrayList();
 
-	public EditTopicInteractor(Topic topic, EditTopicDisplay display, TopicService topicService, CardService cardService) {
+	public EditTopicInteractor(Topic topic, EditTopicDisplay display, DatabaseService service) {
 		this.topic = topic;
 		this.display = display;
-		this.topicService = topicService;
-		this.cardService = cardService;
+		this.service = service;
 	}
 
 	public void start() {
@@ -30,7 +28,7 @@ public class EditTopicInteractor implements EditTopicDisplay.Listener {
 	@Override
 	public void deleteTopic() {
 		displayLoading();
-		topicService.deleteTopic(topic, b -> display.navigateHome(), this::displayError);
+		service.deleteTopic(topic, display::navigateHome, this::displayError);
 	}
 
 	@Override
@@ -41,9 +39,10 @@ public class EditTopicInteractor implements EditTopicDisplay.Listener {
 		}
 
 		displayLoading();
-		topicService.updateTopic(topic.withName(verified),
-				t -> {
-					this.topic = t;
+		Topic newTopic = this.topic.withName(verified);
+		service.updateTopic(newTopic,
+				() -> {
+					this.topic = newTopic;
 					displayRefresh();
 				}, this::displayError);
 	}
@@ -57,7 +56,7 @@ public class EditTopicInteractor implements EditTopicDisplay.Listener {
 		}
 
 		displayLoading();
-		cardService.createCard(topic.getId(), new Card("", verifiedQuestion, verifiedAnswer),
+		service.createCard(topic.getId(), new Card("", verifiedQuestion, verifiedAnswer),
 				c -> reload(),
 				this::displayError);
 	}
@@ -73,18 +72,18 @@ public class EditTopicInteractor implements EditTopicDisplay.Listener {
 		}
 
 		displayLoading();
-		cardService.updateCard(topic.getId(), new Card(card.getId(), vQuestion, vAnswer), b -> reload(), this::displayError);
+		service.updateCard(topic.getId(), new Card(card.getId(), vQuestion, vAnswer), this::reload, this::displayError);
 	}
 
 	@Override
 	public void deleteCard(final Card card) {
 		displayLoading();
-		cardService.deleteCard(topic.getId(), card, b -> reload(), this::displayError);
+		service.deleteCard(topic.getId(), card, this::reload, this::displayError);
 	}
 
 	private void reload() {
 		displayLoading();
-		cardService.readTopicCards(topic.getId(),
+		service.readTopicCards(topic.getId(),
 				cards -> {
 					this.cards = cards;
 					Collections.sort(this.cards, (a, b) -> a.getQuestion().compareToIgnoreCase(b.getQuestion()));

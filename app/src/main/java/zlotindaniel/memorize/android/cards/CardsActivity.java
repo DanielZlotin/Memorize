@@ -4,6 +4,7 @@ import android.os.*;
 
 import zlotindaniel.memorize.*;
 import zlotindaniel.memorize.cards.*;
+import zlotindaniel.memorize.data.*;
 
 public class CardsActivity extends BaseActivity {
 
@@ -19,7 +20,7 @@ public class CardsActivity extends BaseActivity {
 
 		view = new CardsView(this);
 		setContentView(view);
-		interactor = new CardsInteractor(topicId, view, new CardService(config.network), config.shuffler);
+		interactor = new CardsInteractor(topicId, view, new DatabaseService(getUserId(), config.database), config.shuffler);
 		interactor.start();
 	}
 }

@@ -1,10 +1,11 @@
-package zlotindaniel.memorize.data;
+package zlotindaniel.memorize.data.parser;
 
 import org.json.*;
 import org.junit.*;
 
 import zlotindaniel.memorize.*;
 import zlotindaniel.memorize.cards.*;
+import zlotindaniel.memorize.data.parser.*;
 
 import static org.assertj.core.api.Assertions.*;
 

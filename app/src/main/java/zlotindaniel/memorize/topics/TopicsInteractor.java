@@ -7,9 +7,9 @@ import zlotindaniel.memorize.data.*;
 public class TopicsInteractor implements TopicsDisplay.Listener {
 
 	private final TopicsDisplay display;
-	private final TopicService service;
+	private final DatabaseService service;
 
-	public TopicsInteractor(TopicsDisplay display, TopicService service) {
+	public TopicsInteractor(TopicsDisplay display, DatabaseService service) {
 		this.display = display;
 		this.service = service;
 	}

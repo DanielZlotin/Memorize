@@ -5,6 +5,7 @@ import android.support.annotation.*;
 import android.view.*;
 
 import zlotindaniel.memorize.*;
+import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.topics.*;
 
 public class TopicsActivity extends BaseActivity {
@@ -17,7 +18,7 @@ public class TopicsActivity extends BaseActivity {
 
 		view = new TopicsView(this);
 		setContentView(view);
-		interactor = new TopicsInteractor(view, new TopicService(config.network));
+		interactor = new TopicsInteractor(view, new DatabaseService(getUserId(), config.database));
 	}
 
 	@Override

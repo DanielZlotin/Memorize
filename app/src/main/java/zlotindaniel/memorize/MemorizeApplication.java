@@ -18,7 +18,7 @@ public class MemorizeApplication extends Application {
 
 	public Config createConfig() {
 		return new Config(
-				new FirebaseNetwork(BuildConfig.DEBUG ? "test" : "production"),
+				new FirebaseDatabaseAdapter(BuildConfig.DEBUG ? "test" : "production"),
 				new DefaultShuffler()
 		);
 	}

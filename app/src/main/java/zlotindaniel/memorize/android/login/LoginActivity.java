@@ -59,7 +59,6 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void loginSuccess() {
-		config.network.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
 		startActivity(new Intent(this, TopicsActivity.class));
 		finish();
 	}
@@ -70,10 +69,4 @@ public class LoginActivity extends BaseActivity {
 		finish();
 	}
 
-	private boolean isSignedIn() {
-		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-		return user != null
-				&& user.getEmail() != null
-				&& user.isEmailVerified();
-	}
 }
