@@ -1,5 +1,6 @@
 package zlotindaniel.memorize.data;
 
+import com.google.common.base.*;
 import com.google.common.collect.*;
 
 import java.util.*;
@@ -9,59 +10,79 @@ import zlotindaniel.memorize.data.parser.*;
 import zlotindaniel.memorize.topics.*;
 
 public class DatabaseService {
+	private static final String VERSION = "v1";
+	private static final String USERS = "users";
+	public static final String TOPICS = "topics";
+	public static final String CARDS = "cards";
+	public static final String INDEX = "index";
 
+	private final String env;
 	private final String userId;
 	private final Database database;
 	private final TopicsListParser topicsListParser;
 	private final CardsListParser cardsListParser;
 
-	public DatabaseService(String userId, Database database) {
+	public DatabaseService(boolean debug, String userId, Database database) {
+		this.env = debug ? "test" : "production";
 		this.userId = userId;
 		this.database = database;
 		topicsListParser = new TopicsListParser();
 		cardsListParser = new CardsListParser();
 	}
 
+	public String fullpath(String... parts) {
+		return Joiner.on('/').join(VERSION, env, USERS, userId, Joiner.on('/').join(parts));
+	}
+
 	public void createTopic(Topic topic, OnSuccess<String> onSuccess, OnFailure onFailure) {
+		String path = fullpath(TOPICS, INDEX);
 		checkNoDuplicate(topic,
-				() -> database.create("topics/index", topic, onSuccess, onFailure),
+				() -> database.create(path, topic, onSuccess, onFailure),
 				onFailure);
 	}
 
 	public void updateTopic(Topic topic, Runnable onSuccess, OnFailure onFailure) {
+		String path = fullpath(TOPICS, INDEX, topic.getId());
 		checkNoDuplicate(topic,
-				() -> database.update("topics/index/" + topic.getId(), topic, onSuccess, onFailure),
+				() -> database.update(path, topic, onSuccess, onFailure),
 				onFailure);
 	}
 
 	public void readAllTopics(OnSuccess<List<Topic>> onSuccess, OnFailure onFailure) {
-		database.read("topics/index", topicsListParser, onSuccess, onFailure);
+		String path = fullpath(TOPICS, INDEX);
+		database.read(path, topicsListParser, onSuccess, onFailure);
 	}
 
 	public void deleteTopic(final Topic topic, final Runnable onSuccess, final OnFailure onFailure) {
-		database.delete("topics/index/" + topic.getId(),
+		String path = fullpath(TOPICS, INDEX, topic.getId());
+		database.delete(path,
 				() -> deleteAllTopicCards(topic.getId(), onSuccess, onFailure),
 				onFailure);
 	}
 
 	public void readTopicCards(String topicId, OnSuccess<List<Card>> onSuccess, OnFailure onFailure) {
-		database.read("topics/cards/" + topicId, cardsListParser, onSuccess, onFailure);
+		String path = fullpath(TOPICS, CARDS, topicId);
+		database.read(path, cardsListParser, onSuccess, onFailure);
 	}
 
 	public void createCard(String topicId, Card card, OnSuccess<String> onSuccess, OnFailure onFailure) {
-		database.create("topics/cards/" + topicId, card, onSuccess, onFailure);
+		String path = fullpath(TOPICS, CARDS, topicId);
+		database.create(path, card, onSuccess, onFailure);
 	}
 
 	public void updateCard(String topicId, Card card, Runnable onSuccess, OnFailure onFailure) {
-		database.update("topics/cards/" + topicId + "/" + card.getId(), card, onSuccess, onFailure);
+		String path = fullpath(TOPICS, CARDS, topicId, card.getId());
+		database.update(path, card, onSuccess, onFailure);
 	}
 
 	public void deleteCard(String topicId, Card card, Runnable onSuccess, OnFailure onFailure) {
-		database.delete("topics/cards/" + topicId + "/" + card.getId(), onSuccess, onFailure);
+		String path = fullpath(TOPICS, CARDS, topicId, card.getId());
+		database.delete(path, onSuccess, onFailure);
 	}
 
 	private void deleteAllTopicCards(String topicId, Runnable onSuccess, OnFailure onFailure) {
-		database.delete("topics/cards/" + topicId, onSuccess, onFailure);
+		String path = fullpath(TOPICS, CARDS, topicId);
+		database.delete(path, onSuccess, onFailure);
 	}
 
 	private void checkNoDuplicate(Topic topic, Runnable onSuccess, OnFailure onFailure) {

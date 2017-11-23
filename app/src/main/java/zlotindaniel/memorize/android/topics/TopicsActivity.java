@@ -18,7 +18,7 @@ public class TopicsActivity extends BaseActivity {
 
 		view = new TopicsView(this);
 		setContentView(view);
-		interactor = new TopicsInteractor(view, new DatabaseService(getUserId(), config.database));
+		interactor = new TopicsInteractor(view, new DatabaseService(config.debug, getUserId(), config.database));
 	}
 
 	@Override

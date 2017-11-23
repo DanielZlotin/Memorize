@@ -72,7 +72,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:11.4.2'
     implementation 'com.google.firebase:firebase-core:11.4.2'
     implementation 'com.google.firebase:firebase-database:11.4.2'
-    implementation 'com.firebaseui:firebase-ui-auth:3.0.0'
+    implementation 'com.firebaseui:firebase-ui-auth:3.1.0'
 
     implementation 'com.google.guava:guava:23.1-android'
 

@@ -24,7 +24,7 @@ public class MockDatabaseService extends DatabaseService {
 	private Queue<Exception> nextFailures = new ArrayDeque<>();
 
 	public MockDatabaseService() {
-		super("", new MockDatabase());
+		super(true, "", new MockDatabase());
 	}
 
 	@Override

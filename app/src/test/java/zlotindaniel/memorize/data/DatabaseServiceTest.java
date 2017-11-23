@@ -24,10 +24,17 @@ public class DatabaseServiceTest extends BaseTest {
 	public void beforeEach() {
 		super.beforeEach();
 		database = new MockDatabase();
-		uut = new DatabaseService("theUserId", database);
+		uut = new DatabaseService(true, "theUserId", database);
 		onSuccessString = new MockOnSuccess<>();
 		onSuccessRunnable = new MockRunnable();
 		onFailure = new MockOnFailure();
+	}
+
+	@Test
+	public void fullPath() throws Exception {
+		assertThat(uut.fullpath("a", "b", "c")).isEqualTo("v1/test/users/theUserId/a/b/c");
+		assertThat(new DatabaseService(false, "theUserId2", database).fullpath("a", "b", "c"))
+				.isEqualTo("v1/production/users/theUserId2/a/b/c");
 	}
 
 	@Test
@@ -58,6 +65,14 @@ public class DatabaseServiceTest extends BaseTest {
 		assertThat(database.creations).hasSize(1);
 		assertThat(onFailure.calls).isEmpty();
 		assertThat(onSuccessString.calls).hasSize(1).containsOnly("theNewId");
+	}
+
+	@Test
+	public void createTopicUrl() throws Exception {
+		database.nextSuccess(Lists.newArrayList());
+		uut.createTopic(new Topic("", "some name"), onSuccessString, onFailure);
+		assertThat(database.creations).hasSize(1);
+		assertThat(database.creations.get(0).toArray()).contains("v1/test/users/theUserId/topics/index");
 	}
 
 	@Test
@@ -94,9 +109,22 @@ public class DatabaseServiceTest extends BaseTest {
 
 		assertThat(database.reads).hasSize(1);
 		assertThat(database.updates).hasSize(1);
-		assertThat(database.updates.get(0).toArray()).contains("topics/index/theId");
+		assertThat(database.updates.get(0).toArray()).contains("v1/test/users/theUserId/topics/index/theId");
 		assertThat(onFailure.calls).isEmpty();
 		assertThat(onSuccessRunnable.calls).isOne();
+	}
+
+	@Test
+	public void readAllTopics() throws Exception {
+		ArrayList<Topic> list = Lists.newArrayList(new Topic("theId", "theName"));
+		database.nextSuccess(list);
+		MockOnSuccess<List<Topic>> onSuccess = new MockOnSuccess<>();
+
+		uut.readAllTopics(onSuccess, onFailure);
+
+		assertThat(onFailure.calls).isEmpty();
+		assertThat(onSuccess.calls).hasSize(1).containsExactly(list);
+		assertThat(database.reads.get(0).toArray()).contains("v1/test/users/theUserId/topics/index");
 	}
 
 	@Test
@@ -108,8 +136,8 @@ public class DatabaseServiceTest extends BaseTest {
 		assertThat(onSuccessRunnable.calls).isOne();
 
 		assertThat(database.deletions).hasSize(2);
-		assertThat(database.deletions.get(0).toArray()).contains("topics/index/theTopicId");
-		assertThat(database.deletions.get(1).toArray()).contains("topics/cards/theTopicId");
+		assertThat(database.deletions.get(0).toArray()).contains("v1/test/users/theUserId/topics/index/theTopicId");
+		assertThat(database.deletions.get(1).toArray()).contains("v1/test/users/theUserId/topics/cards/theTopicId");
 	}
 
 	@Test
@@ -130,13 +158,13 @@ public class DatabaseServiceTest extends BaseTest {
 		database.nextSuccess(list);
 		MockOnSuccess<List<Card>> onSuccess = new MockOnSuccess<>();
 
-		uut.readTopicCards("the id", onSuccess, onFailure);
+		uut.readTopicCards("theId", onSuccess, onFailure);
 
 		assertThat(onSuccess.calls).hasSize(1).containsExactly(list);
 		assertThat(onFailure.calls).isEmpty();
 
 		assertThat(database.reads).hasSize(1);
-		assertThat(database.reads.get(0).toArray()).contains("topics/cards/the id");
+		assertThat(database.reads.get(0).toArray()).contains("v1/test/users/theUserId/topics/cards/theId");
 	}
 
 	@Test
@@ -146,7 +174,7 @@ public class DatabaseServiceTest extends BaseTest {
 
 		uut.createCard("theTopicId", card, onSuccessString, onFailure);
 
-		assertThat(database.creations.get(0).toArray()).contains("topics/cards/theTopicId");
+		assertThat(database.creations.get(0).toArray()).contains("v1/test/users/theUserId/topics/cards/theTopicId");
 		assertThat(onSuccessString.calls).hasSize(1).containsExactly("the new id");
 		assertThat(onFailure.calls).isEmpty();
 	}
@@ -159,7 +187,7 @@ public class DatabaseServiceTest extends BaseTest {
 
 		uut.updateCard("topicId", card, onSuccess, onFailure);
 
-		assertThat(database.updates.get(0).toArray()).contains("topics/cards/topicId/cardId");
+		assertThat(database.updates.get(0).toArray()).contains("v1/test/users/theUserId/topics/cards/topicId/cardId");
 		assertThat(onSuccess.calls).isOne();
 		assertThat(onFailure.calls).isEmpty();
 	}
@@ -173,7 +201,7 @@ public class DatabaseServiceTest extends BaseTest {
 		uut.deleteCard("theTopicId", card, onSuccess, onFailure);
 
 		assertThat(database.deletions).hasSize(1);
-		assertThat(database.deletions.get(0).toArray()).contains("topics/cards/theTopicId/cardId");
+		assertThat(database.deletions.get(0).toArray()).contains("v1/test/users/theUserId/topics/cards/theTopicId/cardId");
 		assertThat(onSuccess.calls).isOne();
 		assertThat(onFailure.calls).isEmpty();
 	}
