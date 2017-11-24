@@ -5,6 +5,7 @@ import org.junit.*;
 import org.junit.experimental.theories.*;
 
 import zlotindaniel.memorize.*;
+import zlotindaniel.memorize.data.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -21,6 +22,12 @@ public class CardTest extends BaseTest {
 	public void hasId() throws Exception {
 		Card card = new Card("myId", "hi", "ho");
 		assertThat(card.getId()).isEqualTo("myId");
+	}
+
+	@Test
+	public void withId() throws Exception {
+		Card card = new Card("theId", "theQuestion", "theAnswer");
+		assertThat(card.withId("theId")).isSameAs(card);
 	}
 
 	@Test

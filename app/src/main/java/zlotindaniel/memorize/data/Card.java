@@ -1,10 +1,8 @@
-package zlotindaniel.memorize.cards;
+package zlotindaniel.memorize.data;
 
 import com.google.common.base.*;
 
 import org.json.*;
-
-import zlotindaniel.memorize.data.*;
 
 import static com.google.common.base.Preconditions.*;
 
@@ -40,6 +38,7 @@ public class Card implements ValueType {
 
 	@Override
 	public Card withId(final String id) {
+		if (this.id.equals(id)) return this;
 		Preconditions.checkArgument(!hasId(), "already has id");
 		return new Card(id, question, answer);
 	}

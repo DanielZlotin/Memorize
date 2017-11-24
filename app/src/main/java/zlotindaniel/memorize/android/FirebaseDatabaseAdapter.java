@@ -12,8 +12,7 @@ public class FirebaseDatabaseAdapter implements Database {
 		                                        .getReference(path)
 		                                        .push();
 		final String id = ref.getKey();
-
-		ref.setValue(Utils.toMap(payload.toJson()))
+		ref.setValue(Utils.toMap(payload.withId(id).toJson()))
 		   .addOnSuccessListener(o -> onSuccess.success(id))
 		   .addOnFailureListener(onFailure::failure);
 	}

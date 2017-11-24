@@ -4,9 +4,7 @@ import com.google.common.collect.*;
 
 import java.util.*;
 
-import zlotindaniel.memorize.cards.*;
 import zlotindaniel.memorize.data.*;
-import zlotindaniel.memorize.topics.*;
 
 public class EditTopicInteractor implements EditTopicDisplay.Listener {
 	private Topic topic;

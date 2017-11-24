@@ -7,7 +7,6 @@ import org.json.*;
 import java.util.*;
 
 import zlotindaniel.memorize.data.*;
-import zlotindaniel.memorize.topics.*;
 
 public class TopicsListParser implements JsonParser<List<Topic>> {
 	@Override

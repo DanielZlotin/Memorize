@@ -2,7 +2,7 @@ package zlotindaniel.memorize.edit;
 
 import java.util.*;
 
-import zlotindaniel.memorize.cards.*;
+import zlotindaniel.memorize.data.*;
 
 public interface EditTopicDisplay {
 

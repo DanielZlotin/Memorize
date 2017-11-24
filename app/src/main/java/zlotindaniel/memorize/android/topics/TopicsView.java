@@ -12,6 +12,7 @@ import zlotindaniel.memorize.*;
 import zlotindaniel.memorize.android.*;
 import zlotindaniel.memorize.android.cards.*;
 import zlotindaniel.memorize.android.edit.*;
+import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.topics.*;
 
 import static android.view.ViewGroup.LayoutParams.*;

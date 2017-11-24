@@ -5,9 +5,6 @@ import org.assertj.core.util.*;
 
 import java.util.*;
 
-import zlotindaniel.memorize.cards.*;
-import zlotindaniel.memorize.topics.*;
-
 
 public class MockDatabaseService extends DatabaseService {
 
@@ -19,6 +16,7 @@ public class MockDatabaseService extends DatabaseService {
 	public List<Tuple> createCardCalls = Lists.newArrayList();
 	public List<Tuple> updateCardCalls = Lists.newArrayList();
 	public List<Tuple> deleteCardCalls = Lists.newArrayList();
+	public List<Tuple> updateUserDetailsCalls = Lists.newArrayList();
 
 	private Queue<Object> nextSuccesses = new ArrayDeque<>();
 	private Queue<Exception> nextFailures = new ArrayDeque<>();
@@ -75,11 +73,17 @@ public class MockDatabaseService extends DatabaseService {
 		next(onSuccess, onFailure);
 	}
 
+	@Override
+	public void updateUserDetails(final UserDetails userDetails, final Runnable onSuccess, final OnFailure onFailure) {
+		updateUserDetailsCalls.add(Tuple.tuple(userDetails));
+		next(onSuccess, onFailure);
+	}
+
 	public void nextSuccess(Object o) {
 		nextSuccesses.offer(o);
 	}
 
-	public void nextFailures(Exception e) {
+	public void nextFailure(Exception e) {
 		nextFailures.offer(e);
 	}
 

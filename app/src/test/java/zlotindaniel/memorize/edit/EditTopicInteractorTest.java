@@ -5,9 +5,7 @@ import org.assertj.core.util.*;
 import org.junit.*;
 
 import zlotindaniel.memorize.*;
-import zlotindaniel.memorize.cards.*;
 import zlotindaniel.memorize.data.*;
-import zlotindaniel.memorize.topics.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -54,7 +52,7 @@ public class EditTopicInteractorTest extends BaseTest {
 
 	@Test
 	public void deleteTopicError() throws Exception {
-		service.nextFailures(new RuntimeException("the error"));
+		service.nextFailure(new RuntimeException("the error"));
 		uut.deleteTopic();
 		assertThat(display.navigateHomeCalled).isFalse();
 		assertThat(display.loading).isFalse();
@@ -85,7 +83,7 @@ public class EditTopicInteractorTest extends BaseTest {
 
 	@Test
 	public void startReadTopicsError() throws Exception {
-		service.nextFailures(new RuntimeException("the error"));
+		service.nextFailure(new RuntimeException("the error"));
 		uut.start();
 		assertThat(display.loading).isFalse();
 		assertThat(display.error).isEqualTo("the error");

@@ -2,6 +2,8 @@ package zlotindaniel.memorize.topics;
 
 import java.util.List;
 
+import zlotindaniel.memorize.data.*;
+
 public class TestTopicsDisplay implements TopicsDisplay {
 
 	public List<Topic> topics;

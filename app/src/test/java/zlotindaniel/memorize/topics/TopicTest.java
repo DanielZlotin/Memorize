@@ -5,6 +5,7 @@ import org.junit.*;
 import org.junit.experimental.theories.*;
 
 import zlotindaniel.memorize.*;
+import zlotindaniel.memorize.data.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -22,6 +23,12 @@ public class TopicTest extends BaseTest {
 
 		assertThat(new Topic("", "the name").withId("newId")).isEqualTo(new Topic("newId", "The Name"));
 		assertThrows(() -> new Topic("xxx", "yyy").withId("another"));
+	}
+
+	@Test
+	public void withIdSameIdIgnored() throws Exception {
+		Topic topic = new Topic("theId", "theName");
+		assertThat(topic.withId("theId")).isSameAs(topic);
 	}
 
 	@Test

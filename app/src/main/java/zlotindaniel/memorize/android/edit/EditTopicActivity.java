@@ -7,7 +7,6 @@ import android.view.*;
 import zlotindaniel.memorize.*;
 import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.edit.*;
-import zlotindaniel.memorize.topics.*;
 
 public class EditTopicActivity extends BaseActivity {
 

@@ -5,7 +5,7 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 
-import zlotindaniel.memorize.topics.*;
+import zlotindaniel.memorize.data.*;
 
 import static android.view.ViewGroup.LayoutParams.*;
 import static zlotindaniel.memorize.android.ViewUtils.*;

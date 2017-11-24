@@ -7,7 +7,7 @@ import com.google.common.collect.*;
 
 import java.util.*;
 
-import zlotindaniel.memorize.cards.*;
+import zlotindaniel.memorize.data.*;
 
 public class EditTopicCardsAdapter extends BaseAdapter {
 	private List<Card> data = Lists.newArrayList();

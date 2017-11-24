@@ -34,7 +34,7 @@ public class CardsInteractorTest extends BaseTest {
 
 	@Test
 	public void loadDataError_ShowError() throws Exception {
-		service.nextFailures(new RuntimeException("some error"));
+		service.nextFailure(new RuntimeException("some error"));
 		uut.start();
 		assertThat(testDisplay.text).isEqualTo("some error");
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Error);

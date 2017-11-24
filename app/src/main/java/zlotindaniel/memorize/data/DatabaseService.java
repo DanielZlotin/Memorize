@@ -5,16 +5,17 @@ import com.google.common.collect.*;
 
 import java.util.*;
 
-import zlotindaniel.memorize.cards.*;
 import zlotindaniel.memorize.data.parser.*;
-import zlotindaniel.memorize.topics.*;
 
 public class DatabaseService {
 	private static final String VERSION = "v1";
+	private static final String TEST = "test";
+	private static final String PRODUCTION = "production";
 	private static final String USERS = "users";
-	public static final String TOPICS = "topics";
-	public static final String CARDS = "cards";
-	public static final String INDEX = "index";
+	private static final String TOPICS = "topics";
+	private static final String INDEX = "index";
+	private static final String CARDS = "cards";
+	private static final String DETAILS = "details";
 
 	private final String env;
 	private final String userId;
@@ -23,7 +24,7 @@ public class DatabaseService {
 	private final CardsListParser cardsListParser;
 
 	public DatabaseService(boolean debug, String userId, Database database) {
-		this.env = debug ? "test" : "production";
+		this.env = debug ? TEST : PRODUCTION;
 		this.userId = userId;
 		this.database = database;
 		topicsListParser = new TopicsListParser();
@@ -80,6 +81,10 @@ public class DatabaseService {
 		database.delete(path, onSuccess, onFailure);
 	}
 
+	public void updateUserDetails(final UserDetails userDetails, Runnable onSuccess, OnFailure onFailure) {
+		database.update(fullpath(DETAILS), userDetails, onSuccess, onFailure);
+	}
+
 	private void deleteAllTopicCards(String topicId, Runnable onSuccess, OnFailure onFailure) {
 		String path = fullpath(TOPICS, CARDS, topicId);
 		database.delete(path, onSuccess, onFailure);
@@ -105,4 +110,5 @@ public class DatabaseService {
 			return "Topic already exists";
 		}
 	}
+
 }

@@ -6,8 +6,6 @@ import org.junit.*;
 import java.util.*;
 
 import zlotindaniel.memorize.*;
-import zlotindaniel.memorize.cards.*;
-import zlotindaniel.memorize.topics.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -204,5 +202,17 @@ public class DatabaseServiceTest extends BaseTest {
 		assertThat(database.deletions.get(0).toArray()).contains("v1/test/users/theUserId/topics/cards/theTopicId/cardId");
 		assertThat(onSuccess.calls).isOne();
 		assertThat(onFailure.calls).isEmpty();
+	}
+
+	@Test
+	public void updateUserDetails() throws Exception {
+		database.nextSuccess(true);
+
+		uut.updateUserDetails(new UserDetails("theId", "theEmail", "theName", "thePhoto"), onSuccessRunnable, onFailure);
+
+		assertThat(onFailure.calls).isEmpty();
+		assertThat(onSuccessRunnable.calls).isOne();
+		assertThat(database.updates).hasSize(1);
+		assertThat(database.updates.get(0).toArray()[0]).isEqualTo("v1/test/users/theUserId/details");
 	}
 }

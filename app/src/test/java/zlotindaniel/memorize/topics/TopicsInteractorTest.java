@@ -14,17 +14,21 @@ public class TopicsInteractorTest extends BaseTest {
 	private TopicsInteractor uut;
 	private TestTopicsDisplay testDisplay;
 	private MockDatabaseService service;
+	private UserDetails userDetails;
 
 	@Override
 	public void beforeEach() {
 		super.beforeEach();
 		testDisplay = new TestTopicsDisplay();
 		service = new MockDatabaseService();
-		uut = new TopicsInteractor(testDisplay, service);
+		userDetails = new UserDetails("theUserId", "theEmail", "theDisplayName", "thePhotoUrl");
+		uut = new TopicsInteractor(userDetails, testDisplay, service);
 	}
 
 	@Test
 	public void start_loadsTopics() throws Exception {
+		service.nextSuccess(true);
+
 		Topic topic1 = new Topic("", "Topic 1");
 		Topic topic2 = new Topic("", "Topic 2");
 		Topic topic3 = new Topic("", "Topic 3");
@@ -37,7 +41,8 @@ public class TopicsInteractorTest extends BaseTest {
 
 	@Test
 	public void start_failureDisplaysErrorMessage() throws Exception {
-		service.nextFailures(new RuntimeException("The message"));
+		service.nextSuccess(true);
+		service.nextFailure(new RuntimeException("The message"));
 		uut.start();
 		assertThat(testDisplay.error).isEqualTo("The message");
 	}
@@ -79,11 +84,21 @@ public class TopicsInteractorTest extends BaseTest {
 
 	@Test
 	public void sortsTopicsByName() throws Exception {
+		service.nextSuccess(true);
+
 		Topic topic1 = new Topic("", "Topic 1");
 		Topic topic2 = new Topic("", "Topic 2");
 		Topic topic3 = new Topic("", "Topic 3");
 		service.nextSuccess(Lists.newArrayList(topic3, topic1, topic2));
 		uut.start();
 		assertThat(testDisplay.topics).containsExactly(topic1, topic2, topic3);
+	}
+
+	@Test
+	public void startUpdatesUserDetails() throws Exception {
+		service.nextFailure(new RuntimeException("should not be displayed"));
+		uut.start();
+		assertThat(service.updateUserDetailsCalls).hasSize(1).containsExactly(Tuple.tuple(userDetails));
+		assertThat(testDisplay.error).isNull();
 	}
 }

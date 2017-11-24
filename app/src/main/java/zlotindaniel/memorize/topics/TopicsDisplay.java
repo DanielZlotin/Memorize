@@ -2,6 +2,8 @@ package zlotindaniel.memorize.topics;
 
 import java.util.*;
 
+import zlotindaniel.memorize.data.*;
+
 public interface TopicsDisplay {
 
 	interface Listener {

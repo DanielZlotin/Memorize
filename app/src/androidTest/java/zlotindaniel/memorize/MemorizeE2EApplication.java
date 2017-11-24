@@ -1,14 +1,15 @@
 package zlotindaniel.memorize;
 
-import zlotindaniel.memorize.android.FirebaseDatabaseAdapter;
-import zlotindaniel.memorize.shuffle.TestShuffler;
+import zlotindaniel.memorize.android.*;
+import zlotindaniel.memorize.shuffle.*;
 
 public class MemorizeE2EApplication extends MemorizeApplication {
 
 	@Override
 	public Config createConfig() {
 		return new Config(
-				new FirebaseDatabaseAdapter("test"),
+				true,
+				new FirebaseDatabaseAdapter(),
 				new TestShuffler()
 		);
 	}

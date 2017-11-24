@@ -1,10 +1,8 @@
-package zlotindaniel.memorize.topics;
+package zlotindaniel.memorize.data;
 
 import com.google.common.base.*;
 
 import org.json.*;
-
-import zlotindaniel.memorize.data.*;
 
 import static com.google.common.base.Preconditions.*;
 import static com.google.common.base.Strings.*;
@@ -12,10 +10,12 @@ import static zlotindaniel.memorize.data.Utils.*;
 
 public class Topic implements ValueType {
 	private static final String NO_ID = "NO_ID";
+	private static final String ID = "id";
+	private static final String NAME = "name";
 
 	public static Topic parse(JSONObject json) {
-		String id = json.optString("id");
-		String name = json.optString("name");
+		String id = json.optString(ID);
+		String name = json.optString(NAME);
 		return new Topic(id, name);
 	}
 
@@ -39,6 +39,7 @@ public class Topic implements ValueType {
 
 	@Override
 	public Topic withId(final String id) {
+		if (id.equals(this.id)) return this;
 		Preconditions.checkArgument(!hasId(), "already has id");
 		return new Topic(id, name);
 	}
@@ -57,8 +58,8 @@ public class Topic implements ValueType {
 		if (o == null || getClass() != o.getClass()) return false;
 		Topic topic = (Topic) o;
 
-		return Objects.equal(id, topic.id) &&
-				Objects.equal(name, topic.name);
+		return Objects.equal(id, topic.id)
+				&& Objects.equal(name, topic.name);
 	}
 
 	@Override
@@ -73,8 +74,8 @@ public class Topic implements ValueType {
 
 	public JSONObject toJson() {
 		JSONObject json = new JSONObject();
-		if (hasId()) Utils.jsonPut(json, "id", id);
-		Utils.jsonPut(json, "name", name);
+		if (hasId()) Utils.jsonPut(json, ID, id);
+		Utils.jsonPut(json, NAME, name);
 		return json;
 	}
 }

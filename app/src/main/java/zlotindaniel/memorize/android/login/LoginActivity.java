@@ -59,7 +59,7 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void loginSuccess() {
-		startActivity(new Intent(this, TopicsActivity.class));
+		startActivity(new Intent(LoginActivity.this, TopicsActivity.class));
 		finish();
 	}
 

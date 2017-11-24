@@ -4,8 +4,7 @@ import org.json.*;
 import org.junit.*;
 
 import zlotindaniel.memorize.*;
-import zlotindaniel.memorize.data.parser.*;
-import zlotindaniel.memorize.topics.*;
+import zlotindaniel.memorize.data.*;
 
 import static org.assertj.core.api.Assertions.*;
 

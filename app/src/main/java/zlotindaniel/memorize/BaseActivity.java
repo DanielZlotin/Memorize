@@ -4,7 +4,10 @@ import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.*;
 
+import com.google.common.base.*;
 import com.google.firebase.auth.*;
+
+import zlotindaniel.memorize.data.*;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -25,5 +28,16 @@ public class BaseActivity extends AppCompatActivity {
 		return user != null
 				&& user.getEmail() != null
 				&& user.isEmailVerified();
+	}
+
+	public UserDetails getUserDetails() {
+		if (!isSignedIn()) throw new IllegalArgumentException("notSignedIn");
+		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+		return new UserDetails(
+				getUserId(),
+				user.getEmail(),
+				user.getDisplayName(),
+				MoreObjects.firstNonNull(user.getPhotoUrl(), "").toString()
+		);
 	}
 }

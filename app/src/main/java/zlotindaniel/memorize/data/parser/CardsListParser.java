@@ -6,7 +6,6 @@ import org.json.*;
 
 import java.util.*;
 
-import zlotindaniel.memorize.cards.*;
 import zlotindaniel.memorize.data.*;
 
 public class CardsListParser implements JsonParser<List<Card>> {

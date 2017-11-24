@@ -4,7 +4,7 @@ import android.content.*;
 import android.util.*;
 import android.widget.*;
 
-import zlotindaniel.memorize.cards.*;
+import zlotindaniel.memorize.data.*;
 
 import static android.view.ViewGroup.LayoutParams.*;
 import static zlotindaniel.memorize.android.ViewUtils.*;
