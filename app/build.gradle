@@ -91,6 +91,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
 }
 
+tasks.clean.dependsOn 'uninstallAll'
 task unit(dependsOn: 'testDebugUnitTestCoverage') { mustRunAfter 'clean' }
 task e2e(dependsOn: 'connectedDebugAndroidTest') { mustRunAfter 'unit' }
 task all(dependsOn: ['clean', 'unit', 'e2e']) {}
