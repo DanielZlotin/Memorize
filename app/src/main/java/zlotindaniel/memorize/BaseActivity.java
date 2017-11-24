@@ -19,22 +19,21 @@ public class BaseActivity extends AppCompatActivity {
 		config = ((MemorizeApplication) getApplication()).getConfig();
 	}
 
-	public String getUserId() {
-		return isSignedIn() ? FirebaseAuth.getInstance().getCurrentUser().getUid() : "";
-	}
-
 	public boolean isSignedIn() {
 		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
 		return user != null
 				&& user.getEmail() != null
 				&& user.isEmailVerified();
 	}
 
 	public UserDetails getUserDetails() {
-		if (!isSignedIn()) throw new IllegalArgumentException("notSignedIn");
+		Preconditions.checkArgument(isSignedIn(), "not signed in");
+
 		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
 		return new UserDetails(
-				getUserId(),
+				user.getUid(),
 				user.getEmail(),
 				user.getDisplayName(),
 				MoreObjects.firstNonNull(user.getPhotoUrl(), "").toString()
