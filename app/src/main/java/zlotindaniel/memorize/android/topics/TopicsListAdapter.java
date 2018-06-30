@@ -24,7 +24,12 @@ public class TopicsListAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(final int i) {
-		return i;
+		return data.get(i).getId().hashCode();
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
 	}
 
 	@Override
