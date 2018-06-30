@@ -9,7 +9,7 @@ import com.google.firebase.auth.*;
 
 import zlotindaniel.memorize.data.*;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
 	public Config config;
 

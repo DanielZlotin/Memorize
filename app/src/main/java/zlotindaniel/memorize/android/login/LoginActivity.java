@@ -39,7 +39,7 @@ public class LoginActivity extends BaseActivity {
 
 	private void login() {
 		waitingForLogin = true;
-		AuthUI.IdpConfig idpConfig = new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build();
+		AuthUI.IdpConfig idpConfig = new AuthUI.IdpConfig.GoogleBuilder().build();
 		Intent intent = AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(Lists.newArrayList(idpConfig)).build();
 		startActivityForResult(intent, LOGIN_REQUEST_CODE);
 	}

@@ -19,8 +19,6 @@ android {
         versionCode 5
         versionName "1.5.0"
 
-        resConfigs "auto"
-
         testInstrumentationRunner "zlotindaniel.memorize.MemorizeE2ETestRunner"
     }
     signingConfigs {
@@ -72,7 +70,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-database:16.0.1'
-    implementation 'com.firebaseui:firebase-ui-auth:3.1.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.0.0'
 
     implementation 'com.google.guava:guava:23.1-android'
 
