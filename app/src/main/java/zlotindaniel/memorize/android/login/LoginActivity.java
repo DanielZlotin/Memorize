@@ -4,6 +4,8 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
+import android.util.AndroidException;
+import android.util.Log;
 import android.widget.*;
 
 import com.firebase.ui.auth.*;
@@ -59,7 +61,7 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void loginSuccess() {
-		startActivity(new Intent(LoginActivity.this, TopicsActivity.class));
+		startActivity(new Intent(this, TopicsActivity.class));
 		finish();
 	}
 

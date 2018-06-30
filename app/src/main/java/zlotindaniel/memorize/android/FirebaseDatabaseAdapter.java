@@ -6,6 +6,11 @@ import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.data.parser.*;
 
 public class FirebaseDatabaseAdapter implements Database {
+
+	public FirebaseDatabaseAdapter() {
+		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+	}
+
 	@Override
 	public void create(final String path, final ValueType payload, final OnSuccess<String> onSuccess, final OnFailure onFailure) {
 		DatabaseReference ref = FirebaseDatabase.getInstance()

@@ -6,6 +6,7 @@ import android.support.v7.app.*;
 
 import com.google.common.base.*;
 import com.google.firebase.auth.*;
+import com.google.firebase.database.FirebaseDatabase;
 
 import zlotindaniel.memorize.data.*;
 
