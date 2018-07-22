@@ -4,10 +4,13 @@ import android.support.test.espresso.*;
 import android.support.test.espresso.matcher.RootMatchers;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.uiautomator.By;
+import android.support.test.uiautomator.Until;
 
 import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runners.*;
+
+import java.io.IOException;
 
 import zlotindaniel.memorize.android.cards.*;
 import zlotindaniel.memorize.android.edit.*;
@@ -17,6 +20,7 @@ import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.allOf;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -24,12 +28,9 @@ public class E2ETest extends BaseE2ETest {
 
 	@Test
 	public void _1_topicsCardsHappyPath() throws Exception {
-		launchApp();
-		waitForText(TopicsView.title);
-
+		launchAndWaitForTopics();
 		waitForText("Topic Name 1");
 		waitForText("Topic Name 2");
-		waitForText("Topic Name 1");
 		waitForText("Topic Name 3");
 
 		onView(withText("Topic Name 1")).perform(click());
@@ -54,9 +55,7 @@ public class E2ETest extends BaseE2ETest {
 
 	@Test
 	public void _2_addNewTopic() throws Exception {
-		launchApp();
-		waitForText(TopicsView.title);
-		waitForText("Topic Name 1");
+		launchAndWaitForTopics();
 
 		onView(withContentDescription(TopicsView.menuBtnNewTopicName)).perform(click());
 
@@ -72,9 +71,7 @@ public class E2ETest extends BaseE2ETest {
 
 	@Test
 	public void _3_renameTopic() throws Exception {
-		launchApp();
-		waitForText(TopicsView.title);
-		waitForText("Topic Name 1");
+		launchAndWaitForTopics();
 
 		onView(withText("New Topic")).perform(longClick());
 
@@ -97,9 +94,7 @@ public class E2ETest extends BaseE2ETest {
 
 	@Test
 	public void _4_topicDetailsRemoveTopic() throws Exception {
-		launchApp();
-		waitForText(TopicsView.title);
-		waitForText("Topic Name 1");
+		launchAndWaitForTopics();
 
 		onView(withText("Renamed Topic")).perform(longClick());
 
@@ -128,15 +123,13 @@ public class E2ETest extends BaseE2ETest {
 
 	@Test
 	public void _5_topicDetailsAddCard() throws Exception {
-		launchApp();
-		waitForText(TopicsView.title);
-		waitForText("Topic Name 1");
+		launchAndWaitForTopics();
 
 		onView(withText("Topic Name 3")).perform(longClick());
 		waitForText("Topic Name 3");
 
-		waitForText("This is a very long card question. What is the actual reason for this long a question?");
-		waitForText("This is a very long card answer. The reason being that we have to make sure it all looks good in multiline etc.");
+		waitForTextContains("This is a very long card question.");
+		waitForTextContains("This is a very long card answer.");
 
 		assertNotDisplayed("The new question");
 		assertNotDisplayed("The new answer");
@@ -156,9 +149,7 @@ public class E2ETest extends BaseE2ETest {
 
 	@Test
 	public void _6_topicDetailsCardDetailsSaveCard() throws Exception {
-		launchApp();
-		waitForText(TopicsView.title);
-		waitForText("Topic Name 1");
+		launchAndWaitForTopics();
 
 		onView(withText("Topic Name 3")).perform(longClick());
 		waitForText("Topic Name 3");
@@ -182,9 +173,7 @@ public class E2ETest extends BaseE2ETest {
 
 	@Test
 	public void _7_topicDetailsCardDetailsDeleteCard() throws Exception {
-		launchApp();
-		waitForText(TopicsView.title);
-		waitForText("Topic Name 1");
+		launchAndWaitForTopics();
 
 		onView(withText("Topic Name 3")).perform(longClick());
 		waitForText("Topic Name 3");
@@ -202,26 +191,26 @@ public class E2ETest extends BaseE2ETest {
 
 	@Test
 	public void _8_OfflineMode() throws Exception {
-		launchApp();
-		waitForText(TopicsView.title);
-		waitForText("Topic Name 1");
+		launchAndWaitForTopics();
 		device().pressBack();
 
+		toggleAirplaneMode();
+
+		launchAndWaitForTopics();
+		device().pressBack();
+	}
+
+	private void toggleAirplaneMode() throws IOException {
 		device().executeShellCommand("am start -a android.settings.AIRPLANE_MODE_SETTINGS --activity-reorder-to-front -W");
 		device().waitForIdle();
 		waitForText("Airplane mode");
 		device().findObject(By.text("Airplane mode")).click();
 		device().pressBack();
+	}
 
+	private void launchAndWaitForTopics() throws Exception {
 		launchApp();
 		waitForText(TopicsView.title);
 		waitForText("Topic Name 1");
-		device().pressBack();
-
-		device().executeShellCommand("am start -a android.settings.AIRPLANE_MODE_SETTINGS --activity-reorder-to-front -W");
-		waitForText("Airplane mode");
-		device().waitForIdle();
-		device().findObject(By.text("Airplane mode")).click();
-		device().pressBack();
 	}
 }

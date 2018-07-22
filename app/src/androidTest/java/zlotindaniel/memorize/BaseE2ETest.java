@@ -51,6 +51,10 @@ public abstract class BaseE2ETest {
 		assertThat(device().wait(Until.hasObject(By.text(text)), TIMEOUT)).withFailMessage("%s is not visible", text).isTrue();
 	}
 
+	public void waitForTextContains(String text) {
+		assertThat(device().wait(Until.hasObject(By.textContains(text)), TIMEOUT)).withFailMessage("%s is not visible", text).isTrue();
+	}
+
 	public static Matcher<View> withHint(final String hint) {
 		return new TypeSafeMatcher<View>() {
 			@Override

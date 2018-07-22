@@ -1,6 +1,8 @@
 package zlotindaniel.memorize.android.cards;
 
 import android.content.*;
+import android.text.method.MovementMethod;
+import android.text.method.ScrollingMovementMethod;
 import android.util.*;
 import android.widget.*;
 
@@ -39,7 +41,6 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 		textView = new TextView(getContext());
 		textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
 		textView.setVisibility(GONE);
-		textView.setMaxLines(10);
 		textView.setId(generateViewId());
 		LayoutParams params = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
 		params.addRule(CENTER_IN_PARENT);
