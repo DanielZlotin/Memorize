@@ -1,7 +1,7 @@
 package zlotindaniel.memorize;
 
 import zlotindaniel.memorize.data.*;
-import zlotindaniel.memorize.shuffle.*;
+import zlotindaniel.memorize.data.shuffle.*;
 
 public final class Config {
 	public final boolean debug;

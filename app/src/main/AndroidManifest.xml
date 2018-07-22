@@ -3,7 +3,7 @@
 
     <application
         android:name=".MemorizeApplication"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="false"
@@ -16,16 +16,16 @@
         </activity>
 
         <activity
-            android:name=".android.login.LoginActivity"
+            android:name=".android.usecase.login.LoginActivity"
             android:exported="false"/>
         <activity
-            android:name=".android.topics.TopicsActivity"
+            android:name=".android.usecase.topics.TopicsActivity"
             android:exported="false"/>
         <activity
-            android:name=".android.cards.CardsActivity"
+            android:name=".android.usecase.cards.CardsActivity"
             android:exported="false"/>
         <activity
-            android:name=".android.edit.EditTopicActivity"
+            android:name=".android.usecase.edit.EditTopicActivity"
             android:exported="false"/>
 
     </application>

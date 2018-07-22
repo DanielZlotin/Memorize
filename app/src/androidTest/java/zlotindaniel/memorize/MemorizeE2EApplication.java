@@ -1,7 +1,7 @@
 package zlotindaniel.memorize;
 
 import zlotindaniel.memorize.android.*;
-import zlotindaniel.memorize.shuffle.*;
+import zlotindaniel.memorize.data.shuffle.*;
 
 public class MemorizeE2EApplication extends MemorizeApplication {
 

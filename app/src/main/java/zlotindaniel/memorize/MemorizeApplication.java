@@ -3,7 +3,7 @@ package zlotindaniel.memorize;
 import android.app.*;
 
 import zlotindaniel.memorize.android.*;
-import zlotindaniel.memorize.shuffle.*;
+import zlotindaniel.memorize.data.shuffle.*;
 
 public class MemorizeApplication extends Application {
 

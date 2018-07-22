@@ -1,20 +1,16 @@
 package zlotindaniel.memorize;
 
 import android.support.test.espresso.*;
-import android.support.test.espresso.matcher.RootMatchers;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.uiautomator.By;
-import android.support.test.uiautomator.Until;
 
-import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runners.*;
 
 import java.io.IOException;
 
-import zlotindaniel.memorize.android.cards.*;
-import zlotindaniel.memorize.android.edit.*;
-import zlotindaniel.memorize.android.topics.*;
+import zlotindaniel.memorize.android.usecase.cards.*;
+import zlotindaniel.memorize.android.usecase.edit.*;
+import zlotindaniel.memorize.android.usecase.topics.*;
 
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
@@ -198,6 +194,8 @@ public class E2ETest extends BaseE2ETest {
 
 		launchAndWaitForTopics();
 		device().pressBack();
+
+		toggleAirplaneMode();
 	}
 
 	private void toggleAirplaneMode() throws IOException {
