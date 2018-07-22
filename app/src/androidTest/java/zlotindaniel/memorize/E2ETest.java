@@ -1,7 +1,11 @@
 package zlotindaniel.memorize;
 
 import android.support.test.espresso.*;
+import android.support.test.espresso.matcher.RootMatchers;
+import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.uiautomator.By;
 
+import org.hamcrest.Matchers;
 import org.junit.*;
 import org.junit.runners.*;
 
@@ -13,6 +17,7 @@ import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static org.hamcrest.Matchers.allOf;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class E2ETest extends BaseE2ETest {
@@ -193,5 +198,30 @@ public class E2ETest extends BaseE2ETest {
 
 		assertNotDisplayed("The renamed question");
 		assertNotDisplayed("The renamed answer");
+	}
+
+	@Test
+	public void _8_OfflineMode() throws Exception {
+		launchApp();
+		waitForText(TopicsView.title);
+		waitForText("Topic Name 1");
+		device().pressBack();
+
+		device().executeShellCommand("am start -a android.settings.AIRPLANE_MODE_SETTINGS --activity-reorder-to-front -W");
+		device().waitForIdle();
+		waitForText("Airplane mode");
+		device().findObject(By.text("Airplane mode")).click();
+		device().pressBack();
+
+		launchApp();
+		waitForText(TopicsView.title);
+		waitForText("Topic Name 1");
+		device().pressBack();
+
+		device().executeShellCommand("am start -a android.settings.AIRPLANE_MODE_SETTINGS --activity-reorder-to-front -W");
+		waitForText("Airplane mode");
+		device().waitForIdle();
+		device().findObject(By.text("Airplane mode")).click();
+		device().pressBack();
 	}
 }
