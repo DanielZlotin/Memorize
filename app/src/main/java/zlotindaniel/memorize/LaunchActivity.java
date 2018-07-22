@@ -11,8 +11,8 @@ public class LaunchActivity extends BaseActivity {
 	@Override
 	protected void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		overridePendingTransition(0, 0);
 		startActivity(new Intent(this, LoginActivity.class));
 		finish();
+		overridePendingTransition(0, 0);
 	}
 }

@@ -59,9 +59,9 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void loginSuccess() {
-		overridePendingTransition(0, 0);
 		startActivity(new Intent(this, TopicsActivity.class));
 		finish();
+		overridePendingTransition(0, 0);
 	}
 
 	private void loginFailed() {
