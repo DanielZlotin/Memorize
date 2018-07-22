@@ -8,12 +8,13 @@ import zlotindaniel.memorize.shuffle.*;
 public class MemorizeApplication extends Application {
 
 	public static MemorizeApplication context;
-	private final Config config = createConfig();
+	private Config config;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		context = this;
+		config = createConfig();
 	}
 
 	public Config createConfig() {

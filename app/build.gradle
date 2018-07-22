@@ -76,13 +76,13 @@ dependencies {
 
     // unit tests
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.assertj:assertj-core:3.8.0'
-    testImplementation 'org.mockito:mockito-core:2.13.0'
+    testImplementation 'org.assertj:assertj-core:3.10.0'
+    testImplementation 'org.mockito:mockito-core:2.19.1'
     testImplementation 'org.json:json:20140107'
 
     // e2e
     androidTestImplementation 'com.android.support:support-annotations:27.1.1'
-    androidTestImplementation 'org.assertj:assertj-core:3.8.0'
+    androidTestImplementation 'org.assertj:assertj-core:3.10.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -95,7 +95,7 @@ task e2e(dependsOn: 'connectedDebugAndroidTest') { mustRunAfter 'unit' }
 task all(dependsOn: ['clean', 'unit', 'e2e']) {}
 
 task start(dependsOn: 'installDebug', type: Exec) {
-    def cmd = "adb shell monkey -p ${android.defaultConfig.applicationId} 1"
+    def cmd = "adb shell am start ${android.defaultConfig.applicationId}/.LaunchActivity"
     commandLine cmd.split(" ")
 }
 

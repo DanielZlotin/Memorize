@@ -1,13 +1,16 @@
 package zlotindaniel.memorize.android;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
 
+import zlotindaniel.memorize.MemorizeApplication;
 import zlotindaniel.memorize.data.*;
 import zlotindaniel.memorize.data.parser.*;
 
 public class FirebaseDatabaseAdapter implements Database {
 
 	public FirebaseDatabaseAdapter() {
+		FirebaseApp.initializeApp(MemorizeApplication.context);
 		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 	}
 

@@ -51,6 +51,7 @@ public class UtilsTest extends BaseTest {
 		list.put(123);
 		list.put(inner);
 		list.put(Lists.newArrayList(1, 2, 3));
+		list.put(new JSONArray(Lists.newArrayList(4, 5, 6)));
 		inner.put("foo", true);
 		json.put("a", 1);
 		json.put("b", 2.3);
@@ -62,7 +63,7 @@ public class UtilsTest extends BaseTest {
 		assertThat(actual.get("b")).isEqualTo(2.3);
 		assertThat(actual.get("c")).isEqualTo("3");
 		assertThat(actual.get("d")).isEqualTo(Maps.newHashMap("foo", true));
-		assertThat(actual.get("e")).isEqualTo(newArrayList(123, Maps.newHashMap("foo", true), newArrayList(1, 2, 3)));
+		assertThat(actual.get("e")).isEqualTo(newArrayList(123, Maps.newHashMap("foo", true), newArrayList(1, 2, 3), newArrayList(4, 5, 6)));
 	}
 
 	@Test
