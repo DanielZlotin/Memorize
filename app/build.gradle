@@ -99,4 +99,16 @@ task start(dependsOn: 'installDebug', type: Exec) {
     commandLine cmd.split(" ")
 }
 
+gradle.getTaskGraph().afterTask { t ->
+    if (t.name == "tasks") {
+        println "\n\nMy Tasks:\n----------"
+        println "- clean"
+        println "- unit"
+        println "- e2e"
+        println "- all"
+        println "- start"
+        println "- installRelease -Ppass=\$\$\$"
+    }
+}
+
 apply plugin: 'com.google.gms.google-services'
