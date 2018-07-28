@@ -2,8 +2,12 @@ package zlotindaniel.memorize.android.usecase.cards;
 
 import android.content.*;
 import android.util.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.*;
 
+import zlotindaniel.memorize.R;
 import zlotindaniel.memorize.usecase.cards.*;
 
 import static android.view.ViewGroup.LayoutParams.*;
@@ -11,10 +15,14 @@ import static zlotindaniel.memorize.android.ViewUtils.*;
 
 public class CardsView extends RelativeLayout implements CardsDisplay {
 	public static final String title = "What is:";
+	public static final String menuBtnEasy = "Too easy!";
+	public static final int idMenuBtnEasy = View.generateViewId();
 
 	private TextView titleView;
 	private TextView textView;
 	private ProgressBar progressBar;
+	private MenuItem easyBtn;
+	private Listener listener;
 
 	public CardsView(Context context) {
 		super(context);
@@ -23,6 +31,19 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 		initProgress();
 		initText();
 		initTitle();
+	}
+
+	public void onCreateMenu(Menu menu) {
+		easyBtn = menu.add(Menu.NONE, idMenuBtnEasy, Menu.NONE, menuBtnEasy);
+		easyBtn.setIcon(R.drawable.ic_visibility_off_24);
+		easyBtn.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		easyBtn.setVisible(false);
+	}
+
+	public void onClickMenu(MenuItem item) {
+		if (item.getItemId() == idMenuBtnEasy) {
+			listener.clickEasyCard();
+		}
 	}
 
 	private void initProgress() {
@@ -59,6 +80,7 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 
 	@Override
 	public void setListener(final Listener listener) {
+		this.listener = listener;
 		setOnClickListener(view -> listener.click());
 	}
 
@@ -68,5 +90,7 @@ public class CardsView extends RelativeLayout implements CardsDisplay {
 		titleView.setVisibility(presentation.isTitleVisbile() ? VISIBLE : GONE);
 		textView.setVisibility(presentation.isTextVisible() ? VISIBLE : GONE);
 		textView.setText(text);
+		if (easyBtn != null)
+			easyBtn.setVisible(presentation == CardsPresentation.Answer);
 	}
 }

@@ -135,4 +135,48 @@ public class CardsInteractorTest extends BaseTest {
 		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
 		assertThat(testDisplay.text).isEqualTo("Question1");
 	}
+
+	@Test
+	public void easyButtonClickRemovesCardFromCurrentCards() throws Exception {
+		service.nextSuccess(Lists.newArrayList(
+				new Card("id1", "Question1", "Answer1"),
+				new Card("id2", "Question2", "Answer2")));
+		uut.start();
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
+		assertThat(testDisplay.text).isEqualTo("Question1");
+		uut.click();
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
+		assertThat(testDisplay.text).isEqualTo("Answer1");
+		uut.clickEasyCard();
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
+		assertThat(testDisplay.text).isEqualTo("Question2");
+		uut.click();
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
+		assertThat(testDisplay.text).isEqualTo("Answer2");
+		uut.click();
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Question);
+		assertThat(testDisplay.text).isEqualTo("Question2");
+		uut.click();
+		assertThat(testDisplay.presentation).isEqualTo(CardsPresentation.Answer);
+		assertThat(testDisplay.text).isEqualTo("Answer2");
+	}
+
+	@Test
+	public void easyButtonClickSavesStaticallyFiltersOutAllNextLoads() throws Exception {
+		service.nextSuccess(Lists.newArrayList(
+				new Card("myId1", "Question1", "Answer1"),
+				new Card("myId2", "Question2", "Answer2")));
+		uut.start();
+		assertThat(testDisplay.text).isEqualTo("Question1");
+		uut.click();
+		uut.clickEasyCard();
+		service.nextSuccess(Lists.newArrayList(
+				new Card("myId1", "Question1", "Answer1"),
+				new Card("myId2", "Question2", "Answer2")));
+		uut.start();
+		assertThat(testDisplay.text).isEqualTo("Question2");
+		uut.click();
+		uut.click();
+		assertThat(testDisplay.text).isEqualTo("Question2");
+	}
 }
