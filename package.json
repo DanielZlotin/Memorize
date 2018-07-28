@@ -1,0 +1,8 @@
+{
+  "name": "Memorize",
+  "private": true,
+  "scripts": {
+    "clean": "cd common && ./gradlew clean && cd ../android && ./gradlew clean",
+    "unit": "cd common && ./gradlew test && cd ../android && ./gradlew unit"
+  }
+}
