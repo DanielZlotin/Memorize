@@ -1,5 +1,6 @@
 package zlotindaniel.memorize.usecase.cards;
 
+import com.google.common.base.Predicates;
 import com.google.common.collect.*;
 
 import java.util.*;
@@ -9,6 +10,8 @@ import zlotindaniel.memorize.data.shuffle.*;
 
 public class CardsInteractor implements CardsDisplay.Listener {
 
+	private static Set<String> filterOutIds = Sets.newHashSet();
+
 	private final String topicId;
 	private final CardsDisplay display;
 	private final DatabaseService service;
@@ -17,6 +20,7 @@ public class CardsInteractor implements CardsDisplay.Listener {
 	private final Stack<Card> cardStack = new Stack<>();
 	private List<Card> loadedCards = Lists.newArrayList();
 	private CardsPresentation presentation;
+	private Card currentCard;
 
 	public CardsInteractor(String topicId, CardsDisplay display, DatabaseService service, Shuffler shuffler) {
 		this.topicId = topicId;
@@ -36,7 +40,15 @@ public class CardsInteractor implements CardsDisplay.Listener {
 		next();
 	}
 
+	@Override
+	public void clickEasyCard() {
+		filterOutIds.add(currentCard.getId());
+		loadedCards.remove(currentCard);
+		next();
+	}
+
 	private void handleSuccess(List<Card> result) {
+		Iterables.removeIf(result, (c) -> filterOutIds.contains(c.getId()));
 		this.loadedCards = result;
 		cardStack.clear();
 		next();
@@ -58,9 +70,11 @@ public class CardsInteractor implements CardsDisplay.Listener {
 		}
 
 		if (presentation != CardsPresentation.Question) {
-			display(CardsPresentation.Question, cardStack.peek().getQuestion());
+			currentCard = cardStack.peek();
+			display(CardsPresentation.Question, currentCard.getQuestion());
 		} else {
-			display(CardsPresentation.Answer, cardStack.pop().getAnswer());
+			cardStack.pop();
+			display(CardsPresentation.Answer, currentCard.getAnswer());
 		}
 	}
 

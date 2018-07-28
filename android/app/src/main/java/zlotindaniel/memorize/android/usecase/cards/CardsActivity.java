@@ -1,6 +1,8 @@
 package zlotindaniel.memorize.android.usecase.cards;
 
 import android.os.*;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import zlotindaniel.memorize.*;
 import zlotindaniel.memorize.usecase.cards.*;
@@ -22,5 +24,17 @@ public class CardsActivity extends BaseActivity {
 		setContentView(view);
 		interactor = new CardsInteractor(topicId, view, new DatabaseService(config.debug, getUserDetails().getId(), config.database), config.shuffler);
 		interactor.start();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		view.onCreateMenu(menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		view.onClickMenu(item);
+		return super.onOptionsItemSelected(item);
 	}
 }
