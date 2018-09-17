@@ -5,7 +5,7 @@ import kotlin.test.Test
 
 class EnvTest {
 	@Test
-	fun `it just works`() {
+	fun `assertJ it just works`() {
 		assertThat(1+1).isNotNull()
 				.isNotZero()
 				.isNotNegative()

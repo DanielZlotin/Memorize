@@ -5,7 +5,6 @@ project.ext.KEYSTORE_PASSWORD = project.hasProperty("pass") ? "$pass" : '' //usa
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "28.0.0"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -64,6 +63,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir:  "$rootDir/../common/src/main")
     implementation 'com.android.support:support-annotations:27.1.1'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
@@ -77,7 +77,7 @@ dependencies {
     // unit tests
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.assertj:assertj-core:3.10.0'
-    testImplementation 'org.mockito:mockito-core:2.19.1'
+    testImplementation 'org.mockito:mockito-core:2.20.1'
     testImplementation 'org.json:json:20140107'
 
     // e2e
@@ -89,26 +89,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
 }
 
-tasks.clean.dependsOn 'uninstallAll'
-task unit(dependsOn: 'testDebugUnitTestCoverage') { mustRunAfter 'clean' }
-task e2e(dependsOn: 'connectedDebugAndroidTest') { mustRunAfter 'unit' }
-task all(dependsOn: ['clean', 'unit', 'e2e']) {}
-
-task start(dependsOn: 'installDebug', type: Exec) {
+task launch(type: Exec) {
     def cmd = "adb shell am start ${android.defaultConfig.applicationId}/.LaunchActivity"
     commandLine cmd.split(" ")
-}
-
-gradle.getTaskGraph().afterTask { t ->
-    if (t.name == "tasks") {
-        println "\n\nMy Tasks:\n----------"
-        println "- clean"
-        println "- unit"
-        println "- e2e"
-        println "- all"
-        println "- start"
-        println "- installRelease -Ppass=\$\$\$"
-    }
 }
 
 apply plugin: 'com.google.gms.google-services'

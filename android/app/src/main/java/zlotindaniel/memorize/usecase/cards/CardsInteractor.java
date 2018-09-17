@@ -1,12 +1,10 @@
 package zlotindaniel.memorize.usecase.cards;
 
-import com.google.common.base.Predicates;
 import com.google.common.collect.*;
 
 import java.util.*;
 
 import zlotindaniel.memorize.data.*;
-import zlotindaniel.memorize.data.shuffle.*;
 
 public class CardsInteractor implements CardsDisplay.Listener {
 

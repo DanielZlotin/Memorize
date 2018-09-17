@@ -2,7 +2,11 @@
   "name": "Memorize",
   "private": true,
   "scripts": {
-    "clean": "cd common && ./gradlew clean && cd ../android && ./gradlew clean",
-    "unit": "cd common && ./gradlew test && cd ../android && ./gradlew unit"
+    "clean": "cd common && ./gradlew clean --continue && cd ../android && ./gradlew clean --continue",
+    "test": "npm run all",
+    "all": "npm run clean && npm run unit && npm run e2e",
+    "unit": "cd common && ./gradlew test && cd ../android && ./gradlew testDebugUnitTestCoverage",
+    "e2e": "cd android && ./gradlew uninstallAll connectedDebugAndroidTest",
+    "start": "cd android && ./gradlew installDebug launch"
   }
 }

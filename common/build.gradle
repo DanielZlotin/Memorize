@@ -41,9 +41,9 @@ test {
     }
     afterSuite { desc, result ->
         if (!desc.parent) { // will match the outermost suite
-            def output = "      ${result.resultType} (${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)     "
-            def repeatLength = output.length()
-            println '\n\n' + ('-' * repeatLength) + '\n' + output + '\n' + ('-' * repeatLength) + '\n'
+            def output = "        ${result.resultType} (${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)        "
+            def border = "-" * output.length()
+            println "\n\n${border}\n${output}\n${border}\n\n"
 
             println "see report at file://${reports.html.destination}/index.html"
         }
